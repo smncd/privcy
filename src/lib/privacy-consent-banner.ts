@@ -8,6 +8,7 @@
 
 import { getCookie, setCookie } from 'typescript-cookie';
 import Banner from '../components/Banner.svelte';
+import IframeFallback from '../components/IframeFallback.svelte';
 
 export type Categories = Record<
   string,
@@ -124,7 +125,7 @@ export default class PrivacyConsentBanner {
     this.banner = document.createElement('privacy-consent-banner');
     document.body.prepend(this.banner);
 
-    new Banner({
+    let aa = new Banner({
       target: this.banner,
       props: {
         acceptAll: () => this.acceptAll(),
@@ -215,44 +216,15 @@ export default class PrivacyConsentBanner {
           script.getAttribute('data-privacy') ?? '',
         )?.category;
 
-        iframeDoc.body.innerHTML = `
-          <style>
-            * {
-              font-family: monospace;
-              text-align: center;
-            }
-
-            main {
-              margin: 0 auto;
-              height: 100%;
-              width: min(400px, 100%);
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-            }
-
-            button {
-              border: initial;
-              padding: 10px 15px;
-              background-color: black;
-              color: white;
-              cursor: pointer;
-            }
-          </style>
-          <main>
-            <h1>Privacy</h1>
-            <p>Viewing the content in this iframe requires enabling '${this.categories[category]?.name}' in the privacy settings.</p>
-            <button>Settings</button>
-          </main>
-        `.trim();
-
-        iframeDoc.body
-          .querySelector('button')
-          ?.addEventListener('click', () => {
-            !document.querySelector('privacy-consent-banner') &&
-              this.createBanner();
-          });
+        new IframeFallback({
+          target: iframeDoc.body,
+          props: {
+            categoryName: this.categories[category]?.name,
+            buttonCallback: () =>
+              !document.querySelector('privacy-consent-banner') &&
+              this.createBanner(),
+          },
+        });
       }
     });
   }
