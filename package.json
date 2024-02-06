@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "run-p vite:dev format:watch",
     "build": "run-s vite:build",
+    "build:docs": "NODE_ENV=docs run-s vite:build",
     "vite:dev": "vite",
     "vite:build": "vite build",
     "vite:preview": "vite preview",
