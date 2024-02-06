@@ -1,7 +1,7 @@
 stages:
   - build
   - publish
-  - pages
+  - docs
 
 build:
   stage: build
@@ -11,6 +11,7 @@ build:
     - corepack prepare pnpm@latest --activate
 
   script:
+    - cd packages/privcy
     - pnpm install
     - pnpm run build
   artifacts:
@@ -23,6 +24,8 @@ publish:
   stage: publish
   image: node:18-bookworm-slim
   script:
+    - cp README.md packages/privcy/
+    - cd packages/privcy
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
     - npm publish
   needs:
@@ -31,16 +34,16 @@ publish:
     - if: '$CI_COMMIT_TAG'
 
 pages:
-  stage: pages
+  stage: docs
   image: node:18-bookworm-slim
   before_script:
     - corepack enable
     - corepack prepare pnpm@latest --activate
   script:
+    - cd docs
     - pnpm install
-    - pnpm run build:docs
-    - rm -r ./public
-    - mv ./dist ./public
+    - pnpm run build
+    - mv ./build ./public
   artifacts:
     paths:
       - public
