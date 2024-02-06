@@ -89,6 +89,13 @@ This also works with iframes:
 
 Right now there is no support for controlling inline scripts.
 
+File sizes
+----------
+|Format             |Size    |gZip   |
+|---                |---     |---    |
+|dist/privcy.js     |27.54 kB|8.04 kB│
+|dist/privcy.iife.js|17.16 kB|6.46 kB|
+
 Ownership
 ---------
 
