@@ -61,6 +61,10 @@ export default class PrivacyConsentBanner {
   private banner?: Element;
 
   constructor(props: PrivacyConsentBannerProps) {
+    if (props.cookieName) {
+      this.cookieName = props.cookieName;
+    }
+
     const status = this.getCookie()?.status;
     const acceptedCategories =
       this.getCookie()?.categories?.filter(
@@ -88,9 +92,6 @@ export default class PrivacyConsentBanner {
       },
     };
 
-    if (props.cookieName) {
-      this.cookieName = props.cookieName;
-    }
 
     /**
      * If user already rejected, do nothing.
