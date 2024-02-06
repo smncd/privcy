@@ -1,5 +1,4 @@
-Privcy
-======================
+## ![Privcy](./banner.jpg)
 
 This is my take on a reactive privacy/cookie consent banner.
 
