@@ -6,6 +6,7 @@ public/
 .gitattributes
 .gitlab-ci.yml
 .prettierrc
+banner.jpg
 index.html
 svelte.config.js
 tsconfig.json
