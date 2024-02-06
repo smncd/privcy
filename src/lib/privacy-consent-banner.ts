@@ -57,32 +57,14 @@ export default class PrivacyConsentBanner {
     },
   };
 
+  private banner?: Element;
+
   constructor(props: PrivacyConsentBannerProps) {
     const status = this.getCookie()?.status;
     const acceptedCategories =
       this.getCookie()?.categories?.filter(
         (category) => category !== '',
       ) ?? null;
-
-    /**
-     * If user already rejected, do nothing.
-     */
-    if (status === 'reject') {
-      return;
-    }
-
-    /**
-     * If user already accepted, load scripts and exit.
-     */
-    if (
-      status === 'accept' &&
-      acceptedCategories &&
-      acceptedCategories.length > 0
-    ) {
-      this.loadAllScripts(acceptedCategories);
-
-      return;
-    }
 
     if (
       props.categories &&
@@ -105,19 +87,40 @@ export default class PrivacyConsentBanner {
       },
     };
 
+    /**
+     * If user already rejected, do nothing.
+     */
+    if (status === 'reject') {
+      this.awaitBannerRequest();
+
+      return;
+    }
+
+    /**
+     * If user already accepted, load scripts and exit.
+     */
+    if (
+      status === 'accept' &&
+      acceptedCategories &&
+      acceptedCategories.length > 0
+    ) {
+      this.loadAllScripts(acceptedCategories);
+      this.awaitBannerRequest();
+
+      return;
+    }
+
     console.log(this.strings);
 
     this.createBanner();
   }
 
   private createBanner() {
-    const containerElement = document.createElement(
-      'privacy-consent-banner',
-    );
-    document.body.prepend(containerElement);
+    this.banner = document.createElement('privacy-consent-banner');
+    document.body.prepend(this.banner);
 
     new Banner({
-      target: containerElement,
+      target: this.banner,
       props: {
         acceptAll: () => this.acceptAll(),
         acceptSelected: (categories) =>
@@ -134,16 +137,32 @@ export default class PrivacyConsentBanner {
   private acceptAll() {
     this.setCookie('accept', this.categoryIds);
     this.loadAllScripts(this.categoryIds);
+    this.banner?.remove();
+    this.awaitBannerRequest();
   }
 
   private acceptSelected(categories: Array<string>) {
     this.setCookie('accept', categories);
+    this.unloadAllScripts();
     this.loadAllScripts(categories);
+    this.banner?.remove();
+    this.awaitBannerRequest();
   }
 
   private rejectAll() {
     this.setCookie('reject');
     this.unloadAllScripts();
+    this.banner?.remove();
+    this.awaitBannerRequest();
+  }
+
+  private awaitBannerRequest() {
+    document
+      .querySelector('button#privacy-consent-banner-open')
+      ?.addEventListener('click', () => {
+        !document.querySelector('privacy-consent-banner') &&
+          this.createBanner();
+      });
   }
 
   private getCookie():
