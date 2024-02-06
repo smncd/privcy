@@ -92,6 +92,6 @@ Right now there is no support for controlling inline scripts.
 Ownership
 ---------
 
-Copyright (©) 2023 Simon Lagerlöf
+Copyright (©) 2024 Simon Lagerlöf
 
 Licensed under the [BSD 3 Clause license](./LICENSE).
