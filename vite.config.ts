@@ -12,7 +12,6 @@ export default defineConfig({
       formats: [
         'iife',
         'es',
-        'umd',
       ]
 		}
   },
