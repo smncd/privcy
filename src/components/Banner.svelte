@@ -8,10 +8,7 @@
    */
 
   import Button from './Button.svelte';
-  import type {
-    Categories,
-    Strings,
-  } from '../lib/privacy-consent-banner';
+  import type { Categories, Strings } from '../lib/types';
 
   export let acceptAll: () => void;
   export let rejectAll: () => void;

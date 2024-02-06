@@ -9,27 +9,7 @@
 import { getCookie, setCookie } from 'typescript-cookie';
 import Banner from '../components/Banner.svelte';
 import IframeFallback from '../components/IframeFallback.svelte';
-
-export type Categories = Record<
-  string,
-  {
-    name: string;
-    description: string;
-  }
->;
-
-export type Strings = {
-  categories: {
-    enable: string;
-  };
-  buttons: {
-    acceptAll: string;
-    rejectAll: string;
-    customize: string;
-    saveSettings: string;
-    back: string;
-  };
-};
+import type { Categories, Strings } from './types';
 
 type PrivacyConsentBannerProps = {
   title: string;
