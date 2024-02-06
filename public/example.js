@@ -1,2 +1,2 @@
 document.querySelector('#script-element').innerHTML =
-  'Js is enabled!';
+  'Script loaded! :)';

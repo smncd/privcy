@@ -7,6 +7,11 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Privacy consent banner</title>
+    <style>
+      body {
+        font-family: monospace;
+      }
+    </style>
     <script type="module" src="/src/main.ts"></script>
     <script type="module">
       new window.PrivacyConsentBanner({
@@ -29,14 +34,17 @@
     <h1>Hello World</h1>
     <button id="privcy-open">Open banner</button>
     <hr />
-    <div id="script-element"></div>
+    <h2>Normal script</h2>
+    <div id="script-element">Nothing here... :(</div>
     <script
       data-privcy='{ "src": "example.js", "category": "analytics" }'
     ></script>
     <hr />
+    <h2>Iframe</h2>
     <iframe
       style="height: 500px; width: 500px"
       data-privcy='{ "src": "https://example.com", "category": "social" }'
     ></iframe>
+    <hr />
   </body>
 </html>
