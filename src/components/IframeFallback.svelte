@@ -16,7 +16,7 @@
   <main>
     <h1>Privacy</h1>
     <p>
-      Viewing the content in this iframe requires enabling '${categoryName}'
+      Viewing the content in this iframe requires enabling '{categoryName}'
       in the privacy settings.
     </p>
     <button on:click={buttonCallback}>Settings</button>
