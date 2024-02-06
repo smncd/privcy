@@ -1,6 +1,6 @@
 {
   "name": "privacy-consent-banner",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Simon Lagerlöf <contact@smn.codes>",
   "license": "BSD-3-Clause",
   "type": "module",
