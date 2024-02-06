@@ -19,7 +19,7 @@ To get started, run:
 pnpm add privcy
 ```
 
-You can then either add the script straight into your HTML:
+You can then either add the script straight into your HTML in a script tag:
 
 ```html
 <script src="path/to/privcy.iife.js"></script>
@@ -65,6 +65,29 @@ new Privcy({
 });
 ```
 
+Then, the scripts you want to control need to be modified with the `data-privcy` tag:
+
+```html
+<script
+  data-privcy='{
+    "category": "analytics",
+    "src": "/path/to/script.js"
+  }'
+></script>
+```
+
+This also works with iframes:
+
+```html
+<iframe
+  data-privcy='{
+    "category": "social",
+    "src": "https://example.com"
+  }'
+></iframe>
+```
+
+Right now there is no support for controlling inline scripts.
 
 Ownership
 ---------
