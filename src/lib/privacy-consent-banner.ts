@@ -237,6 +237,10 @@ export default class PrivacyConsentBanner {
    */
   private iframeFallback() {
     this.getAllScripts().forEach((script) => {
+      if (script.src) {
+        return;
+      }
+
       if (script instanceof HTMLIFrameElement) {
         const iframeDoc =
           script.contentDocument ||
@@ -264,6 +268,10 @@ export default class PrivacyConsentBanner {
    */
   private loadAllScripts(categories: Array<string>): void {
     this.getAllScripts().forEach((script) => {
+      if (script.src) {
+        return;
+      }
+
       const source = script.getAttribute('data-privacy');
 
       if (typeof source !== 'string') return;
