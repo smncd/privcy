@@ -121,7 +121,7 @@ export default class Privcy {
    * Create banner with Svelte component.
    */
   private createBanner() {
-    this.banner = document.createElement('privacy-consent-banner');
+    this.banner = document.createElement('privcy-banner');
     document.body.prepend(this.banner);
 
     new Banner({
@@ -180,9 +180,9 @@ export default class Privcy {
    */
   private awaitBannerRequest() {
     document
-      .querySelector('button#privacy-consent-banner-open')
+      .querySelector('button#privcy-open')
       ?.addEventListener('click', () => {
-        !document.querySelector('privacy-consent-banner') &&
+        !document.querySelector('privcy-banner') &&
           this.createBanner();
       });
   }
@@ -250,7 +250,7 @@ export default class Privcy {
           ((script.contentWindow as any).document as Document);
 
         const category = JSON.parse(
-          script.getAttribute('data-privacy') ?? '',
+          script.getAttribute('data-privcy') ?? '',
         )?.category;
 
         new IframeFallback({
@@ -258,7 +258,7 @@ export default class Privcy {
           props: {
             categoryName: this.categories[category]?.name,
             buttonCallback: () =>
-              !document.querySelector('privacy-consent-banner') &&
+              !document.querySelector('privcy-banner') &&
               this.createBanner(),
           },
         });
@@ -275,7 +275,7 @@ export default class Privcy {
         return;
       }
 
-      const source = script.getAttribute('data-privacy');
+      const source = script.getAttribute('data-privcy');
 
       if (typeof source !== 'string') return;
 
@@ -313,6 +313,6 @@ export default class Privcy {
   > {
     return document.querySelectorAll<
       HTMLScriptElement | HTMLIFrameElement
-    >('script[data-privacy], iframe[data-privacy]');
+    >('script[data-privcy], iframe[data-privcy]');
   }
 }
