@@ -111,6 +111,9 @@ export default class PrivacyConsentBanner {
       return;
     }
 
+    /**
+     * Finally, if applicable. create the banner.
+     */
     this.createBanner();
   }
 
