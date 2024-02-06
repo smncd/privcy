@@ -7,14 +7,14 @@
  * @since 0.0.1
  */
 
-import PrivacyConsentBanner from './lib/privacy-consent-banner';
+import Privcy from './lib/privcy';
 
 declare global {
   interface Window {
-    PrivacyConsentBanner: typeof PrivacyConsentBanner;
+    PrivacyConsentBanner: typeof Privcy;
   }
 }
 
-window.PrivacyConsentBanner = PrivacyConsentBanner;
+window.PrivacyConsentBanner = Privcy;
 
-export default PrivacyConsentBanner;
+export default Privcy;

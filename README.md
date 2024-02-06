@@ -1,4 +1,4 @@
-Privacy Consent Banner
+Privcy
 ======================
 
 This is my take on a reactive privacy/cookie consent banner.
@@ -16,15 +16,15 @@ Installation
 To get started, run:
 
 ```bash
-pnpm add privacy-consent-banner
+pnpm add privcy
 ```
 
 You can then either add the script straight into your HTML:
 
 ```html
-<script src="path/to/privacy-consent-banner.iife.js"></script>
+<script src="path/to/privcy.iife.js"></script>
 <script>
-  new window.PrivacyConsentBanner({
+  new window.Privcy({
     title: 'Privacy',
     description: '<p>We have some really nice cookies!</p>',
     categories: {
@@ -45,9 +45,9 @@ You can also import it as a module:
 
 ```typescript
 // index.ts
-import PrivacyConsentBanner from 'privacy-consent-banner';
+import Privcy from 'privcy';
 
-new PrivacyConsentBanner({
+new Privcy({
   title: 'Privacy',
   description: '<p>We have some really nice cookies!</p>',
   categories: {

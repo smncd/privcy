@@ -7,8 +7,8 @@ export default defineConfig({
   build: {
     lib: {
 			entry: resolve(__dirname, 'src/main.ts'),
-			name: 'PrivacyConsentBanner',
-			fileName: 'privacy-consent-banner',
+			name: 'Privcy',
+			fileName: 'privcy',
       formats: [
         'iife',
         'es',

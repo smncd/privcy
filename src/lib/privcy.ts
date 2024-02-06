@@ -12,7 +12,7 @@ import Banner from '../components/Banner.svelte';
 import IframeFallback from '../components/IframeFallback.svelte';
 import type { Categories, Strings } from './types';
 
-type PrivacyConsentBannerProps = {
+type Privcy = {
   title: string;
   description: string;
   categories: Categories;
@@ -51,7 +51,7 @@ export default class PrivacyConsentBanner {
     );
   }
 
-  constructor(props: PrivacyConsentBannerProps) {
+  constructor(props: Privcy) {
     if (props.cookieName) {
       this.cookieName = props.cookieName;
     }

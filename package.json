@@ -1,16 +1,16 @@
 {
-  "name": "privacy-consent-banner",
+  "name": "privcy",
   "version": "0.0.6",
   "author": "Simon Lagerlöf <contact@smn.codes>",
   "license": "BSD-3-Clause",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/privacy-consent-banner.js",
-      "require": "./dist/privacy-consent-banner.umd.cjs"
+      "import": "./dist/privcy.js",
+      "require": "./dist/privcy.umd.cjs"
     }
   },
-  "types": "./dist/privacy-consent-banner.d.ts",
+  "types": "./dist/privcy.d.ts",
   "scripts": {
     "dev": "run-p vite:dev format:watch",
     "build": "run-s vite:build",
@@ -39,6 +39,6 @@
   "dependencies": {
     "typescript-cookie": "^1.0.6"
   },
-  "repository": "https://gitlab.com/smncd/privacy-consent-banner/",
-  "readme": "https://gitlab.com/smncd/privacy-consent-banner/"
+  "repository": "https://gitlab.com/smncd/privcy/",
+  "readme": "https://gitlab.com/smncd/privcy/"
 }
