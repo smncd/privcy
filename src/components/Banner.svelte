@@ -46,12 +46,16 @@
     {@html description}
   </div>
   {#if isCustomizing}
-    <ul class="consent-banner__customization">
+    <ul class="consent-banner__categories">
       {#each Object.keys(categories) as category}
-        <li>
-          <h3>{categories[category].name}</h3>
-          <p>{categories[category].description}</p>
-          <label>
+        <li class="consent-banner__category">
+          <h3 class="consent-banner__category__name">
+            {categories[category].name}
+          </h3>
+          <p class="consent-banner__category__description">
+            {categories[category].description}
+          </p>
+          <label class="consent-banner__category__checkbox">
             <input
               type="checkbox"
               checked={acceptedCategories?.includes(category)}
