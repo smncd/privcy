@@ -3,6 +3,7 @@ src/
 public/
 .editorconfig
 .gitignore
+.gitattributes
 .gitlab-ci.yml
 .prettierrc
 index.html
