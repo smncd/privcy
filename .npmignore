@@ -1,6 +1,7 @@
 dist/example.js
 src/
-.editorconfig/
+public/
+.editorconfig
 .gitignore
 .gitlab-ci.yml
 .prettierrc
