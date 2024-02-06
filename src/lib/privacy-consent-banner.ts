@@ -61,16 +61,19 @@ export default class PrivacyConsentBanner {
 
   private banner?: Element;
 
+  private get status() {
+    return this.getCookie()?.status;
+  }
+  private get acceptedCategories() {
+    return this.getCookie()?.categories?.filter(
+      (category) => category !== '',
+    );
+  }
+
   constructor(props: PrivacyConsentBannerProps) {
     if (props.cookieName) {
       this.cookieName = props.cookieName;
     }
-
-    const status = this.getCookie()?.status;
-    const acceptedCategories =
-      this.getCookie()?.categories?.filter(
-        (category) => category !== '',
-      ) ?? null;
 
     if (
       props.categories &&
@@ -98,7 +101,7 @@ export default class PrivacyConsentBanner {
     /**
      * If user already rejected, do nothing.
      */
-    if (status === 'reject') {
+    if (this.status === 'reject') {
       this.awaitBannerRequest();
 
       return;
@@ -108,11 +111,11 @@ export default class PrivacyConsentBanner {
      * If user already accepted, load scripts and exit.
      */
     if (
-      status === 'accept' &&
-      acceptedCategories &&
-      acceptedCategories.length > 0
+      this.status === 'accept' &&
+      this.acceptedCategories &&
+      this.acceptedCategories.length > 0
     ) {
-      this.loadAllScripts(acceptedCategories);
+      this.loadAllScripts(this.acceptedCategories);
       this.awaitBannerRequest();
 
       return;
@@ -125,13 +128,14 @@ export default class PrivacyConsentBanner {
     this.banner = document.createElement('privacy-consent-banner');
     document.body.prepend(this.banner);
 
-    let aa = new Banner({
+    new Banner({
       target: this.banner,
       props: {
         acceptAll: () => this.acceptAll(),
         acceptSelected: (categories) =>
           this.acceptSelected(categories),
         rejectAll: () => this.rejectAll(),
+        acceptedCategories: this.acceptedCategories,
         title: this.title,
         description: this.description,
         categories: this.categories,
@@ -148,7 +152,11 @@ export default class PrivacyConsentBanner {
   }
 
   private acceptSelected(categories: Array<string>) {
-    this.setCookie('accept', categories);
+    if (categories.length > 0) {
+      this.setCookie('accept', categories);
+    } else {
+      this.setCookie('reject');
+    }
     this.unloadAllScripts();
     this.loadAllScripts(categories);
     this.banner?.remove();

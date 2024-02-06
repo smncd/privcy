@@ -17,6 +17,8 @@
   export let rejectAll: () => void;
   export let acceptSelected: (categories: Array<string>) => void;
 
+  export let acceptedCategories: Array<string> = [];
+
   export let title = '';
   export let description = '';
   export let categories: Categories;
@@ -29,7 +31,15 @@
     isCustomizing = !isCustomizing;
   }
 
-  let allowedCategories: Array<string> = [];
+  function changeCategory(category: string) {
+    if (acceptedCategories?.includes(category)) {
+      acceptedCategories = acceptedCategories.filter(
+        (cat) => cat !== category,
+      );
+    } else {
+      acceptedCategories.push(category);
+    }
+  }
 </script>
 
 <dialog class="consent-banner" open={true}>
@@ -46,7 +56,8 @@
           <label>
             <input
               type="checkbox"
-              on:change={() => allowedCategories.push(category)}
+              checked={acceptedCategories?.includes(category)}
+              on:change={() => changeCategory(category)}
             />
             {strings.categories.enable}&nbsp;{categories[category]
               .name}
@@ -59,7 +70,7 @@
     {#if isCustomizing}
       <Button
         type="acceptSelected"
-        onClick={() => acceptSelected(allowedCategories)}
+        onClick={() => acceptSelected(acceptedCategories)}
       >
         {strings.buttons.saveSettings}
       </Button>
