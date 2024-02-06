@@ -14,7 +14,7 @@
 </script>
 
 <button
-  class={['button', type && `button--${type}`].join(' ')}
+  class={['privcy__button', type && `privcy__button--${type}`].join(' ')}
   on:click={onClick}
 >
   <slot />

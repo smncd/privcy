@@ -40,22 +40,22 @@
   }
 </script>
 
-<dialog class="consent-banner" open={true}>
-  <h2 class="consent-banner__title">{title}</h2>
-  <div class="consent-banner__description">
+<dialog class="privcy" open={true}>
+  <h2 class="privcy__title">{title}</h2>
+  <div class="privcy__description">
     {@html description}
   </div>
   {#if isCustomizing}
-    <ul class="consent-banner__categories">
+    <ul class="privcy__categories">
       {#each Object.keys(categories) as category}
-        <li class="consent-banner__category">
-          <h3 class="consent-banner__category__name">
+        <li class="privcy__category">
+          <h3 class="privcy__category__name">
             {categories[category].name}
           </h3>
-          <p class="consent-banner__category__description">
+          <p class="privcy__category__description">
             {categories[category].description}
           </p>
-          <label class="consent-banner__category__checkbox">
+          <label class="privcy__category__checkbox">
             <input
               type="checkbox"
               checked={acceptedCategories?.includes(category)}
@@ -68,7 +68,7 @@
       {/each}
     </ul>
   {/if}
-  <form class="consent-banner__buttons" method="dialog">
+  <form class="privcy__buttons" method="dialog">
     {#if isCustomizing}
       <Button
         type="acceptSelected"
