@@ -35,10 +35,11 @@ type PrivacyConsentBannerProps = {
   description: string;
   categories: Categories;
   strings?: Partial<Strings>;
+  cookieName?: string;
 };
 
 export default class PrivacyConsentBanner {
-  private cookieName = 'rd_privacy_consent';
+  private cookieName: string = 'privacy_consent';
 
   private title: string = '';
   private description: string = '';
@@ -86,6 +87,10 @@ export default class PrivacyConsentBanner {
         ...props.strings?.buttons,
       },
     };
+
+    if (props.cookieName) {
+      this.cookieName = props.cookieName;
+    }
 
     /**
      * If user already rejected, do nothing.
