@@ -92,7 +92,6 @@ export default class PrivacyConsentBanner {
       },
     };
 
-
     /**
      * If user already rejected, do nothing.
      */
@@ -115,8 +114,6 @@ export default class PrivacyConsentBanner {
 
       return;
     }
-
-    console.log(this.strings);
 
     this.createBanner();
   }
