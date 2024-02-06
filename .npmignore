@@ -2,6 +2,7 @@ dist/example.js
 src/
 .editorconfig/
 .gitignore
+.gitlab-ci.yml
 .prettierrc
 index.html
 svelte.config.js
