@@ -1,9 +1,10 @@
 /**
- * Cookie/Privacy consent banner script.
+ * Main class.
  *
  * @author Simon Lagerlöf <contact@smn.codes>
+ * @license BSD-3-Clause
  * @copyright 2024 Simon Lagerlöf
- * @since @next
+ * @since 0.0.1
  */
 
 import { getCookie, setCookie } from 'typescript-cookie';
@@ -55,6 +56,9 @@ export default class PrivacyConsentBanner {
       this.cookieName = props.cookieName;
     }
 
+    /**
+     * Load categories.
+     */
     if (
       props.categories &&
       Object.keys(props.categories).length > 0
@@ -63,6 +67,9 @@ export default class PrivacyConsentBanner {
       this.categoryIds.push(...Object.keys(props.categories));
     }
 
+    /**
+     * Set props.
+     */
     this.title = props.title;
     this.description = props.description;
     this.strings = {
@@ -76,6 +83,9 @@ export default class PrivacyConsentBanner {
       },
     };
 
+    /**
+     * Load iframe fallback.
+     */
     this.iframeFallback();
 
     /**
@@ -104,6 +114,9 @@ export default class PrivacyConsentBanner {
     this.createBanner();
   }
 
+  /**
+   * Create banner with Svelte component.
+   */
   private createBanner() {
     this.banner = document.createElement('privacy-consent-banner');
     document.body.prepend(this.banner);
@@ -124,6 +137,9 @@ export default class PrivacyConsentBanner {
     });
   }
 
+  /**
+   * Accept everything.
+   */
   private acceptAll() {
     this.setCookie('accept', this.categoryIds);
     this.loadAllScripts(this.categoryIds);
@@ -131,6 +147,9 @@ export default class PrivacyConsentBanner {
     this.awaitBannerRequest();
   }
 
+  /**
+   * Accept selected categories.
+   */
   private acceptSelected(categories: Array<string>) {
     if (categories.length > 0) {
       this.setCookie('accept', categories);
@@ -143,6 +162,9 @@ export default class PrivacyConsentBanner {
     this.awaitBannerRequest();
   }
 
+  /**
+   * Reject all categories.
+   */
   private rejectAll() {
     this.setCookie('reject');
     this.unloadAllScripts();
@@ -150,6 +172,9 @@ export default class PrivacyConsentBanner {
     this.awaitBannerRequest();
   }
 
+  /**
+   * Add event listener to button for opening panel in case it exists.
+   */
   private awaitBannerRequest() {
     document
       .querySelector('button#privacy-consent-banner-open')
@@ -159,6 +184,9 @@ export default class PrivacyConsentBanner {
       });
   }
 
+  /**
+   * Get cookie.
+   */
   private getCookie():
     | { status?: 'accept' | 'reject'; categories?: Array<string> }
     | undefined {
@@ -169,6 +197,9 @@ export default class PrivacyConsentBanner {
     return this.decode(cookie);
   }
 
+  /**
+   * Set cookie with preconfigured settings.
+   */
   private setCookie(
     status: 'accept' | 'reject',
     categories?: Array<string>,
@@ -185,14 +216,25 @@ export default class PrivacyConsentBanner {
     });
   }
 
+  /**
+   * Base64 encode JSON object.
+   */
   private encode(object: Record<any, any>): string {
     return btoa(JSON.stringify(object));
   }
 
+  /**
+   * Decode and parse JSON object from base64 string.
+   */
   private decode(string: string): Record<any, any> {
     return JSON.parse(atob(string));
   }
 
+  /**
+   * Populate iframe in case it cannot be loaded.
+   *
+   * @todo Add options to configure content.
+   */
   private iframeFallback() {
     this.getAllScripts().forEach((script) => {
       if (script instanceof HTMLIFrameElement) {
@@ -218,7 +260,7 @@ export default class PrivacyConsentBanner {
   }
 
   /**
-   * Load all scripts.
+   * Load all scripts and iframes.
    */
   private loadAllScripts(categories: Array<string>): void {
     this.getAllScripts().forEach((script) => {
@@ -240,7 +282,7 @@ export default class PrivacyConsentBanner {
   }
 
   /**
-   * Unload scripts.
+   * Unload scripts and iframes.
    */
   private unloadAllScripts(): void {
     this.getAllScripts().forEach((script) => {
@@ -253,7 +295,7 @@ export default class PrivacyConsentBanner {
   }
 
   /**
-   * Get scripts.
+   * Get all scripts and iframs in DOM.
    */
   private getAllScripts(): NodeListOf<
     HTMLScriptElement | HTMLIFrameElement

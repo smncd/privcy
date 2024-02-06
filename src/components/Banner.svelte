@@ -1,10 +1,11 @@
 <script lang="ts">
   /**
-   * Cookie/Privacy consent banner script.
+   * Banner component.
    *
    * @author Simon Lagerlöf <contact@smn.codes>
+   * @license BSD-3-Clause
    * @copyright 2024 Simon Lagerlöf
-   * @since @next
+   * @since 0.0.1
    */
 
   import Button from './Button.svelte';

@@ -70,3 +70,5 @@ Ownership
 ---------
 
 Copyright (©) 2023 Simon Lagerlöf
+
+Licensed under the [BSD 3 Clause license](./LICENSE).

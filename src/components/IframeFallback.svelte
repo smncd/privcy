@@ -1,4 +1,13 @@
 <script lang="ts">
+  /**
+   * Iframe fallback component.
+   *
+   * @author Simon Lagerlöf <contact@smn.codes>
+   * @license BSD-3-Clause
+   * @copyright 2024 Simon Lagerlöf
+   * @since 0.0.6
+   */
+
   export let categoryName: string;
   export let buttonCallback: () => void;
 </script>

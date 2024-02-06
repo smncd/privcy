@@ -1,10 +1,11 @@
 <script lang="ts">
   /**
-   * Cookie/Privacy consent banner script.
+   * Button component.
    *
    * @author Simon Lagerlöf <contact@smn.codes>
+   * @license BSD-3-Clause
    * @copyright 2024 Simon Lagerlöf
-   * @since @next
+   * @since 0.0.1
    */
 
   export let type: string | undefined;
