@@ -92,6 +92,8 @@ export default class PrivacyConsentBanner {
       },
     };
 
+    this.iframeFallback();
+
     /**
      * If user already rejected, do nothing.
      */
@@ -202,6 +204,59 @@ export default class PrivacyConsentBanner {
     return JSON.parse(atob(string));
   }
 
+  private iframeFallback() {
+    this.getAllScripts().forEach((script) => {
+      if (script instanceof HTMLIFrameElement) {
+        const iframeDoc =
+          script.contentDocument ||
+          ((script.contentWindow as any).document as Document);
+
+        const category = JSON.parse(
+          script.getAttribute('data-privacy') ?? '',
+        )?.category;
+
+        iframeDoc.body.innerHTML = `
+          <style>
+            * {
+              font-family: monospace;
+              text-align: center;
+            }
+
+            main {
+              margin: 0 auto;
+              height: 100%;
+              width: min(400px, 100%);
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+            }
+
+            button {
+              border: initial;
+              padding: 10px 15px;
+              background-color: black;
+              color: white;
+              cursor: pointer;
+            }
+          </style>
+          <main>
+            <h1>Privacy</h1>
+            <p>Viewing the content in this iframe requires enabling '${this.categories[category]?.name}' in the privacy settings.</p>
+            <button>Settings</button>
+          </main>
+        `.trim();
+
+        iframeDoc.body
+          .querySelector('button')
+          ?.addEventListener('click', () => {
+            !document.querySelector('privacy-consent-banner') &&
+              this.createBanner();
+          });
+      }
+    });
+  }
+
   /**
    * Load all scripts.
    */
@@ -240,9 +295,11 @@ export default class PrivacyConsentBanner {
   /**
    * Get scripts.
    */
-  private getAllScripts(): NodeListOf<HTMLScriptElement> {
-    return document.querySelectorAll<HTMLScriptElement>(
-      'script[data-privacy], iframe[data-privacy]',
-    );
+  private getAllScripts(): NodeListOf<
+    HTMLScriptElement | HTMLIFrameElement
+  > {
+    return document.querySelectorAll<
+      HTMLScriptElement | HTMLIFrameElement
+    >('script[data-privacy], iframe[data-privacy]');
   }
 }
