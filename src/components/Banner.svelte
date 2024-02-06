@@ -8,7 +8,10 @@
    */
 
   import Button from './Button.svelte';
-  import type { Categories } from '../lib/privacy-consent-banner';
+  import type {
+    Categories,
+    Strings,
+  } from '../lib/privacy-consent-banner';
 
   export let acceptAll: () => void;
   export let rejectAll: () => void;
@@ -17,6 +20,7 @@
   export let title = '';
   export let description = '';
   export let categories: Categories;
+  export let strings: Strings;
 
   let isCustomizing = false;
 
@@ -44,7 +48,8 @@
               type="checkbox"
               on:change={() => allowedCategories.push(category)}
             />
-            Enable {categories[category].name}
+            {strings.categories.enable}&nbsp;{categories[category]
+              .name}
           </label>
         </li>
       {/each}
@@ -56,14 +61,20 @@
         type="acceptSelected"
         onClick={() => acceptSelected(allowedCategories)}
       >
-        Save settings
+        {strings.buttons.saveSettings}
       </Button>
     {:else}
-      <Button type="acceptAll" onClick={acceptAll}>Accept all</Button>
-      <Button type="rejectAll" onClick={rejectAll}>Reject all</Button>
+      <Button type="acceptAll" onClick={acceptAll}>
+        {strings.buttons.acceptAll}
+      </Button>
+      <Button type="rejectAll" onClick={rejectAll}>
+        {strings.buttons.rejectAll}
+      </Button>
     {/if}
     <Button type="customize" onClick={setCustomizing}>
-      {!isCustomizing ? 'Customize options' : 'Back'}
+      {!isCustomizing
+        ? strings.buttons.customize
+        : strings.buttons.back}
     </Button>
   </form>
 </dialog>

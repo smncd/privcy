@@ -17,10 +17,24 @@ export type Categories = Record<
   }
 >;
 
+export type Strings = {
+  categories: {
+    enable: string;
+  };
+  buttons: {
+    acceptAll: string;
+    rejectAll: string;
+    customize: string;
+    saveSettings: string;
+    back: string;
+  };
+};
+
 type PrivacyConsentBannerProps = {
   title: string;
   description: string;
   categories: Categories;
+  strings?: Partial<Strings>;
 };
 
 export default class PrivacyConsentBanner {
@@ -30,12 +44,30 @@ export default class PrivacyConsentBanner {
   private description: string = '';
   private categories: Categories = {};
   private categoryIds: Array<string> = [];
+  private strings: Strings = {
+    categories: {
+      enable: 'Enable',
+    },
+    buttons: {
+      acceptAll: 'Accept all',
+      rejectAll: 'Reject all',
+      customize: 'Customize settings',
+      saveSettings: 'Save settings',
+      back: 'Back',
+    },
+  };
 
   constructor(props: PrivacyConsentBannerProps) {
+    const status = this.getCookie()?.status;
+    const acceptedCategories =
+      this.getCookie()?.categories?.filter(
+        (category) => category !== '',
+      ) ?? null;
+
     /**
      * If user already rejected, do nothing.
      */
-    if (this.status === 'reject') {
+    if (status === 'reject') {
       return;
     }
 
@@ -43,11 +75,11 @@ export default class PrivacyConsentBanner {
      * If user already accepted, load scripts and exit.
      */
     if (
-      this.status === 'accept' &&
-      this.acceptedCategories &&
-      this.acceptedCategories.length > 0
+      status === 'accept' &&
+      acceptedCategories &&
+      acceptedCategories.length > 0
     ) {
-      this.loadAllScripts(this.acceptedCategories);
+      this.loadAllScripts(acceptedCategories);
 
       return;
     }
@@ -62,6 +94,18 @@ export default class PrivacyConsentBanner {
 
     this.title = props.title;
     this.description = props.description;
+    this.strings = {
+      categories: {
+        ...this.strings?.categories,
+        ...props.strings?.categories,
+      },
+      buttons: {
+        ...this.strings?.buttons,
+        ...props.strings?.buttons,
+      },
+    };
+
+    console.log(this.strings);
 
     this.createBanner();
   }
@@ -82,6 +126,7 @@ export default class PrivacyConsentBanner {
         title: this.title,
         description: this.description,
         categories: this.categories,
+        strings: this.strings,
       },
     });
   }
@@ -99,18 +144,6 @@ export default class PrivacyConsentBanner {
   private rejectAll() {
     this.setCookie('reject');
     this.unloadAllScripts();
-  }
-
-  private get status() {
-    return this.getCookie()?.status;
-  }
-
-  private get acceptedCategories() {
-    let data = this.getCookie();
-
-    return (
-      data?.categories?.filter((category) => category !== '') ?? null
-    );
   }
 
   private getCookie():
