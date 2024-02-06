@@ -32,7 +32,7 @@
   let allowedCategories: Array<string> = [];
 </script>
 
-<dialog open={true}>
+<dialog class="consent-banner" open={true}>
   <h2 class="consent-banner__title">{title}</h2>
   <div class="consent-banner__description">
     {@html description}
