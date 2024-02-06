@@ -244,7 +244,7 @@ export default class PrivacyConsentBanner {
    */
   private getAllScripts(): NodeListOf<HTMLScriptElement> {
     return document.querySelectorAll<HTMLScriptElement>(
-      'script[data-privacy]',
+      'script[data-privacy], iframe[data-privacy]',
     );
   }
 }
