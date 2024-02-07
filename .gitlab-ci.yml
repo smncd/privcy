@@ -43,7 +43,7 @@ pages:
     - cd docs
     - pnpm install
     - pnpm run build
-    - mv ./build ./public
+    - mv ./build ../public
   needs:
     - build
   artifacts:
