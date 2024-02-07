@@ -2,7 +2,8 @@
   "name": "monorepo",
   "private": true,
   "scripts": {
-    "dev": "run-p privcy:dev docs:dev format:watch",
+    "dev": "run-p privcy:dev format:watch",
+    "dev-docs": "run-p privcy:build docs:dev format:watch",
     "privcy:dev": "pnpm --filter privcy dev",
     "privcy:build": "pnpm --filter privcy build",
     "docs:dev": "pnpm --filter docs dev",

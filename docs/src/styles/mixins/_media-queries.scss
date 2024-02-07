@@ -1,0 +1,45 @@
+/**
+ * Breakpoint map.
+ */
+$breakpoints: (
+  mobile-small: 375,
+  mobile: 768,
+  tablet: 960,
+  desktop: 1200,
+  desktop-large: 1800,
+);
+
+/**
+ * Check if width is below the selected breakpoint.
+ */
+@mixin width-below($breakpoint) {
+  $width: getBreakpoint($breakpoint);
+
+  @media screen and (max-width: #{$width}px) {
+    @content;
+  }
+}
+
+/**
+ * Check if width is above the selected breakpoint.
+ */
+@mixin width-above($breakpoint) {
+  $width: getBreakpoint($breakpoint);
+
+  @media screen and (min-width: #{$width + 1}px) {
+    @content;
+  }
+}
+
+/**
+ * Get breakpoint value from string.
+ */
+@function getBreakpoint($string) {
+  @if map-has-key($breakpoints, $string) {
+    $breakpoint: map-get($breakpoints, $string);
+
+    @return $breakpoint;
+  } @else {
+    @warn 'Breakpoint #{$string} is invalid';
+  }
+}
