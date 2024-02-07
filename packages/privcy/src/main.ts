@@ -8,6 +8,7 @@
  */
 
 import Banner from './components/Banner.svelte';
+import IframeFallback from './components/IframeFallback.svelte';
 import Categories from './lib/Categories';
 import Controller from './lib/Controller';
 import type { i18nStrings } from './types';
@@ -65,6 +66,9 @@ class Privcy {
       this._categories,
     );
 
+    /**
+     * Load banner.
+     */
     this._banner = new Banner({
       target: document.body,
       props: {
@@ -87,6 +91,40 @@ class Privcy {
           this._banner.$set({ open: true });
         });
     }
+
+    /**
+     * Populate iframe in case it cannot be loaded.
+     *
+     * @todo Add options to configure content.
+     */
+    this._controller.controlledElements.forEach((element) => {
+      if (element.src) {
+        return;
+      }
+
+      if (element instanceof HTMLIFrameElement) {
+        const iframeDoc =
+          element.contentDocument || element.contentWindow?.document;
+
+        if (!iframeDoc) {
+          return;
+        }
+
+        const category = JSON.parse(
+          element.getAttribute('data-privcy') ?? '',
+        )?.category;
+
+        new IframeFallback({
+          target: iframeDoc.body,
+          props: {
+            categoryName: this._categories.data[category].name,
+            buttonCallback: () => {
+              this._banner.$set({ open: true });
+            },
+          },
+        });
+      }
+    });
   }
 }
 

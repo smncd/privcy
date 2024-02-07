@@ -80,6 +80,13 @@ export default class PrivcyController {
     return this.consentStatus === undefined;
   }
 
+  /**
+   * Get all DOM elements controlled by Privcy.
+   */
+  get controlledElements() {
+    return this._getAllScripts();
+  }
+
   constructor(
     private _cookiePrefix: string,
     categories: Categories,
