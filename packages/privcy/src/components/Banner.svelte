@@ -33,7 +33,7 @@
 
   onMount(() => {
     const eventListener = () => {
-      dialogRef.open = true;
+      open = true;
     };
 
     const button = document.querySelector(
@@ -46,6 +46,10 @@
       button?.removeEventListener('click', eventListener);
     };
   });
+
+  $: if (dialogRef && open) {
+    dialogRef.open = true;
+  }
 
   function setCustomizing(event: Event) {
     event.preventDefault();
@@ -63,7 +67,13 @@
   }
 </script>
 
-<dialog class="privcy" {open} bind:this={dialogRef}>
+<dialog
+  class="privcy"
+  bind:this={dialogRef}
+  on:close={() => {
+    open = false;
+  }}
+>
   <h2 class="privcy__title">{title}</h2>
   <div class="privcy__description">
     {@html description}
