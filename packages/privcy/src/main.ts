@@ -29,7 +29,7 @@ type PrivcyProps = {
     }
   >;
   strings?: Partial<i18nStrings>;
-  cookieName?: string;
+  cookiePrefix?: string;
 };
 
 class Privcy {
@@ -59,9 +59,12 @@ class Privcy {
 
   constructor(props: PrivcyProps) {
     this._userStrings = props.strings;
-    this._categories = new Categories(props.categories);
 
-    this._controller = new Controller('privcy', this._categories);
+    this._categories = new Categories(props.categories);
+    this._controller = new Controller(
+      props.cookiePrefix ?? 'privcy',
+      this._categories,
+    );
 
     this._bannerIsOpen = this._controller.isFirstVisit;
 
