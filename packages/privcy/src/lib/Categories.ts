@@ -8,8 +8,15 @@
  */
 
 export default class Categories {
+  /**
+   * Array containing the IDs of categories.
+   */
   public IDs: Array<string>;
 
+  /**
+   * Constructor for the Categories class.
+   * @param data - Record containing category data.
+   */
   constructor(
     public data: Record<
       string,
@@ -22,6 +29,10 @@ export default class Categories {
     this.IDs = Object.keys(data);
   }
 
+  /**
+   * Converts the category data into an array of objects.
+   * @returns An array of category objects with id, name, and description.
+   */
   public toArray(): Array<{
     id: string;
     name: string;
