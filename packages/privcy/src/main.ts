@@ -7,16 +7,44 @@
  * @since 0.0.1
  */
 
-import Privcy from './lib/privcy';
+import Banner from './components/Banner.svelte';
+import Categories from './lib/Categories';
+import Controller from './lib/Controller';
 
-declare global {
-  interface Window {
-    Privcy: typeof Privcy;
-  }
-}
+(() => {
+  const categories = new Categories({
+    analytics: {
+      name: 'Analytics',
+      description: 'These are analytics cookies',
+    },
+    social: {
+      name: 'Social',
+      description: 'These are social cookies',
+    },
+  });
 
-if (typeof window !== 'undefined') {
-  window.Privcy = Privcy;
-}
+  const controller = new Controller('privcy', categories);
 
-export default Privcy;
+  const banner = new Banner({
+    target: document.body,
+    props: {
+      controller: controller,
+      categories: categories,
+      open: controller.isFirstVisit,
+      title: 'Privacy',
+      description: 'This is a fantastic description',
+      strings: {
+        categories: {
+          enable: 'Enable',
+        },
+        buttons: {
+          acceptAll: 'Accept all',
+          rejectAll: 'Reject all',
+          customize: 'Customize settings',
+          saveSettings: 'Save settings',
+          back: 'Back',
+        },
+      },
+    },
+  });
+})();

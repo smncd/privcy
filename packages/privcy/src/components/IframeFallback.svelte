@@ -8,6 +8,42 @@
    * @since 0.0.6
    */
 
+  //   /**
+  //    * Populate iframe in case it cannot be loaded.
+  //    *
+  //    * @todo Add options to configure content.
+  //    */
+  //   private iframeFallback() {
+  //     this.getAllScripts().forEach((script) => {
+  //       if (script.src) {
+  //         return;
+  //       }
+
+  //       if (script instanceof HTMLIFrameElement) {
+  //         const iframeDoc =
+  //           script.contentDocument || script.contentWindow?.document;
+
+  //         if (!iframeDoc) {
+  //           return;
+  //         }
+
+  //         const category = JSON.parse(
+  //           script.getAttribute('data-privcy') ?? '',
+  //         )?.category;
+
+  //         new IframeFallback({
+  //           target: iframeDoc.body,
+  //           props: {
+  //             categoryName: this.categories[category]?.name,
+  //             buttonCallback: () =>
+  //               !document.querySelector('privcy-banner') &&
+  //               this.createBanner(),
+  //           },
+  //         });
+  //       }
+  //     });
+  //   }
+
   export let categoryName: string;
   export let buttonCallback: () => void;
 </script>

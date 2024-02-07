@@ -8,67 +8,103 @@
    * @since 0.0.1
    */
 
+  import { onMount } from 'svelte';
   import Button from './Button.svelte';
-  import type { Categories, Strings } from '../lib/types';
+  import type Categories from '../lib/Categories';
+  import type Controller from '../lib/Controller';
 
-  export let acceptAll: () => void;
-  export let rejectAll: () => void;
-  export let acceptSelected: (categories: Array<string>) => void;
-
-  export let acceptedCategories: Array<string> = [];
-
-  export let title = '';
-  export let description = '';
+  export let controller: Controller;
   export let categories: Categories;
-  export let strings: Strings;
+
+  export let open: boolean;
+
+  export let title: string;
+  export let description: string;
+  export let strings: {
+    categories: {
+      enable: string;
+    };
+    buttons: {
+      acceptAll: string;
+      rejectAll: string;
+      customize: string;
+      saveSettings: string;
+      back: string;
+    };
+  };
+
+  const allowedCategories = controller.allowedCategories;
+
+  let requestedCategories: Array<string> = allowedCategories;
 
   let isCustomizing = false;
+
+  let dialogRef: HTMLDialogElement;
+
+  onMount(() => {
+    const eventListener = () => {
+      dialogRef.open = true;
+    };
+
+    const button = document.querySelector(
+      '[data-privcy-display-banner]',
+    );
+
+    button?.addEventListener('click', eventListener);
+
+    return () => {
+      button?.removeEventListener('click', eventListener);
+    };
+  });
 
   function setCustomizing(event: Event) {
     event.preventDefault();
     isCustomizing = !isCustomizing;
   }
 
-  function changeCategory(category: string) {
-    if (acceptedCategories?.includes(category)) {
-      acceptedCategories = acceptedCategories.filter(
+  function includeCategory(category: string) {
+    if (allowedCategories?.includes(category)) {
+      requestedCategories = requestedCategories.filter(
         (cat) => cat !== category,
       );
     } else {
-      acceptedCategories.push(category);
+      requestedCategories.push(category);
     }
   }
 </script>
 
-<dialog class="privcy" open={true}>
+<dialog class="privcy" {open} bind:this={dialogRef}>
   <h2 class="privcy__title">{title}</h2>
   <div class="privcy__description">
     {@html description}
   </div>
   {#if isCustomizing}
     <ul class="privcy__categories">
-      {#each Object.keys(categories) as category}
+      {#each categories.toArray() as category}
         <li class="privcy__category">
           <h3 class="privcy__category__name">
-            {categories[category].name}
+            {category.name}
           </h3>
           <p class="privcy__category__description">
-            {categories[category].description}
+            {category.description}
           </p>
           <label class="privcy__category__checkbox">
             <input
               type="checkbox"
-              checked={acceptedCategories?.includes(category)}
-              on:change={() => changeCategory(category)}
+              checked={allowedCategories?.includes(category.id)}
+              on:change={() => includeCategory(category.id)}
             />
-            {strings.categories.enable}&nbsp;{categories[category]
-              .name}
+            {strings.categories.enable}&nbsp;{category.name}
           </label>
         </li>
       {/each}
     </ul>
   {/if}
-  <form class="privcy__buttons" method="dialog">
+  <form
+    class="privcy__buttons"
+    method="dialog"
+    on:submit={() => (isCustomizing = false)}
+  >
     <Button type="customize" onClick={setCustomizing}>
       {!isCustomizing
         ? strings.buttons.customize
@@ -78,15 +114,22 @@
       {#if isCustomizing}
         <Button
           type="acceptSelected"
-          onClick={() => acceptSelected(acceptedCategories)}
+          onClick={() =>
+            controller.updateConsent(requestedCategories)}
         >
           {strings.buttons.saveSettings}
         </Button>
       {:else}
-        <Button type="acceptAll" onClick={acceptAll}>
+        <Button
+          type="acceptAll"
+          onClick={() => controller.updateConsent(categories.IDs)}
+        >
           {strings.buttons.acceptAll}
         </Button>
-        <Button type="rejectAll" onClick={rejectAll}>
+        <Button
+          type="rejectAll"
+          onClick={() => controller.updateConsent([])}
+        >
           {strings.buttons.rejectAll}
         </Button>
       {/if}
