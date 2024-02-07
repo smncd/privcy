@@ -175,6 +175,7 @@ export default class PrivcyController {
       expires: 180,
       sameSite: 'strict',
       secure: true,
+      path: '/'
     });
   }
 
