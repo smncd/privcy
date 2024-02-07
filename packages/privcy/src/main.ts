@@ -93,7 +93,7 @@ class Privcy {
     }
 
     /**
-     * Populate iframe in case it cannot be loaded.
+     * Populate iframes in case it cannot be loaded.
      *
      * @todo Add options to configure content.
      */
