@@ -22,7 +22,7 @@
   export let description: string;
   export let strings: i18nStrings;
 
-  const allowedCategories = controller.allowedCategories;
+  let allowedCategories = controller.allowedCategories;
 
   let requestedCategories: Array<string> = allowedCategories;
 
@@ -31,6 +31,7 @@
   let dialogRef: HTMLDialogElement;
 
   $: if (dialogRef && open) {
+    allowedCategories = controller.allowedCategories;
     dialogRef.open = true;
   }
 
