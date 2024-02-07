@@ -100,10 +100,12 @@ class Privcy {
   private _addBannerOpenEventListener(): void {
     if (this._banner) {
       document
-        .querySelector('[data-privcy-display-banner]')
-        ?.addEventListener('click', () => {
-          this._banner.$set({ open: true });
-        });
+        .querySelectorAll('[data-privcy-display-banner]')
+        .forEach((button) =>
+          button.addEventListener('click', () => {
+            this._banner.$set({ open: true });
+          }),
+        );
     }
   }
 
