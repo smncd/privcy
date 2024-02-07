@@ -20,6 +20,7 @@ declare global {
 }
 
 type PrivcyProps = {
+  target?: Element;
   title: string;
   description: string;
   categories: Record<
@@ -67,10 +68,18 @@ class Privcy {
     );
 
     /**
+     * Handle banner target.
+     */
+    if (!(props.target instanceof Element)) {
+      props.target = document.createElement('privcy-banner');
+      document.body.prepend(props.target);
+    }
+
+    /**
      * Load banner.
      */
     this._banner = new Banner({
-      target: document.body,
+      target: props.target,
       props: {
         controller: this._controller,
         categories: this._categories,
