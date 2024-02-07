@@ -69,25 +69,74 @@
     </ul>
   {/if}
   <form class="privcy__buttons" method="dialog">
-    {#if isCustomizing}
-      <Button
-        type="acceptSelected"
-        onClick={() => acceptSelected(acceptedCategories)}
-      >
-        {strings.buttons.saveSettings}
-      </Button>
-    {:else}
-      <Button type="acceptAll" onClick={acceptAll}>
-        {strings.buttons.acceptAll}
-      </Button>
-      <Button type="rejectAll" onClick={rejectAll}>
-        {strings.buttons.rejectAll}
-      </Button>
-    {/if}
     <Button type="customize" onClick={setCustomizing}>
       {!isCustomizing
         ? strings.buttons.customize
         : strings.buttons.back}
     </Button>
+    <div class="privcy__buttons__choices">
+      {#if isCustomizing}
+        <Button
+          type="acceptSelected"
+          onClick={() => acceptSelected(acceptedCategories)}
+        >
+          {strings.buttons.saveSettings}
+        </Button>
+      {:else}
+        <Button type="acceptAll" onClick={acceptAll}>
+          {strings.buttons.acceptAll}
+        </Button>
+        <Button type="rejectAll" onClick={rejectAll}>
+          {strings.buttons.rejectAll}
+        </Button>
+      {/if}
+    </div>
   </form>
 </dialog>
+
+<style lang="scss">
+  .privcy {
+    box-sizing: border-box;
+    position: fixed;
+    margin: 0;
+    left: 20px;
+    bottom: 20px;
+    width: calc(min(680px, 100%) - 40px);
+    font-size: 18px;
+
+    &__title {
+      margin-top: 0;
+      font-size: 30px;
+    }
+
+    &__description {
+      margin: 15px 0;
+    }
+
+    // &__categories {}
+
+    &__category {
+      list-style: none;
+      // &__name {}
+
+      // &__description {}
+
+      &__checkbox {
+        font-size: 16px;
+      }
+    }
+
+    &__buttons {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap-reverse;
+      justify-content: space-between;
+
+      &__choices {
+        display: inherit;
+        flex-wrap: inherit;
+        gap: 15px;
+      }
+    }
+  }
+</style>
