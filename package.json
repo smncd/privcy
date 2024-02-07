@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "run-p privcy:dev format:watch",
-    "dev-docs": "run-p privcy:build docs:dev format:watch",
+    "dev-docs": "pnpm run privcy:build && run-p docs:dev format:watch",
     "build": "run-s privcy:build",
     "build-docs": "run-s privcy:build docs:build",
     "privcy:dev": "pnpm --filter privcy dev",
