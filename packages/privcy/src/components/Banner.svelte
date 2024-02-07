@@ -55,6 +55,7 @@
 
 <dialog
   class="privcy"
+  {open}
   bind:this={dialogRef}
   on:close={() => {
     open = false;
