@@ -12,6 +12,7 @@
   import Button from './Button.svelte';
   import type Categories from '../lib/Categories';
   import type Controller from '../lib/Controller';
+  import type { i18nStrings } from '../types';
 
   export let controller: Controller;
   export let categories: Categories;
@@ -20,18 +21,7 @@
 
   export let title: string;
   export let description: string;
-  export let strings: {
-    categories: {
-      enable: string;
-    };
-    buttons: {
-      acceptAll: string;
-      rejectAll: string;
-      customize: string;
-      saveSettings: string;
-      back: string;
-    };
-  };
+  export let strings: i18nStrings;
 
   const allowedCategories = controller.allowedCategories;
 
