@@ -1,0 +1,37 @@
+#!/bin/bash
+
+case $1 in
+  major) increment="major";;
+  minor) increment="minor";;
+  patch) increment="patch";;
+esac
+
+cd packages/privcy;
+
+VERSION=$(pnpm version $increment);
+
+git add package.json;
+
+cd ../../;
+
+git commit -m "$VERSION";
+
+git tag "$VERSION";
+
+read -p "Do you want to push the main branch and release tag to origin? (y/N) " push_main;
+push_main=${push_main:-N};
+
+if [[ "$push_main" == [Yy] ]]
+then
+  echo "Pushing main to origin";
+
+  git push;
+
+  echo "Pushing tag to origin";
+
+  git push origin "$VERSION";
+
+  echo "Done!";
+fi
+
+echo "All done!";
