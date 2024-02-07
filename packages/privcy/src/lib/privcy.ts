@@ -246,8 +246,11 @@ export default class Privcy {
 
       if (script instanceof HTMLIFrameElement) {
         const iframeDoc =
-          script.contentDocument ||
-          ((script.contentWindow as any).document as Document);
+          script.contentDocument || script.contentWindow?.document;
+
+        if (!(iframeDoc instanceof Document)) {
+          return;
+        }
 
         const category = JSON.parse(
           script.getAttribute('data-privcy') ?? '',
