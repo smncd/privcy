@@ -25,6 +25,7 @@ publish:
   image: node:18-bookworm-slim
   script:
     - cp README.md packages/privcy/
+    - cp LICENSE packages/privcy/
     - cd packages/privcy
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
     - npm publish
