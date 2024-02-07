@@ -21,21 +21,3 @@
 <button class={className} on:click={onClick}>
   <slot />
 </button>
-
-<style lang="scss">
-  .privcy__button {
-    padding: 12px 24px;
-    border: initial;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    font-size: inherit;
-    font-family: inherit;
-
-    &--customize {
-      padding: 12px;
-      background-color: initial;
-      color: currentColor;
-    }
-  }
-</style>

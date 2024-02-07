@@ -13,6 +13,8 @@
   import type Controller from '../lib/Controller';
   import type { i18nStrings } from '../types';
 
+  import '../sass/style.scss';
+
   export let controller: Controller;
   export let categories: Categories;
 
@@ -117,50 +119,3 @@
     </div>
   </form>
 </dialog>
-
-<style lang="scss">
-  .privcy {
-    box-sizing: border-box;
-    position: fixed;
-    margin: 0;
-    left: 20px;
-    bottom: 20px;
-    width: calc(min(680px, 100%) - 40px);
-    font-size: 18px;
-
-    &__title {
-      margin-top: 0;
-      font-size: 30px;
-    }
-
-    &__description {
-      margin: 15px 0;
-    }
-
-    // &__categories {}
-
-    &__category {
-      list-style: none;
-      // &__name {}
-
-      // &__description {}
-
-      &__checkbox {
-        font-size: 16px;
-      }
-    }
-
-    &__buttons {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap-reverse;
-      justify-content: space-between;
-
-      &__choices {
-        display: inherit;
-        flex-wrap: inherit;
-        gap: 15px;
-      }
-    }
-  }
-</style>

@@ -1,0 +1,60 @@
+.privcy {
+  box-sizing: border-box;
+  position: fixed;
+  margin: 0;
+  left: 20px;
+  bottom: 20px;
+  width: calc(min(680px, 100%) - 40px);
+  font-size: 18px;
+
+  & &__title {
+    margin-top: 0;
+    font-size: 30px;
+  }
+
+  & &__description {
+    margin: 15px 0;
+  }
+
+  // &__categories {}
+
+  & &__category {
+    list-style: none;
+    // &__name {}
+
+    // &__description {}
+
+    &__checkbox {
+      font-size: 16px;
+    }
+  }
+
+  & &__buttons {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: space-between;
+
+    &__choices {
+      display: inherit;
+      flex-wrap: inherit;
+      gap: 15px;
+    }
+  }
+
+  & &__button {
+    padding: 12px 24px;
+    border: initial;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+
+    &--customize {
+      padding: 12px;
+      background-color: initial;
+      color: currentColor;
+    }
+  }
+}
