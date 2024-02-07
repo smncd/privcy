@@ -4,6 +4,8 @@
   "scripts": {
     "dev": "run-p privcy:dev format:watch",
     "dev-docs": "run-p privcy:build docs:dev format:watch",
+    "build": "run-s privcy:build",
+    "build-docs": "run-s privcy:build docs:build",
     "privcy:dev": "pnpm --filter privcy dev",
     "privcy:build": "pnpm --filter privcy build",
     "docs:dev": "pnpm --filter docs dev",

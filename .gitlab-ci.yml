@@ -44,6 +44,8 @@ pages:
     - pnpm install
     - pnpm run build
     - mv ./build ./public
+  needs:
+    - build
   artifacts:
     paths:
       - public
