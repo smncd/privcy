@@ -11,10 +11,12 @@ import Privcy from './lib/privcy';
 
 declare global {
   interface Window {
-    PrivacyConsentBanner: typeof Privcy;
+    Privcy: typeof Privcy;
   }
 }
 
-window.PrivacyConsentBanner = Privcy;
+if (typeof window !== 'undefined') {
+  window.Privcy = Privcy;
+}
 
 export default Privcy;
