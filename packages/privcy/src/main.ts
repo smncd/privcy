@@ -90,9 +90,14 @@ class Privcy {
       },
     });
 
-    /**
-     * Event listener to open banner again.
-     */
+    this._loadIframeFallbacks();
+    this._addBannerOpenEventListener();
+  }
+
+  /**
+   * Event listener to open banner again.
+   */
+  private _addBannerOpenEventListener(): void {
     if (this._banner) {
       document
         .querySelector('[data-privcy-display-banner]')
@@ -100,12 +105,14 @@ class Privcy {
           this._banner.$set({ open: true });
         });
     }
+  }
 
-    /**
-     * Populate iframes in case it cannot be loaded.
-     *
-     * @todo Add options to configure content.
-     */
+  /**
+   * Populate iframes in case it cannot be loaded.
+   *
+   * @todo Add options to configure content.
+   */
+  private _loadIframeFallbacks(): void {
     this._controller.controlledElements.forEach((element) => {
       if (element.src) {
         return;
