@@ -36,7 +36,6 @@ class Privcy {
   private _categories: Categories;
   private _controller: Controller;
   private _banner: Banner;
-  private _bannerIsOpen: boolean;
 
   private _userStrings?: Partial<i18nStrings>;
 
@@ -66,14 +65,12 @@ class Privcy {
       this._categories,
     );
 
-    this._bannerIsOpen = this._controller.isFirstVisit;
-
     this._banner = new Banner({
       target: document.body,
       props: {
         controller: this._controller,
         categories: this._categories,
-        open: this._bannerIsOpen,
+        open: this._controller.isFirstVisit,
         title: props.title,
         description: props.description,
         strings: this._strings,
