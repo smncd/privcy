@@ -56,6 +56,7 @@
   bind:this={dialogRef}
   on:close={() => {
     open = false;
+    isCustomizing = false;
   }}
 >
   <h2 class="privcy__title">{title}</h2>
@@ -84,11 +85,7 @@
       {/each}
     </ul>
   {/if}
-  <form
-    class="privcy__buttons"
-    method="dialog"
-    on:submit={() => (isCustomizing = false)}
-  >
+  <form class="privcy__buttons" method="dialog">
     <Button type="customize" onClick={setCustomizing}>
       {!isCustomizing
         ? strings.buttons.customize
