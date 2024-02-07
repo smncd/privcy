@@ -7,6 +7,9 @@
   "exports": {
     ".": {
       "import": "./dist/privcy.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css"
     }
   },
   "types": "./dist/privcy.d.ts",
