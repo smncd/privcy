@@ -248,7 +248,7 @@ export default class Privcy {
         const iframeDoc =
           script.contentDocument || script.contentWindow?.document;
 
-        if (!(iframeDoc instanceof Document)) {
+        if (!iframeDoc) {
           return;
         }
 
