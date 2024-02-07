@@ -8,7 +8,6 @@
    * @since 0.0.1
    */
 
-  import { onMount } from 'svelte';
   import Button from './Button.svelte';
   import type Categories from '../lib/Categories';
   import type Controller from '../lib/Controller';
@@ -30,22 +29,6 @@
   let isCustomizing = false;
 
   let dialogRef: HTMLDialogElement;
-
-  onMount(() => {
-    const eventListener = () => {
-      open = true;
-    };
-
-    const button = document.querySelector(
-      '[data-privcy-display-banner]',
-    );
-
-    button?.addEventListener('click', eventListener);
-
-    return () => {
-      button?.removeEventListener('click', eventListener);
-    };
-  });
 
   $: if (dialogRef && open) {
     dialogRef.open = true;

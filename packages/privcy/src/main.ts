@@ -76,6 +76,17 @@ class Privcy {
         strings: this._strings,
       },
     });
+
+    /**
+     * Event listener to open banner again.
+     */
+    if (this._banner) {
+      document
+        .querySelector('[data-privcy-display-banner]')
+        ?.addEventListener('click', () => {
+          this._banner.$set({ open: true });
+        });
+    }
   }
 }
 
