@@ -2,6 +2,15 @@
 @use 'typefaces';
 @use 'content';
 
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background-color: black;
+  color: white;
+}
+
 body {
   font-family: 'Karrik';
   font-size: 18px;

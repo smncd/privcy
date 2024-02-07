@@ -1,74 +1,81 @@
 <script lang="ts">
-  import star from '../assets/vectors/star.svg?raw';
+  import Hero from '../components/Hero.svelte';
+  import gitlab from '../assets/vectors/logo-gitlab.svg?raw';
+  import npm from '../assets/vectors/logo-npm.svg?raw';
 </script>
 
-<h1 class="title">Privcy.</h1>
-
-<div class="content">
-  <p>This is my take on a reactive privacy/cookie consent banner.</p>
-  <h2>⚠️ Here be dragons ⚠️</h2>
-  <p>
-    At the time of writing this repo is quite experimental. It works,
-    but could use some work, and more extensive documentation. Use at
-    your own risk.
-  </p>
-</div>
-
-<p class="subtitle">
-  By <a href="https://smn.codes">smn.codes</a>.
-</p>
-
-<figure class="star">
-  {@html star}
-</figure>
+<Hero
+  title="Privcy."
+  subtitle="A no-nonsense privacy/cookie consent banner."
+>
+  <div class="info">
+    <div class="links">
+      <a
+        href="https://gitlab.com/smncd/privcy"
+        title="GitLab"
+        target="_blank"
+        rel="noopener noreferrer">{@html gitlab}</a
+      >
+      <a
+        href="https://www.npmjs.com/package/privcy"
+        title="NPM"
+        target="_blank"
+        rel="noopener noreferrer">{@html npm}</a
+      >
+    </div>
+    <button data-privcy-display-banner>Display Privacy Banner</button>
+    <span class="copyright">
+      2024 © <a href="https://smn.codes">Simon Lagerlöf</a>
+    </span>
+  </div>
+</Hero>
 
 <style lang="scss">
   @use '../styles/mixins/media-queries' as mq;
+  .info {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
 
-  .title {
-    margin-bottom: 0.25em;
-    font-size: 25vw;
-    line-height: 1;
-
-    @include mq.width-below(tablet) {
-      margin-top: 15%;
+    @include mq.width-below(mobile) {
+      margin-top: 4rem;
+      flex-direction: column;
+      align-items: center;
     }
 
-    @include mq.width-above(tablet) {
-      margin-top: 7.5%;
+    @include mq.width-above(mobile) {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      padding: 3rem;
+      justify-content: space-between;
     }
-  }
 
-  .content {
-    margin: 4vw 0 0 2.4vw;
-    width: min(720px, 100%);
-    font-size: 1.25rem;
-    line-height: 1.5;
+    & .links {
+      display: flex;
+      gap: 2rem;
 
-    & h2 {
-      margin: 1em 0 0.25em;
-      font-size: 1.75rem;
+      > a {
+        display: block;
+        width: 3rem;
+        height: 3rem;
+        & svg {
+          width: inherit;
+          height: inherit;
+        }
+      }
     }
-  }
 
-  .subtitle {
-    margin: 4vw 0 0 2.4vw;
-    font-size: 1.5rem;
-  }
+    & button[data-privcy-display-banner] {
+      padding: initial;
+      border: initial;
+      background: initial;
+      cursor: pointer;
+      text-decoration: underline;
+    }
 
-  .star {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    z-index: -1;
-
-    & :global(svg) {
-      width: 200%;
-      height: 200%;
-      transform: translateY(-50%);
+    & .copyright {
+      text-align: right;
     }
   }
 </style>
