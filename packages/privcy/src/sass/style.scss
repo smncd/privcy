@@ -8,12 +8,16 @@
   font-size: 18px;
 
   & &__title {
-    margin-top: 0;
+    margin: 0 0 15px;
     font-size: 30px;
   }
 
   & &__description {
-    margin: 15px 0;
+    margin: 0 0 25px;
+
+    & > *:first-child {
+      margin-top: 0;
+    }
   }
 
   // &__categories {}
@@ -35,10 +39,21 @@
     flex-wrap: wrap-reverse;
     justify-content: space-between;
 
+    @media screen and (max-width: 570px) {
+      justify-content: center;
+      flex-direction: column-reverse;
+      gap: 7.5px;
+      font-size: 16px;
+    }
+
     &__choices {
       display: inherit;
       flex-wrap: inherit;
       gap: 15px;
+
+      @media screen and (max-width: 570px) {
+        flex-direction: column;
+      }
     }
   }
 
