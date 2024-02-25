@@ -41,6 +41,7 @@
         margin-bottom: 0.25em;
         font-size: 190px;
         writing-mode: sideways-rl;
+        -webkit-writing-mode: vertical-lr;
       }
 
       @include mq.width-above(tablet) {
