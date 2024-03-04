@@ -19,6 +19,7 @@
   export let categories: Categories;
 
   export let open: boolean;
+  export let isCustomizing = false;
 
   export let title: string;
   export let description: string;
@@ -27,8 +28,6 @@
   let allowedCategories = controller.allowedCategories;
 
   let requestedCategories: Array<string> = allowedCategories;
-
-  let isCustomizing = false;
 
   let dialogRef: HTMLDialogElement;
 

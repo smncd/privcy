@@ -103,7 +103,10 @@ class Privcy {
         .querySelectorAll('[data-privcy-display-banner]')
         .forEach((button) =>
           button.addEventListener('click', () => {
-            this._banner.$set({ open: true });
+            this._banner.$set({
+              open: true,
+              isCustomizing: true,
+            });
           }),
         );
     }
