@@ -7,32 +7,33 @@
 <Hero
   title="Privcy."
   subtitle="A no-nonsense privacy/cookie consent banner."
->
-  <div class="info">
-    <div class="links">
-      <a
-        href="https://gitlab.com/smncd/privcy"
-        title="GitLab"
-        target="_blank"
-        rel="noopener noreferrer">{@html gitlab}</a
-      >
-      <a
-        href="https://www.npmjs.com/package/privcy"
-        title="NPM"
-        target="_blank"
-        rel="noopener noreferrer">{@html npm}</a
-      >
-    </div>
-    <button data-privcy-display-banner>Display Privacy Banner</button>
-    <span class="copyright">
-      2024 © <a href="https://smn.codes">Simon Lagerlöf</a>
-    </span>
+/>
+<footer class="footer">
+  <div class="links">
+    <a
+      href="https://gitlab.com/smncd/privcy"
+      title="GitLab"
+      target="_blank"
+      rel="noopener noreferrer">{@html gitlab}</a
+    >
+    <a
+      href="https://www.npmjs.com/package/privcy"
+      title="NPM"
+      target="_blank"
+      rel="noopener noreferrer">{@html npm}</a
+    >
   </div>
-</Hero>
+  <button data-privcy-display-banner>Display Privacy Banner</button>
+  <span class="copyright">
+    2024 © <a href="https://smn.codes">Simon Lagerlöf</a>
+  </span>
+</footer>
 
 <style lang="scss">
   @use '../styles/mixins/media-queries' as mq;
-  .info {
+
+  .footer {
+    padding: 2rem;
     width: 100%;
     display: flex;
     gap: 2rem;

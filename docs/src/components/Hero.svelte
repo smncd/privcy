@@ -13,9 +13,6 @@
   <p class="hero__subtitle">
     {subtitle}
   </p>
-  <div class="hero__content">
-    <slot />
-  </div>
 </header>
 
 <style lang="scss">
@@ -65,11 +62,6 @@
       @include mq.width-above(tablet) {
         margin-left: 2.5vw;
       }
-    }
-
-    &__content {
-      position: relative;
-      width: 100%;
     }
 
     &__star {
