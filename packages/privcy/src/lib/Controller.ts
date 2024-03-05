@@ -116,7 +116,6 @@ export default class PrivcyController {
       const data = JSON.parse(source);
 
       if (
-        typeof data.src !== 'string' ||
         typeof data.category !== 'string' ||
         !this.allowedCategories.includes(data.category)
       ) {
@@ -124,10 +123,25 @@ export default class PrivcyController {
           script.src = '';
         }
 
+        if (script instanceof HTMLScriptElement) {
+          script.type = 'text/plain';
+        }
+
         return;
       }
 
-      script.src = data.src;
+      if (typeof data.src === 'string') {
+        script.src = data.src;
+      }
+
+      if (script instanceof HTMLScriptElement) {
+        script.type = 'application/javascript';
+
+        /**
+         * For some reason this is required for the script to execute?
+         */
+        script.innerText = script.innerText;
+      }
     });
   }
 
