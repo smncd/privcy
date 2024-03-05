@@ -1,4 +1,4 @@
-## ![Privcy](./banner.jpg)
+## [![Privcy](./banner.jpg)](https://privcy.smn.codes)
 
 This is my take on a reactive privacy/cookie consent banner.
 
