@@ -119,32 +119,30 @@ class Privcy {
    */
   private _loadIframeFallbacks(): void {
     this._controller.controlledElements.forEach((element) => {
-      if (element.src) {
+      if (element.src || !(element instanceof HTMLIFrameElement)) {
         return;
       }
 
-      if (element instanceof HTMLIFrameElement) {
-        const iframeDoc =
-          element.contentDocument || element.contentWindow?.document;
+      const iframeDoc =
+        element.contentDocument || element.contentWindow?.document;
 
-        if (!iframeDoc) {
-          return;
-        }
-
-        const category = JSON.parse(
-          element.getAttribute('data-privcy') ?? '',
-        )?.category;
-
-        new IframeFallback({
-          target: iframeDoc.body,
-          props: {
-            categoryName: this._categories.data[category].name,
-            buttonCallback: () => {
-              this._banner.$set({ open: true });
-            },
-          },
-        });
+      if (!iframeDoc) {
+        return;
       }
+
+      const category = JSON.parse(
+        element.getAttribute('data-privcy') ?? '',
+      )?.category;
+
+      new IframeFallback({
+        target: iframeDoc.body,
+        props: {
+          categoryName: this._categories.data[category].name,
+          buttonCallback: () => {
+            this._banner.$set({ open: true });
+          },
+        },
+      });
     });
   }
 }
