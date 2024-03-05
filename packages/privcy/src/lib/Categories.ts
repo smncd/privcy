@@ -7,6 +7,14 @@
  * @since 0.6.0
  */
 
+type Data = Record<
+  string,
+  {
+    name: string;
+    description: string;
+  }
+>;
+
 export default class Categories {
   /**
    * Array containing the IDs of categories.
@@ -17,15 +25,7 @@ export default class Categories {
    * Constructor for the Categories class.
    * @param data - Record containing category data.
    */
-  constructor(
-    public data: Record<
-      string,
-      {
-        name: string;
-        description: string;
-      }
-    >,
-  ) {
+  constructor(public data: Data) {
     this.IDs = Object.keys(data);
   }
 
