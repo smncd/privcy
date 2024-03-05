@@ -86,14 +86,25 @@ This also works with iframes:
 ></iframe>
 ```
 
-Right now there is no support for controlling inline scripts.
+To control a inline script, you can omit the `src` key in `data-privcy`, but you need to make sure that the script type is set to `plain/text`:
+
+```html
+<script
+  data-privcy='{
+    "category": "social"
+  }'
+  type="plain/text"
+>
+  console.log('Hello World!')
+</script>
+```
 
 File sizes
 ----------
-|Format             |Size    |gZip   |
-|---                |---     |---    |
-|dist/privcy.js     |27.54 kB|8.04 kB│
-|dist/privcy.iife.js|17.16 kB|6.46 kB|
+|Format             |Size    |gZip   
+|---                |---     |---    
+|dist/privcy.js     |27.54 kB|8.04 kB
+|dist/privcy.iife.js|17.16 kB|6.46 kB
 
 Ownership
 ---------
