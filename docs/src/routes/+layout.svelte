@@ -4,6 +4,8 @@
   import 'privcy/dist/style.css';
   import '../styles/main.scss';
 
+  import Footer from '../components/site/Footer.svelte';
+
   onMount(() => {
     new Privcy({
       cookiePrefix: 'privcy',
@@ -34,6 +36,7 @@
 <main>
   <slot />
 </main>
+<Footer />
 
 <style lang="scss">
   main {

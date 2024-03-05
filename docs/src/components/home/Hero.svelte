@@ -1,5 +1,5 @@
 <script lang="ts">
-  import star from '../assets/vectors/star.svg?raw';
+  import star from '../../assets/vectors/star.svg?raw';
 
   export let title: string;
   export let subtitle: string;
@@ -16,12 +16,11 @@
 </header>
 
 <style lang="scss">
-  @use '../styles/mixins/media-queries' as mq;
+  @use '../../styles/mixins/media-queries' as mq;
 
   .hero {
     position: relative;
     padding: 2rem;
-    min-height: 90vh;
     background-color: white;
     color: black;
     overflow: hidden;
@@ -29,6 +28,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
+
+    @include mq.width-above(tablet) {
+      min-height: 90vh;
+    }
 
     &__title {
       position: relative;
