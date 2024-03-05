@@ -18,13 +18,6 @@ export default class PrivcyController {
   private _categoryIDs: Array<string>;
 
   /**
-   * Cookie prefix.
-   */
-  public get cookiePrefix() {
-    return this._cookiePrefix;
-  }
-
-  /**
    * Get all categories user has consented to.
    */
   public get allowedCategories(): Array<string> {
@@ -88,7 +81,7 @@ export default class PrivcyController {
   }
 
   constructor(
-    private _cookiePrefix: string,
+    public cookiePrefix: string,
     categories: Categories,
   ) {
     this._categoryIDs = categories.IDs;
@@ -175,7 +168,7 @@ export default class PrivcyController {
       expires: 180,
       sameSite: 'strict',
       secure: true,
-      path: '/'
+      path: '/',
     });
   }
 
@@ -190,6 +183,6 @@ export default class PrivcyController {
    * Cookie name.
    */
   private _cookieName(name: string) {
-    return `${this._cookiePrefix}__consent___${name}`;
+    return `${this.cookiePrefix}__consent___${name}`;
   }
 }
