@@ -79,7 +79,9 @@ export default class PrivcyController {
   /**
    * Get all DOM elements controlled by Privcy.
    */
-  get controlledElements() {
+  get controlledElements(): NodeListOf<
+    HTMLScriptElement | HTMLIFrameElement
+  > {
     return this._getAllScripts();
   }
 
@@ -143,7 +145,7 @@ export default class PrivcyController {
   /**
    * Set allowed categories.
    */
-  private _updateConsentCookies(categories: Array<string>) {
+  private _updateConsentCookies(categories: Array<string>): void {
     // Remove all previously set cookies.
     for (const category of this._categoryIDs) {
       this._removeCookie(category);
@@ -185,7 +187,7 @@ export default class PrivcyController {
   /**
    * Cookie name.
    */
-  private _cookieName(name: string) {
+  private _cookieName(name: string): string {
     return `${this.cookiePrefix}__consent___${name}`;
   }
 }
