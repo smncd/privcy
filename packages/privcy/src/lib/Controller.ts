@@ -15,6 +15,9 @@ import {
 import type Categories from './Categories';
 
 export default class PrivcyController {
+  /**
+   * All category IDs.
+   */
   private _categoryIDs: Array<string>;
 
   /**
