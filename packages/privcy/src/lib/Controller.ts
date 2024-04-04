@@ -92,7 +92,7 @@ export default class PrivcyController {
     this._categoryIDs = categories.IDs;
 
     if (!this.isFirstVisit) {
-      this._loadScripts();
+      this.loadScripts();
     }
   }
 
@@ -101,13 +101,13 @@ export default class PrivcyController {
    */
   public updateConsent(categories: Array<string>): void {
     this._updateConsentCookies(categories);
-    this._loadScripts();
+    this.loadScripts();
   }
 
   /**
    * Load all scripts and iframes.
    */
-  private _loadScripts(): void {
+  public loadScripts(): void {
     this._getAllScripts().forEach((script) => {
       const source = script.getAttribute('data-privcy');
 

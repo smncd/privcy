@@ -95,6 +95,13 @@ class Privcy {
   }
 
   /**
+   * Reload scripts and iframes.
+   */
+  public reloadScripts(): void {
+    this._controller.loadScripts();
+  }
+
+  /**
    * Event listener to open banner again.
    */
   private _addBannerOpenEventListener(): void {
