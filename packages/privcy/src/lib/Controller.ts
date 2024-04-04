@@ -195,7 +195,7 @@ export default class PrivcyController {
    * Remove cookie.
    */
   private _removeCookie(name: string): void {
-    return removeCookie(this._cookieName(name));
+    removeCookie(this._cookieName(name));
   }
 
   /**
