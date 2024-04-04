@@ -141,6 +141,8 @@ class Privcy {
         element.getAttribute('data-privcy') ?? '',
       )?.category;
 
+      iframeDoc.body.innerHTML = '';
+
       new IframeFallback({
         target: iframeDoc.body,
         props: {
