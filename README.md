@@ -101,10 +101,10 @@ To control a inline script, you can omit the `src` key in `data-privcy`, but you
 
 File sizes
 ----------
-|Format             |Size    |gZip   
-|---                |---     |---    
-|dist/privcy.js     |27.54 kB|8.04 kB
-|dist/privcy.iife.js|17.16 kB|6.46 kB
+|Format                     |Size    |gZip   
+|---                        |---     |---    
+|dist/privcy.js (ESM)       |28.45 kB|8.53 kB
+|dist/privcy.iife.js (IIFE) |17.57 kB|6.74 kB
 
 Ownership
 ---------
