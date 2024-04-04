@@ -108,7 +108,7 @@ export default class PrivcyController {
    * Load all scripts and iframes.
    */
   public loadScripts(): void {
-    this._getAllScripts().forEach((script) => {
+    for (const script of this._getAllScripts()) {
       const source = script.getAttribute('data-privcy');
 
       if (typeof source !== 'string') return;
@@ -142,7 +142,7 @@ export default class PrivcyController {
          */
         script.innerText = script.innerText;
       }
-    });
+    }
   }
 
   /**

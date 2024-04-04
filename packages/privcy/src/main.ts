@@ -106,16 +106,16 @@ class Privcy {
    */
   private _addBannerOpenEventListener(): void {
     if (this._banner) {
-      document
-        .querySelectorAll('[data-privcy-display-banner]')
-        .forEach((button) =>
-          button.addEventListener('click', () => {
-            this._banner.$set({
-              open: true,
-              isCustomizing: true,
-            });
-          }),
-        );
+      for (const button of document.querySelectorAll(
+        '[data-privcy-display-banner]',
+      )) {
+        button.addEventListener('click', () => {
+          this._banner.$set({
+            open: true,
+            isCustomizing: true,
+          });
+        });
+      }
     }
   }
 
@@ -125,7 +125,7 @@ class Privcy {
    * @todo Add options to configure content.
    */
   private _loadIframeFallbacks(): void {
-    this._controller.controlledElements.forEach((element) => {
+    for (const element of this._controller.controlledElements) {
       if (element.src || !(element instanceof HTMLIFrameElement)) {
         return;
       }
@@ -152,7 +152,7 @@ class Privcy {
           },
         },
       });
-    });
+    }
   }
 }
 
