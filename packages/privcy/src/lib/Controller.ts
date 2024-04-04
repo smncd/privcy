@@ -82,7 +82,7 @@ export default class PrivcyController {
   get controlledElements(): NodeListOf<
     HTMLScriptElement | HTMLIFrameElement
   > {
-    return this._getAllScripts();
+    return this._getAllEmbeds();
   }
 
   constructor(
@@ -92,7 +92,7 @@ export default class PrivcyController {
     this._categoryIDs = categories.IDs;
 
     if (!this.isFirstVisit) {
-      this.loadScripts();
+      this.loadEmbeds();
     }
   }
 
@@ -101,15 +101,15 @@ export default class PrivcyController {
    */
   public updateConsent(categories: Array<string>): void {
     this._updateConsentCookies(categories);
-    this.loadScripts();
+    this.loadEmbeds();
   }
 
   /**
    * Load all scripts and iframes.
    */
-  public loadScripts(): void {
-    for (const script of this._getAllScripts()) {
-      const source = script.getAttribute('data-privcy');
+  public loadEmbeds(): void {
+    for (const embed of this._getAllEmbeds()) {
+      const source = embed.getAttribute('data-privcy');
 
       if (typeof source !== 'string') return;
 
@@ -119,28 +119,28 @@ export default class PrivcyController {
         typeof data.category !== 'string' ||
         !this.allowedCategories.includes(data.category)
       ) {
-        if (script.src) {
-          script.src = '';
+        if (embed.src) {
+          embed.src = '';
         }
 
-        if (script instanceof HTMLScriptElement) {
-          script.type = 'text/plain';
+        if (embed instanceof HTMLScriptElement) {
+          embed.type = 'text/plain';
         }
 
         return;
       }
 
       if (typeof data.src === 'string') {
-        script.src = data.src;
+        embed.src = data.src;
       }
 
-      if (script instanceof HTMLScriptElement) {
-        script.type = 'application/javascript';
+      if (embed instanceof HTMLScriptElement) {
+        embed.type = 'application/javascript';
 
         /**
          * For some reason this is required for the script to execute?
          */
-        script.innerText = script.innerText;
+        embed.innerText = embed.innerText;
       }
     }
   }
@@ -148,7 +148,7 @@ export default class PrivcyController {
   /**
    * Get all scripts and iframs in DOM.
    */
-  private _getAllScripts(): NodeListOf<
+  private _getAllEmbeds(): NodeListOf<
     HTMLScriptElement | HTMLIFrameElement
   > {
     return document.querySelectorAll<

@@ -97,8 +97,8 @@ class Privcy {
   /**
    * Reload scripts and iframes.
    */
-  public reloadScripts(): void {
-    this._controller.loadScripts();
+  public reload(): void {
+    this._controller.loadEmbeds();
   }
 
   /**
