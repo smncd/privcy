@@ -125,7 +125,7 @@ class Privcy {
    * @todo Add options to configure content.
    */
   private _loadIframeFallbacks(): void {
-    for (const element of this._controller.controlledElements) {
+    this._controller.controlledElements.forEach((element) => {
       if (element.src || !(element instanceof HTMLIFrameElement)) {
         return;
       }
@@ -152,7 +152,7 @@ class Privcy {
           },
         },
       });
-    }
+    });
   }
 }
 
