@@ -99,7 +99,8 @@ To control a inline script, you can omit the `src` key in `data-privcy`, but you
 </script>
 ```
 
-## SPAs (⚠️)
+SPAs (⚠️)
+---------
 
 Currently, SPA support is experimental. You can use the `Privcy.reload()` method to handle new scripts/iframes after navigation has taken place, for example:
 
