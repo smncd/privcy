@@ -107,16 +107,16 @@ class Privcy {
    */
   private _addBannerOpenEventListener(): void {
     if (this._banner) {
-      for (const button of document.querySelectorAll(
-        '[data-privcy-display-banner]',
-      )) {
-        button.addEventListener('click', () => {
-          this._banner.$set({
-            open: true,
-            isCustomizing: true,
-          });
-        });
-      }
+      document
+        .querySelectorAll('[data-privcy-display-banner]')
+        .forEach((button) =>
+          button.addEventListener('click', () => {
+            this._banner.$set({
+              open: true,
+              isCustomizing: true,
+            });
+          }),
+        );
     }
   }
 
