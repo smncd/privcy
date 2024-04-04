@@ -103,6 +103,16 @@ class Privcy {
   }
 
   /**
+   * Open settings.
+   */
+  public openSettings(): void {
+    this._banner.$set({
+      open: true,
+      isCustomizing: true,
+    });
+  }
+
+  /**
    * Event listener to open banner again.
    */
   private _addBannerOpenEventListener(): void {
@@ -111,10 +121,7 @@ class Privcy {
         .querySelectorAll('[data-privcy-display-banner]')
         .forEach((button) =>
           button.addEventListener('click', () => {
-            this._banner.$set({
-              open: true,
-              isCustomizing: true,
-            });
+            this.openSettings();
           }),
         );
     }
