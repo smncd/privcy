@@ -6,6 +6,8 @@
    * @license BSD-3-Clause
    * @copyright 2024 Simon Lagerlöf
    * @since 0.0.6
+   *
+   * @deprecated We should use the html fallback method instead. The Svelte-based fallback will be removed in a upcoming release.
    */
 
   export let categoryName: string;

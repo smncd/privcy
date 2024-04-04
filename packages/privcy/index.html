@@ -47,7 +47,7 @@
     <h2>Iframe</h2>
     <iframe
       style="height: 500px; width: 500px"
-      data-privcy='{ "src": "https://example.com", "category": "social" }'
+      data-privcy='{ "src": "https://example.com", "fallback": "/iframe-fallback.html?category=Social", "category": "social" }'
     ></iframe>
     <hr />
     <h2>SPA</h2>
@@ -66,9 +66,7 @@
           ></iframe>
         `;
 
-        setTimeout(() => {
-          privcy.reload();
-        }, 100);
+        privcy.reload();
       }
     </script>
     <hr />

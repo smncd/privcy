@@ -99,6 +99,61 @@ To control a inline script, you can omit the `src` key in `data-privcy`, but you
 </script>
 ```
 
+Iframe Fallbacks
+----------------
+
+In cases where a iframe's category is rejected by the user, we sometimes want to display a informational popup alerting the user that the content is not available.
+
+In Privcy v0.7.0 and below, this was handled by a Svelte component that mounted inside the iframe. This approach is being phased out in favour if providing a `fallback` option in the `data-privcy` attribute:
+
+```html
+<iframe
+  data-privcy='{
+    "category": "social",
+    "src": "https://example.com",
+    "fallback": "/iframe-fallback.html"
+  }'
+></iframe>
+```
+
+As shown, the `fallback` option consists of a url to a html page that will be embedded instead of the `src`, if the category is rejected. This html page can be static or dynamic and built basically however you want.
+
+If you want to be able to open the settings menu by clicking a button in the iframe, you need to do the following on your fallback page:
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <!-- ... -->
+  </head>
+  <body>
+
+    <!-- ... -->
+
+    <button>Open settings</button>
+    
+    <script>
+      if (window.location !== window.parent.location) {
+        // Open a broadcast channel. Privcy will listen on this channel.
+        const parent = new BroadcastChannel('privcy:iframe-fallback');
+
+        document
+          .querySelector('button')
+          .addEventListener('click', () => {
+            // The message needs to be exactly this.
+            const message = { displayBanner: true };
+            
+            // When the button is clicked, the message is posted to the channel.
+            parent.postMessage(message);
+          });
+      }
+    </script>
+  </body>
+</html>
+```
+
+This allows the iframe fallback to trigger opening the Privcy settings panel.
+
 SPAs (⚠️)
 ---------
 

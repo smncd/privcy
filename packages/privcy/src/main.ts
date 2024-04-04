@@ -131,23 +131,47 @@ class Privcy {
    * Populate iframes in case it cannot be loaded.
    *
    * @todo Add options to configure content.
+   * @deprecated We should use the html fallback method instead. The Svelte-based fallback will be removed in a upcoming release.
    */
   private _loadIframeFallbacks(): void {
     this._controller.controlledElements.forEach((element) => {
-      if (element.src || !(element instanceof HTMLIFrameElement)) {
+      if (!(element instanceof HTMLIFrameElement)) {
         return;
       }
 
-      const iframeDoc =
-        element.contentDocument || element.contentWindow?.document;
-
-      if (!iframeDoc) {
-        return;
-      }
-
-      const category = JSON.parse(
+      const meta = JSON.parse(
         element.getAttribute('data-privcy') ?? '',
-      )?.category;
+      );
+
+      const category = meta?.category;
+
+      if (this._controller.allowedCategories.includes(category)) {
+        return;
+      }
+
+      if (meta?.fallback) {
+        const broadcast = new BroadcastChannel(
+          'privcy:iframe-fallback',
+        );
+
+        broadcast.onmessage = (event) => {
+          if (event.data.displayBanner) {
+            this.openSettings();
+          }
+        };
+
+        return;
+      }
+
+      const iframeDoc = element.contentWindow?.document;
+
+      if (!iframeDoc || element.src) {
+        return;
+      }
+
+      console.warn(
+        `Warning: Iframe with src '${meta?.src}' does not have a 'fallback' property in 'data-privcy', and will therefore default to the deprecated Svelte based iframe fallback. Please provide a 'fallback' option.`,
+      );
 
       iframeDoc.body.innerHTML = '';
 

@@ -119,6 +119,15 @@ export default class PrivcyController {
         typeof data.category !== 'string' ||
         !this.allowedCategories.includes(data.category)
       ) {
+        if (
+          embed instanceof HTMLIFrameElement &&
+          typeof data.fallback === 'string'
+        ) {
+          embed.src = data.fallback;
+
+          return;
+        }
+
         if (embed.src) {
           embed.src = '';
         }
