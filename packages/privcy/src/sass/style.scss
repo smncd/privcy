@@ -30,6 +30,10 @@
 
     &__checkbox {
       font-size: 16px;
+
+      & input[type='checkbox']:checked + span {
+        font-weight: bold;
+      }
     }
   }
 

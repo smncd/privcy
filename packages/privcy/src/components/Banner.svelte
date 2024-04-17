@@ -81,7 +81,9 @@
               checked={allowedCategories?.includes(category.id)}
               on:change={() => includeCategory(category.id)}
             />
-            {strings.categories.enable}&nbsp;{category.name}
+            <span>
+              {strings.categories.enable}&nbsp;{category.name}
+            </span>
           </label>
         </li>
       {/each}
