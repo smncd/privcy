@@ -8,7 +8,6 @@
  */
 
 import Banner from './components/Banner.svelte';
-import IframeFallback from './components/IframeFallback.svelte';
 import Categories from './lib/Categories';
 import Controller from './lib/Controller';
 import type { i18nStrings } from './types';
@@ -129,9 +128,6 @@ class Privcy {
 
   /**
    * Populate iframes in case it cannot be loaded.
-   *
-   * @todo Add options to configure content.
-   * @deprecated We should use the html fallback method instead. The Svelte-based fallback will be removed in a upcoming release.
    */
   private _loadIframeFallbacks(): void {
     this._controller.controlledElements.forEach((element) => {
@@ -162,28 +158,6 @@ class Privcy {
 
         return;
       }
-
-      const iframeDoc = element.contentWindow?.document;
-
-      if (!iframeDoc || element.src) {
-        return;
-      }
-
-      console.warn(
-        `Warning: Iframe with src '${meta?.src}' does not have a 'fallback' property in 'data-privcy', and will therefore default to the deprecated Svelte based iframe fallback. Please provide a 'fallback' option.`,
-      );
-
-      iframeDoc.body.innerHTML = '';
-
-      new IframeFallback({
-        target: iframeDoc.body,
-        props: {
-          categoryName: this._categories.data[category].name,
-          buttonCallback: () => {
-            this._banner.$set({ open: true });
-          },
-        },
-      });
     });
   }
 }
