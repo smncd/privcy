@@ -99,6 +99,7 @@ class Privcy {
   public reload(): void {
     this._controller.loadEmbeds();
     this._loadIframeFallbacks();
+    this._addBannerOpenEventListener();
   }
 
   /**
