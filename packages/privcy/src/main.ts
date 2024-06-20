@@ -99,7 +99,6 @@ class Privcy {
   public reload(): void {
     this._controller.loadEmbeds();
     this._loadIframeFallbacks();
-    this._addBannerOpenEventListener();
   }
 
   /**
@@ -129,8 +128,6 @@ class Privcy {
 
   /**
    * Populate iframes in case it cannot be loaded.
-   *
-   * @todo Add options to configure content.
    */
   private _loadIframeFallbacks(): void {
     this._controller.controlledElements.forEach((element) => {
@@ -158,6 +155,8 @@ class Privcy {
             this.openSettings();
           }
         };
+
+        return;
       }
     });
   }
