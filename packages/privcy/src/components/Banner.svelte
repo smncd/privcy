@@ -33,6 +33,7 @@
 
   $: if (dialogRef && open) {
     allowedCategories = controller.allowedCategories;
+    requestedCategories = allowedCategories;
     dialogRef.open = true;
   }
 

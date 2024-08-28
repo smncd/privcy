@@ -27,6 +27,11 @@
         align-items: center;
       }
 
+      .buttons {
+        display: flex;
+        gap: 1rem;
+      }
+
       button {
         border: initial;
         padding: 10px 15px;
@@ -44,22 +49,37 @@
         <strong>'<span id="category">[category]</span>'</strong>
         in the privacy settings.
       </p>
-      <button>Open settings</button>
+      <div class="buttons">
+        <button id="allow">
+          Allow <span id="category">[category]</span>
+        </button>
+        <button id="settings">Open settings</button>
+      </div>
     </main>
     <script>
       if (window.location !== window.parent.location) {
         const parent = new BroadcastChannel('privcy:iframe-fallback');
 
         document
-          .querySelector('button')
+          .querySelector('button#settings')
           .addEventListener('click', () => {
             parent.postMessage({ displayBanner: true });
           });
 
+        document
+          .querySelector('button#allow')
+          .addEventListener('click', () => {
+            parent.postMessage({ allowCategory: 'social' });
+          });
+
         const urlParams = new URLSearchParams(window.location.search);
 
-        document.querySelector('#category').innerText =
-          urlParams.get('category');
+        document
+          .querySelectorAll('#category')
+          .forEach(
+            (element) =>
+              (element.innerText = urlParams.get('category')),
+          );
       }
     </script>
   </body>

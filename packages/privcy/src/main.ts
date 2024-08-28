@@ -155,6 +155,15 @@ class Privcy {
           if (event.data.displayBanner) {
             this.openSettings();
           }
+
+          if (
+            typeof event.data.allowCategory === 'string' &&
+            this._categories.IDs.includes(event.data.allowCategory)
+          ) {
+            this._controller.consentToCategory(
+              event.data.allowCategory,
+            );
+          }
         };
 
         return;

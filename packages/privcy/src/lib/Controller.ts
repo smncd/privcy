@@ -105,6 +105,13 @@ export default class PrivcyController {
   }
 
   /**
+   * Consent to individual category.
+   */
+  public consentToCategory(category: string): void {
+    this.updateConsent([...this.allowedCategories, category]);
+  }
+
+  /**
    * Load all scripts and iframes.
    */
   public loadEmbeds(): void {
