@@ -6,7 +6,7 @@ This is my take on a reactive privacy/cookie consent banner.
 ⚠️ Here be dragons ⚠️
 ----------------------
 
-At the time of writing this repo is quite experimental. It works, but could use some work, and more extensive documentation. Use at your own risk.
+At the time of writing, Privcy is mainly meant for use in my projects, and may not work as you need it to, and is lacking documentation.
 
 
 Installation
