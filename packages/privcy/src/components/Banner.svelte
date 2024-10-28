@@ -34,7 +34,7 @@
   $: if (dialogRef && open) {
     allowedCategories = controller.allowedCategories;
     requestedCategories = allowedCategories;
-    dialogRef.open = true;
+    dialogRef.showModal();
   }
 
   function setCustomizing(event: Event) {
@@ -55,7 +55,6 @@
 
 <dialog
   class="privcy"
-  {open}
   bind:this={dialogRef}
   on:close={() => {
     open = false;

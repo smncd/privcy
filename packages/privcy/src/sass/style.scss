@@ -2,6 +2,7 @@
   box-sizing: border-box;
   position: fixed;
   margin: 0;
+  top: auto;
   left: 20px;
   bottom: 20px;
   width: calc(min(680px, 100%) - 40px);
