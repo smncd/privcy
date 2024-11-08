@@ -90,7 +90,6 @@ export default function banner(props: BannerProps) {
       isCustomizing.val
         ? ul({ class: 'privcy__categories' }, categoriesDom())
         : '',
-
     form(
       {
         class: 'privcy__buttons',
