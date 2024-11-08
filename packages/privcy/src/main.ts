@@ -7,10 +7,13 @@
  * @since 0.0.1
  */
 
-import Banner from './components/Banner.svelte';
+import van from 'vanjs-core';
+import banner, { type BannerProps } from './components/banner';
 import Categories from './lib/Categories';
 import Controller from './lib/Controller';
 import type { i18nStrings } from './types';
+
+import './sass/style.scss';
 
 declare global {
   interface Window {
@@ -36,7 +39,9 @@ type PrivcyProps = {
 class Privcy {
   private _categories: Categories;
   private _controller: Controller;
-  private _banner: Banner;
+
+  private _bannerProps: BannerProps;
+  private _banner: HTMLDialogElement;
 
   private _userStrings?: Partial<i18nStrings>;
 
@@ -77,17 +82,20 @@ class Privcy {
     /**
      * Load banner.
      */
-    this._banner = new Banner({
-      target: props.target,
-      props: {
-        controller: this._controller,
-        categories: this._categories,
-        open: this._controller.isFirstVisit,
-        title: props.title,
-        description: props.description,
-        strings: this._strings,
-      },
-    });
+    this._bannerProps = {
+      controller: this._controller,
+      categories: this._categories,
+      isCustomizing: van.state(false),
+      title: props.title,
+      description: props.description,
+      strings: this._strings,
+    };
+
+    this._banner = banner(this._bannerProps);
+
+    van.add(props.target, this._banner);
+
+    if (this._controller.isFirstVisit) this._banner.showModal();
 
     this._loadIframeFallbacks();
     this._addBannerOpenEventListener();
@@ -106,17 +114,15 @@ class Privcy {
    * Open settings.
    */
   public openSettings(): void {
-    this._banner.$set({
-      open: true,
-      isCustomizing: true,
-    });
+    this._bannerProps.isCustomizing.val = true;
+    this._banner.showModal();
   }
 
   /**
    * Event listener to open banner again.
    */
   private _addBannerOpenEventListener(): void {
-    if (this._banner) {
+    if (this._bannerProps) {
       document
         .querySelectorAll('[data-privcy-display-banner]')
         .forEach((button) =>

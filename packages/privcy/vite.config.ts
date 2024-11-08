@@ -1,6 +1,5 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
@@ -12,5 +11,5 @@ export default defineConfig({
       formats: ['iife', 'es'],
     },
   },
-  plugins: [svelte(), dts({ rollupTypes: true })],
+  plugins: [dts({ rollupTypes: true })],
 });

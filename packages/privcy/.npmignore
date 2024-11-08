@@ -3,7 +3,6 @@ src/
 public/
 index.html
 iframe-fallback.html
-svelte.config.js
 tsconfig.json
 tsconfig.node.json
 vite.config.ts
