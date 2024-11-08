@@ -210,8 +210,8 @@ File sizes
 ----------
 |Format                     |Size    |gZip   
 |---                        |---     |---    
-|dist/privcy.js (ESM)       |26.73 kB|7.98 kB
-|dist/privcy.iife.js (IIFE) |16.38 kB|6.26 kB
+|dist/privcy.js (ESM)       |15.45 kB|4.97 kB
+|dist/privcy.iife.js (IIFE) |10.66 kB|4.01 kB
 
 Ownership
 ---------
