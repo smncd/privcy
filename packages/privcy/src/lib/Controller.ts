@@ -12,6 +12,7 @@ import {
   setCookie,
   removeCookie,
 } from 'typescript-cookie';
+import { BROADCAST_CHANNEL } from '../constants';
 import type Categories from './Categories';
 
 export default class PrivcyController {
@@ -19,6 +20,8 @@ export default class PrivcyController {
    * All category IDs.
    */
   private _categoryIDs: Array<string>;
+
+  private _broadcast: BroadcastChannel;
 
   /**
    * Get all categories user has consented to.
@@ -91,9 +94,13 @@ export default class PrivcyController {
   ) {
     this._categoryIDs = categories.IDs;
 
+    this._broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
+
     if (!this.isFirstVisit) {
       this.loadEmbeds();
     }
+
+    this.loadIframeFallbacks();
   }
 
   /**
@@ -157,6 +164,40 @@ export default class PrivcyController {
          * For some reason this is required for the script to execute?
          */
         embed.innerText = embed.innerText;
+      }
+    });
+  }
+
+  /**
+   * Populate iframes in case it cannot be loaded.
+   */
+  public loadIframeFallbacks(): void {
+    this.controlledElements.forEach((element) => {
+      if (!(element instanceof HTMLIFrameElement)) {
+        return;
+      }
+
+      const meta = JSON.parse(
+        element.getAttribute('data-privcy') ?? '',
+      );
+
+      const category = meta?.category;
+
+      if (this.allowedCategories.includes(category)) {
+        return;
+      }
+
+      if (meta?.fallback) {
+        this._broadcast.onmessage = (event) => {
+          if (
+            typeof event.data.allowCategory === 'string' &&
+            this._categoryIDs.includes(event.data.allowCategory)
+          ) {
+            this.consentToCategory(event.data.allowCategory);
+          }
+        };
+
+        return;
       }
     });
   }

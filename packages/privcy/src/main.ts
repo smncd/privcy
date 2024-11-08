@@ -11,6 +11,7 @@ import van from 'vanjs-core';
 import banner, { type BannerProps } from './components/banner';
 import Categories from './lib/Categories';
 import Controller from './lib/Controller';
+import { BROADCAST_CHANNEL } from './constants';
 import type { i18nStrings } from './types';
 
 import './sass/style.scss';
@@ -37,6 +38,8 @@ type PrivcyProps = {
 };
 
 class Privcy {
+  private _broadcast: BroadcastChannel;
+
   private _categories: Categories;
   private _controller: Controller;
 
@@ -64,6 +67,8 @@ class Privcy {
 
   constructor(props: PrivcyProps) {
     this._userStrings = props.strings;
+
+    this._broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
 
     this._categories = new Categories(props.categories);
     this._controller = new Controller(
@@ -97,8 +102,13 @@ class Privcy {
 
     if (this._controller.isFirstVisit) this._banner.showModal();
 
-    this._loadIframeFallbacks();
     this._addBannerOpenEventListener();
+
+    this._broadcast.onmessage = (event) => {
+      if (event.data.displayBanner) {
+        this.openSettings();
+      }
+    };
   }
 
   /**
@@ -106,7 +116,7 @@ class Privcy {
    */
   public reload(): void {
     this._controller.loadEmbeds();
-    this._loadIframeFallbacks();
+    this._controller.loadIframeFallbacks();
     this._addBannerOpenEventListener();
   }
 
@@ -131,50 +141,6 @@ class Privcy {
           }),
         );
     }
-  }
-
-  /**
-   * Populate iframes in case it cannot be loaded.
-   */
-  private _loadIframeFallbacks(): void {
-    this._controller.controlledElements.forEach((element) => {
-      if (!(element instanceof HTMLIFrameElement)) {
-        return;
-      }
-
-      const meta = JSON.parse(
-        element.getAttribute('data-privcy') ?? '',
-      );
-
-      const category = meta?.category;
-
-      if (this._controller.allowedCategories.includes(category)) {
-        return;
-      }
-
-      if (meta?.fallback) {
-        const broadcast = new BroadcastChannel(
-          'privcy:iframe-fallback',
-        );
-
-        broadcast.onmessage = (event) => {
-          if (event.data.displayBanner) {
-            this.openSettings();
-          }
-
-          if (
-            typeof event.data.allowCategory === 'string' &&
-            this._categories.IDs.includes(event.data.allowCategory)
-          ) {
-            this._controller.consentToCategory(
-              event.data.allowCategory,
-            );
-          }
-        };
-
-        return;
-      }
-    });
   }
 }
 
