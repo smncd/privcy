@@ -44,7 +44,6 @@ export default function banner(props: BannerProps) {
   const setCustomizing = (event: Event) => {
     event.preventDefault();
     isCustomizing.val = !isCustomizing.val;
-    console.log(isCustomizing.val);
   };
 
   const includeCategory = (category: string) => {
