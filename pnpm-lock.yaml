@@ -72,9 +72,6 @@ importers:
       '@types/node':
         specifier: ^20.12.7
         version: 20.12.7
-      sass:
-        specifier: ^1.75.0
-        version: 1.75.0
       tslib:
         specifier: ^2.6.2
         version: 2.6.2

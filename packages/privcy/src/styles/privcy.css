@@ -1,0 +1,93 @@
+.privcy {
+  box-sizing: border-box;
+  position: fixed;
+  margin: 0;
+  top: auto;
+  left: 20px;
+  bottom: 20px;
+  width: calc(min(680px, 100%) - 40px);
+  font-size: 18px;
+}
+
+.privcy__title {
+  margin: 0 0 15px;
+  font-size: 30px;
+}
+
+.privcy__description {
+  margin: 0 0 25px;
+}
+
+.privcy__description > *:first-child {
+  margin-top: 0;
+}
+
+.privcy__categories {
+}
+
+.privcy__category {
+  list-style: none;
+}
+
+.privcy__category__name {
+}
+
+.privcy__category__description {
+}
+
+.privcy__category__checkbox {
+  font-size: 16px;
+}
+
+.privcy__category__checkbox input[type="checkbox"]:checked + span {
+  font-weight: bold;
+}
+
+.privcy__buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+}
+@media screen and (max-width: 570px) {
+  .privcy__buttons {
+    justify-content: center;
+    flex-direction: column-reverse;
+    gap: 7.5px;
+    font-size: 16px;
+  }
+}
+
+.privcy__choices {
+  display: inherit;
+  flex-wrap: inherit;
+  gap: 15px;
+}
+@media screen and (max-width: 570px) {
+  .privcy__buttons__choices {
+    flex-direction: column;
+  }
+}
+
+.privcy__button {
+  padding: 12px 24px;
+  border: initial;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.privcy__button--customize {
+  padding: 12px;
+  background-color: initial;
+  color: currentColor;
+}
+
+.privcy__button--acceptSelected {
+}
+.privcy__button--acceptAll {
+}
+.privcy__button--acceptRejected {
+}

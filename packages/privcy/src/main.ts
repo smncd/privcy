@@ -14,7 +14,7 @@ import Controller from './lib/Controller';
 import { BROADCAST_CHANNEL } from './constants';
 import type { i18nStrings } from './types';
 
-import './sass/style.scss';
+import './styles/privcy.css';
 
 declare global {
   interface Window {
