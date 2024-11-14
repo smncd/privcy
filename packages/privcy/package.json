@@ -4,10 +4,10 @@
   "author": "Simon Lagerlöf <contact@smn.codes>",
   "license": "BSD-3-Clause",
   "type": "module",
-  "main": "dist/privcy.iife.js",
+  "main": "dist/privcy.js",
   "exports": {
     ".": {
-      "import": "./dist/privcy.js"
+      "import": "./dist/privcy.mjs"
     },
     "./dist/style.css": {
       "import": "./dist/style.css"

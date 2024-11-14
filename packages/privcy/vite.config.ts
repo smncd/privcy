@@ -8,8 +8,20 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/main.ts'),
       name: 'Privcy',
       fileName: 'privcy',
-      formats: ['iife', 'es'],
     },
+    rollupOptions: {
+      output: [
+        {
+          format: 'iife',
+          entryFileNames: 'privcy.js',
+          name: 'Privcy',
+        },
+        {
+          format: 'es',
+          entryFileNames: 'privcy.mjs',
+        },
+      ]
+    }
   },
   plugins: [dts({ rollupTypes: true })],
 });
