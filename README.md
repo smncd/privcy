@@ -21,7 +21,7 @@ pnpm add privcy
 You can then either add the script straight into your HTML in a script tag:
 
 ```html
-<script src="https://unpkg.com/privcy@latest/dist/privcy.iife.js"></script>
+<script src="https://unpkg.com/privcy@latest/dist/privcy.js"></script>
 <script>
   new window.Privcy({
     title: 'Privacy',
@@ -208,9 +208,9 @@ barba.init({
 
 File sizes
 ----------
-|Format                     |Size    |gZip   
-|---                        |---     |---    
-|dist/privcy.mjs (ESM)       |15.45 kB|4.97 kB
+|Format                |Size    |gZip   
+|---                   |---     |---    
+|dist/privcy.mjs (ESM) |15.45 kB|4.97 kB
 |dist/privcy.js (IIFE) |10.66 kB|4.01 kB
 
 Ownership

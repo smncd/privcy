@@ -4,7 +4,7 @@
  * @author Simon Lagerlöf <contact@smn.codes>
  * @license BSD-3-Clause
  * @copyright 2024 Simon Lagerlöf
- * @since @next
+ * @since 0.9.0
  */
 
 import van, { type State } from 'vanjs-core';
