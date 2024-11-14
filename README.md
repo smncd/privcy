@@ -1,18 +1,20 @@
 ## [![Privcy](./banner.jpg)](https://privcy.smn.codes)
 
-This is my take on a reactive privacy/cookie consent banner.
+Tiny reactive consent/cookie banner.
 
 
 ⚠️ Here be dragons ⚠️
 ----------------------
 
-At the time of writing, Privcy is mainly meant for use in my projects, and may not work as you need it to, and is lacking documentation.
-
+At the time of writing,Privcy is written by me for use in my projects, which means it may 
+lack features you need, and development is happening on a as-needed basis. You are more 
+than welcome to contribute to Privcy if you want a feature included, or create a issue 
+if something is not working as expected, but in doing so, keep the above in mod.
 
 Installation
 ------------
 
-To get started, run:
+To get started, install Privcy with your favourite package manager (PNPM, Yarn, NPM, etc):
 
 ```bash
 pnpm add privcy
@@ -206,12 +208,30 @@ barba.init({
 
 ```
 
+Styling/CSS
+-----------
+Privcy shipps with a minimal default stylesheet, which can be used like so:
+
+```html
+<script src="https://unpkg.com/privcy@latest/dist/privcy.js"></script>
+<script src="https://unpkg.com/privcy@latest/dist/style.css"></script>
+<script>
+  new window.Privcy({
+    // config ...
+  });
+```
+
+However, you'll probably be better of writing your own styles! Use [this template](https://gitlab.com/smncd/privcy/-/blob/main/packages/privcy/src/styles/template.css) to get started. 
+Since Privcy is essentially only a standard [HTML dialog element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog), you should be able to customize 
+it to your liking.
+
+
 File sizes
 ----------
 |Format                |Size    |gZip   
 |---                   |---     |---    
-|dist/privcy.mjs (ESM) |15.45 kB|4.97 kB
-|dist/privcy.js (IIFE) |10.66 kB|4.01 kB
+|dist/privcy.mjs (ESM) |16.54 kB|5.35 kB
+|dist/privcy.js (IIFE) |11.49 kB|4.37 kB
 
 Ownership
 ---------
