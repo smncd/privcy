@@ -5,15 +5,16 @@
   "license": "BSD-3-Clause",
   "type": "module",
   "main": "dist/privcy.js",
+  "types": "./dist/privcy.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/privcy.mjs"
+      "import": "./dist/privcy.mjs",
+      "types": "./dist/privcy.d.ts"
     },
     "./dist/style.css": {
       "import": "./dist/style.css"
     }
   },
-  "types": "./dist/privcy.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
