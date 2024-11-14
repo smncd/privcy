@@ -39,7 +39,7 @@
   font-size: 16px;
 }
 
-.privcy__category__checkbox input[type="checkbox"]:checked + span {
+.privcy__category__checkbox input[type='checkbox']:checked + span {
   font-weight: bold;
 }
 
@@ -58,7 +58,7 @@
   }
 }
 
-.privcy__choices {
+.privcy__buttons__choices {
   display: inherit;
   flex-wrap: inherit;
   gap: 15px;

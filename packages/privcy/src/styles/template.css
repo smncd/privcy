@@ -1,29 +1,44 @@
-.privcy {}
+.privcy {
+}
 
-.privcy__title {}
+.privcy__title {
+}
 
-.privcy__description {}
+.privcy__description {
+}
 
-.privcy__categories {}
+.privcy__categories {
+}
 
-.privcy__category {}
+.privcy__category {
+}
 
-.privcy__category__name {}
+.privcy__category__name {
+}
 
-.privcy__category__description {}
+.privcy__category__description {
+}
 
-.privcy__category__checkbox {}
+.privcy__category__checkbox {
+}
 
-.privcy__buttons {}
+.privcy__buttons {
+}
 
-.privcy__choices {}
+.privcy__buttons__choices {
+}
 
-.privcy__button {}
+.privcy__button {
+}
 
-.privcy__button--customize {}
+.privcy__button--customize {
+}
 
-.privcy__button--acceptSelected {}
+.privcy__button--acceptSelected {
+}
 
-.privcy__button--acceptAll {}
+.privcy__button--acceptAll {
+}
 
-.privcy__button--acceptRejected {}
+.privcy__button--acceptRejected {
+}
