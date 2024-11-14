@@ -156,7 +156,7 @@ If you want to be able to open the settings menu by clicking a button in the ifr
 
 This allows the iframe fallback to trigger opening the Privcy settings panel.
 
-For a complete example, see [iframe-fallback.html](./packages/privcy/iframe-fallback.html).
+For a complete example, see [iframe-fallback.html](https://gitlab.com/smncd/privcy/-/blob/main/packages/privcy/iframe-fallback.html).
 
 SPAs (⚠️)
 ---------
