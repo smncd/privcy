@@ -22,7 +22,7 @@
         analytics: {
           name: 'Analytics',
           description:
-            'We use Plausible Analytics to collect anonymous visitor data.',
+            'We use Umami Analytics to collect anonymous visitor data.',
         },
       },
     });
