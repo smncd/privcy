@@ -19,16 +19,16 @@ export default class PrivcyController {
   /**
    * All category IDs.
    */
-  private _categoryIDs: Array<string>;
+  #categoryIDs: Array<string>;
 
-  private _broadcast: BroadcastChannel;
+  #broadcast: BroadcastChannel;
 
   /**
    * Get all categories user has consented to.
    */
   public get allowedCategories(): Array<string> {
-    return this._categoryIDs.filter(
-      (category) => this._getCookie(category) === 'true',
+    return this.#categoryIDs.filter(
+      (category) => this.#getCookie(category) === 'true',
     );
   }
 
@@ -36,8 +36,8 @@ export default class PrivcyController {
    * Get all categories user has not consented to.
    */
   public get rejectedCategories(): Array<string> {
-    return this._categoryIDs.filter(
-      (category) => this._getCookie(category) === 'false',
+    return this.#categoryIDs.filter(
+      (category) => this.#getCookie(category) === 'false',
     );
   }
 
@@ -58,7 +58,7 @@ export default class PrivcyController {
      */
     if (
       [...this.rejectedCategories, ...this.allowedCategories]
-        .length !== this._categoryIDs.length
+        .length !== this.#categoryIDs.length
     ) {
       return;
     }
@@ -75,26 +75,26 @@ export default class PrivcyController {
   /**
    * User has not interacted with banner.
    */
-  get isFirstVisit(): boolean {
+  public get isFirstVisit(): boolean {
     return this.consentStatus === undefined;
   }
 
   /**
    * Get all DOM elements controlled by Privcy.
    */
-  get controlledElements(): NodeListOf<
+  public get controlledElements(): NodeListOf<
     HTMLScriptElement | HTMLIFrameElement
   > {
-    return this._getAllEmbeds();
+    return this.#getAllEmbeds();
   }
 
   constructor(
     public cookiePrefix: string,
     categories: Categories,
   ) {
-    this._categoryIDs = categories.IDs;
+    this.#categoryIDs = categories.IDs;
 
-    this._broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
+    this.#broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
 
     if (!this.isFirstVisit) {
       this.loadEmbeds();
@@ -107,7 +107,7 @@ export default class PrivcyController {
    * Update consent.
    */
   public updateConsent(categories: Array<string>): void {
-    this._updateConsentCookies(categories);
+    this.#updateConsentCookies(categories);
     this.loadEmbeds();
   }
 
@@ -122,7 +122,7 @@ export default class PrivcyController {
    * Load all scripts and iframes.
    */
   public loadEmbeds(): void {
-    this._getAllEmbeds().forEach((embed) => {
+    this.#getAllEmbeds().forEach((embed) => {
       const source = embed.getAttribute('data-privcy');
 
       if (typeof source !== 'string') return;
@@ -188,10 +188,10 @@ export default class PrivcyController {
       }
 
       if (meta?.fallback) {
-        this._broadcast.onmessage = (event) => {
+        this.#broadcast.onmessage = (event) => {
           if (
             typeof event.data.allowCategory === 'string' &&
-            this._categoryIDs.includes(event.data.allowCategory)
+            this.#categoryIDs.includes(event.data.allowCategory)
           ) {
             this.consentToCategory(event.data.allowCategory);
           }
@@ -205,7 +205,7 @@ export default class PrivcyController {
   /**
    * Get all scripts and iframs in DOM.
    */
-  private _getAllEmbeds(): NodeListOf<
+  #getAllEmbeds(): NodeListOf<
     HTMLScriptElement | HTMLIFrameElement
   > {
     return document.querySelectorAll<
@@ -216,15 +216,15 @@ export default class PrivcyController {
   /**
    * Set allowed categories.
    */
-  private _updateConsentCookies(categories: Array<string>): void {
+  #updateConsentCookies(categories: Array<string>): void {
     // Remove all previously set cookies.
-    for (const category of this._categoryIDs) {
-      this._removeCookie(category);
+    for (const category of this.#categoryIDs) {
+      this.#removeCookie(category);
 
       if (categories.includes(category)) {
-        this._setCookie(category, 'true');
+        this.#setCookie(category, 'true');
       } else {
-        this._setCookie(category, 'false');
+        this.#setCookie(category, 'false');
       }
     }
   }
@@ -232,15 +232,15 @@ export default class PrivcyController {
   /**
    * Get cookie.
    */
-  private _getCookie(name: string): string | undefined {
-    return getCookie(this._cookieName(name));
+  #getCookie(name: string): string | undefined {
+    return getCookie(this.#cookieName(name));
   }
 
   /**
    * Set cookie with preconfigured settings.
    */
-  private _setCookie(name: string, value: 'true' | 'false'): string {
-    return setCookie(this._cookieName(name), value, {
+  #setCookie(name: string, value: 'true' | 'false'): string {
+    return setCookie(this.#cookieName(name), value, {
       expires: 180,
       sameSite: 'strict',
       secure: true,
@@ -251,14 +251,14 @@ export default class PrivcyController {
   /**
    * Remove cookie.
    */
-  private _removeCookie(name: string): void {
-    removeCookie(this._cookieName(name));
+  #removeCookie(name: string): void {
+    removeCookie(this.#cookieName(name));
   }
 
   /**
    * Cookie name.
    */
-  private _cookieName(name: string): string {
+  #cookieName(name: string): string {
     return `${this.cookiePrefix}__consent___${name}`;
   }
 }

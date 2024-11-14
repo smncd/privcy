@@ -38,21 +38,21 @@ type PrivcyProps = {
 };
 
 class Privcy {
-  private _broadcast: BroadcastChannel;
+  #broadcast: BroadcastChannel;
 
-  private _categories: Categories;
-  private _controller: Controller;
+  #categories: Categories;
+  #controller: Controller;
 
-  private _bannerProps: BannerProps;
-  private _banner: HTMLDialogElement;
+  #bannerProps: BannerProps;
+  #banner: HTMLDialogElement;
 
-  private _userStrings?: Partial<i18nStrings>;
+  #userStrings?: Partial<i18nStrings>;
 
-  private get _strings(): i18nStrings {
+  get #strings(): i18nStrings {
     return {
       categories: {
         enable: 'Enable',
-        ...this._userStrings?.categories,
+        ...this.#userStrings?.categories,
       },
       buttons: {
         acceptAll: 'Accept all',
@@ -60,20 +60,20 @@ class Privcy {
         customize: 'Customize settings',
         saveSettings: 'Save settings',
         back: 'Back',
-        ...this._userStrings?.buttons,
+        ...this.#userStrings?.buttons,
       },
     };
   }
 
   constructor(props: PrivcyProps) {
-    this._userStrings = props.strings;
+    this.#userStrings = props.strings;
 
-    this._broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
+    this.#broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
 
-    this._categories = new Categories(props.categories);
-    this._controller = new Controller(
+    this.#categories = new Categories(props.categories);
+    this.#controller = new Controller(
       props.cookiePrefix ?? 'privcy',
-      this._categories,
+      this.#categories,
     );
 
     /**
@@ -87,24 +87,24 @@ class Privcy {
     /**
      * Load banner.
      */
-    this._bannerProps = {
-      controller: this._controller,
-      categories: this._categories,
+    this.#bannerProps = {
+      controller: this.#controller,
+      categories: this.#categories,
       isCustomizing: van.state(false),
       title: props.title,
       description: props.description,
-      strings: this._strings,
+      strings: this.#strings,
     };
 
-    this._banner = banner(this._bannerProps);
+    this.#banner = banner(this.#bannerProps);
 
-    van.add(props.target, this._banner);
+    van.add(props.target, this.#banner);
 
-    if (this._controller.isFirstVisit) this._banner.showModal();
+    if (this.#controller.isFirstVisit) this.#banner.showModal();
 
-    this._addBannerOpenEventListener();
+    this.#addBannerOpenEventListener();
 
-    this._broadcast.onmessage = (event) => {
+    this.#broadcast.onmessage = (event) => {
       if (event.data.displayBanner) {
         this.openSettings();
       }
@@ -115,24 +115,24 @@ class Privcy {
    * Reload scripts and iframes.
    */
   public reload(): void {
-    this._controller.loadEmbeds();
-    this._controller.loadIframeFallbacks();
-    this._addBannerOpenEventListener();
+    this.#controller.loadEmbeds();
+    this.#controller.loadIframeFallbacks();
+    this.#addBannerOpenEventListener();
   }
 
   /**
    * Open settings.
    */
   public openSettings(): void {
-    this._bannerProps.isCustomizing.val = true;
-    this._banner.showModal();
+    this.#bannerProps.isCustomizing.val = true;
+    this.#banner.showModal();
   }
 
   /**
    * Event listener to open banner again.
    */
-  private _addBannerOpenEventListener(): void {
-    if (this._bannerProps) {
+  #addBannerOpenEventListener(): void {
+    if (this.#bannerProps) {
       document
         .querySelectorAll('[data-privcy-display-banner]')
         .forEach((button) =>
