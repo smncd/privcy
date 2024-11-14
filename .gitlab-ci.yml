@@ -4,7 +4,7 @@ stages:
 
 build:
   stage: build
-  image: node:18-bookworm-slim
+  image: node:20-bookworm-slim
   before_script:
     - corepack enable
     - corepack prepare pnpm@latest --activate
@@ -21,7 +21,7 @@ build:
 
 publish:
   stage: publish
-  image: node:18-bookworm-slim
+  image: node:20-bookworm-slim
   script:
     - cp README.md packages/privcy/
     - cp LICENSE packages/privcy/
