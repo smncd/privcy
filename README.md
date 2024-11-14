@@ -6,10 +6,10 @@ Tiny reactive consent/cookie banner.
 ⚠️ Here be dragons ⚠️
 ----------------------
 
-At the time of writing,Privcy is written by me for use in my projects, which means it may 
+At the time of writing, Privcy is made by me for use in my projects, which means it may 
 lack features you need, and development is happening on a as-needed basis. You are more 
 than welcome to contribute to Privcy if you want a feature included, or create a issue 
-if something is not working as expected, but in doing so, keep the above in mod.
+if something is not working as expected, but in doing so, keep the above in mind.
 
 Installation
 ------------
