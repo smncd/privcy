@@ -13,7 +13,7 @@ import {
   removeCookie,
 } from 'typescript-cookie';
 import iframeBroadcastChannel from './iframe-broadcast-channel';
-import type Categories from './Categories';
+import type Categories from './categories';
 
 export default class PrivcyController {
   /**

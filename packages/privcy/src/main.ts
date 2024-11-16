@@ -9,8 +9,8 @@
 
 import van from 'vanjs-core';
 import banner, { type BannerProps } from './components/banner';
-import Categories from './lib/Categories';
-import Controller from './lib/Controller';
+import Categories from './lib/categories';
+import Controller from './lib/controller';
 import iframeBroadcastChannel from './lib/iframe-broadcast-channel';
 import type { i18nStrings } from './types';
 

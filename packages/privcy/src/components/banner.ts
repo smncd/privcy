@@ -9,8 +9,8 @@
 
 import van, { type State } from 'vanjs-core';
 import button from './button';
-import type Categories from '../lib/Categories';
-import type Controller from '../lib/Controller';
+import type Categories from '../lib/categories';
+import type Controller from '../lib/controller';
 import type { i18nStrings } from '../types';
 
 const { dialog, div, h2, h3, ul, li, p, span, label, input, form } =
