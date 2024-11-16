@@ -11,7 +11,7 @@ import van from 'vanjs-core';
 import banner, { type BannerProps } from './components/banner';
 import Categories from './lib/Categories';
 import Controller from './lib/Controller';
-import { BROADCAST_CHANNEL } from './constants';
+import iframeBroadcastChannel from './lib/iframe-broadcast-channel';
 import type { i18nStrings } from './types';
 
 import './styles/privcy.css';
@@ -68,8 +68,7 @@ class Privcy {
   constructor(props: PrivcyProps) {
     this.#userStrings = props.strings;
 
-    this.#broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
-
+    this.#broadcast = iframeBroadcastChannel();
     this.#categories = new Categories(props.categories);
     this.#controller = new Controller(
       props.cookiePrefix ?? 'privcy',

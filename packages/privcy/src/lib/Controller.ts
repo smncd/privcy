@@ -12,7 +12,7 @@ import {
   setCookie,
   removeCookie,
 } from 'typescript-cookie';
-import { BROADCAST_CHANNEL } from '../constants';
+import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './Categories';
 
 export default class PrivcyController {
@@ -94,7 +94,7 @@ export default class PrivcyController {
   ) {
     this.#categoryIDs = categories.IDs;
 
-    this.#broadcast = new BroadcastChannel(BROADCAST_CHANNEL);
+    this.#broadcast = iframeBroadcastChannel();
 
     if (!this.isFirstVisit) {
       this.loadEmbeds();
@@ -205,9 +205,7 @@ export default class PrivcyController {
   /**
    * Get all scripts and iframs in DOM.
    */
-  #getAllEmbeds(): NodeListOf<
-    HTMLScriptElement | HTMLIFrameElement
-  > {
+  #getAllEmbeds(): NodeListOf<HTMLScriptElement | HTMLIFrameElement> {
     return document.querySelectorAll<
       HTMLScriptElement | HTMLIFrameElement
     >('script[data-privcy], iframe[data-privcy]');
