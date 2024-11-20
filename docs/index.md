@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: Privcy
+  name: Privcy.
   tagline: Tiny consent/cookie banner
   image:
     light: /_assets/vectors/logo-light.svg
