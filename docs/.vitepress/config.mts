@@ -32,8 +32,8 @@ export default defineConfig({
     },
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guides', link: '/guides' },
-      { text: 'Reference', link: '/reference' },
+      { text: 'Guides', link: '/guides/quick-start' },
+      { text: 'Reference', link: '/reference/privcy' },
     ],
     sidebar: [
       {

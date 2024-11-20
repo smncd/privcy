@@ -11,6 +11,9 @@ hero:
     - theme: brand
       text: Quick start
       link: /guides/quick-start
+    - theme: alt
+      text: Reference
+      link: /reference/privcy
 features:
   - title: Lightweight
     details: Privcy is incredibly light, weighing in at just 5.35 kB (gZip).
