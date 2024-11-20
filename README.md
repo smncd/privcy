@@ -23,7 +23,7 @@ pnpm add privcy
 You can then either add the script straight into your HTML in a script tag:
 
 ```html
-<script src="https://unpkg.com/privcy@latest/dist/privcy.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/privcy/dist/privcy.js"></script>
 <script>
   new window.Privcy({
     title: 'Privacy',

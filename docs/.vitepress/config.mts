@@ -33,31 +33,56 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guides', link: '/guides' },
+      { text: 'Reference', link: '/reference' },
     ],
-    sidebar: {
-      '/guides/': [
-        {
-          text: 'Quick-start',
-          link: '/guides/quick-start',
-        },
-        {
-          text: 'Single Page Applications',
-          link: '/guides/single-page-applications',
-        },
-      ],
-      '/docs/': [
-        {
-          text: 'Documentation',
-          collapsed: true,
-          items: [
-            {
-              text: 'Markdown Examples',
-              link: '/docs/markdown-examples',
-            },
-          ],
-        },
-      ],
-    },
+    sidebar: [
+      {
+        text: 'Guides',
+        items: [
+          {
+            text: 'Quick-start',
+            link: '/guides/quick-start',
+          },
+          {
+            text: 'Single Page Applications',
+            link: '/guides/single-page-applications',
+          },
+        ],
+      },
+      {
+        text: 'Reference',
+        items: [
+          {
+            text: 'Privcy()',
+            link: '/reference/privcy',
+            collapsed: true,
+            items: [
+              {
+                text: 'Props',
+                link: '/reference/privcy#props',
+              },
+              {
+                text: 'Methods',
+                link: '/reference/privcy#methods',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        text: 'Help',
+        items: [
+          {
+            text: 'Troubleshooting',
+            link: '/help/troubleshooting',
+          },
+          {
+            text: 'Report a vulnerability',
+            link: '/help/report-a-vulnerability',
+          },
+        ],
+      },
+    ],
     socialLinks: [
       { icon: 'gitlab', link: 'https://gitlab.com/smncd/privcy' },
       { icon: 'github', link: 'https://github.com/smncd/privcy' },

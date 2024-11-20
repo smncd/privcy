@@ -11,7 +11,7 @@ Using a CDN
 Using Privcy through a CDN like Unpkg or JSDelivr is as easy as adding a script tag to your html page, before the closing `</body>` tag.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/privcy/dist/privcy.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/privcy/dist/privcy.js"></script>
 <script>
   const privcy = new window.Privcy({
     title: 'Privacy',
@@ -75,8 +75,10 @@ const privcy = new Privcy({
 });
 ```
 
+The object passed to the constructor is [documented here](../reference/privcy.md#props).
+
 Styling
---------------
+-------
 
 Privcy comes with some default stylesheets that you can use to get up and running quickly. Just drop in a link to the CSS file in your `<head>`:
 
