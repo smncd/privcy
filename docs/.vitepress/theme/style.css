@@ -1,0 +1,224 @@
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+
+@font-face {
+  font-family: 'Karrik';
+  src:
+    url('../assets/typefaces/karrik/Karrik-Regular.woff2')
+      format('woff2'),
+    url('../assets/typefaces/karrik/Karrik-Regular.woff')
+      format('woff');
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Karrik';
+  src:
+    url('../assets/typefaces/karrik/Karrik-Italic.woff2')
+      format('woff2'),
+    url('../assets/typefaces/karrik/Karrik-Italic.woff')
+      format('woff');
+  font-display: swap;
+  font-style: italic;
+}
+
+:root {
+  --vp-font-family-base: 'Karrik', system-ui;
+}
+
+:root {
+  --vp-c-default-1: var(--vp-c-gray-1);
+  --vp-c-default-2: var(--vp-c-gray-2);
+  --vp-c-default-3: var(--vp-c-gray-3);
+  --vp-c-default-soft: var(--vp-c-gray-soft);
+
+  --vp-c-brand-1: #ff6262;
+  --vp-c-brand-2: #ff6262;
+  --vp-c-brand-3: #ff6262;
+  --vp-c-brand-soft: #ff6262;
+
+  --vp-c-tip-1: var(--vp-c-brand-1);
+  --vp-c-tip-2: var(--vp-c-brand-2);
+  --vp-c-tip-3: var(--vp-c-brand-3);
+  --vp-c-tip-soft: var(--vp-c-brand-soft);
+
+  --vp-c-warning-1: var(--vp-c-yellow-1);
+  --vp-c-warning-2: var(--vp-c-yellow-2);
+  --vp-c-warning-3: var(--vp-c-yellow-3);
+  --vp-c-warning-soft: var(--vp-c-yellow-soft);
+
+  --vp-c-danger-1: var(--vp-c-red-1);
+  --vp-c-danger-2: var(--vp-c-red-2);
+  --vp-c-danger-3: var(--vp-c-red-3);
+  --vp-c-danger-soft: var(--vp-c-red-soft);
+}
+
+/**
+ * Component: Button
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: var(--vp-c-white);
+  --vp-button-brand-bg: var(--vp-c-brand-3);
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: var(--vp-c-white);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: var(--vp-c-white);
+  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+}
+
+/**
+ * Component: Home
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-home-hero-name-color: var(--vp-c-text-1);
+
+  --vp-home-hero-image-background-image: url('../../assets/vectors/star.svg');
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(68px);
+  }
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-text: var(--vp-c-text-1);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
+  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+}
+
+/**
+ * Component: Algolia
+ * -------------------------------------------------------------------------- */
+
+.DocSearch {
+  --docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+.privcy[open] {
+  position: fixed;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: content-box;
+  margin: 0;
+  padding: 2rem 2rem 3rem;
+  width: 100%;
+  border: initial;
+  display: grid;
+  grid-template-columns: auto 400px;
+  grid-template-rows: min-content min-content min-content;
+}
+@media (max-width: 860px) {
+  .privcy[open] {
+    grid-template-columns: 1fr;
+  }
+}
+
+.privcy__title {
+  grid-column: 1;
+  margin-bottom: 0.5rem;
+  font-size: 22.5px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.privcy__description {
+  grid-column: 1;
+  font-size: 25px;
+  line-height: 1.35;
+}
+@media (max-width: 860px) {
+  .privcy__description {
+    font-size: 22.5px;
+  }
+}
+
+.privcy__categories {
+  grid-column: 1;
+  margin-top: 2rem;
+}
+
+.privcy__category {
+}
+
+.privcy__category__name {
+  font-size: 22.5px;
+}
+
+.privcy__category__description {
+  margin: 0.75rem 0;
+  font-size: 18px;
+}
+
+.privcy__category__checkbox {
+  font-size: 18px;
+}
+
+.privcy__category__checkbox input:checked + span {
+  font-style: italic;
+}
+
+.privcy__buttons {
+  grid-column: 2;
+  grid-row: 2/-1;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+@media (max-width: 860px) {
+  .privcy__buttons {
+    margin-top: 2rem;
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+.privcy__buttons__choices {
+  display: inherit;
+  gap: inherit;
+}
+
+.privcy__button {
+  padding: 0.75rem 1.6rem;
+  font-size: 17px;
+  border-radius: 99rem;
+  color: var(--color, white);
+  background-color: var(--background-color, black);
+}
+
+.privcy__button--customize {
+  --color: black;
+  --background-color: #e0e0e0;
+}
+
+.privcy__button--acceptSelected {
+}
+
+.privcy__button--acceptAll {
+}
+
+.privcy__button--acceptRejected {
+}

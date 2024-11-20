@@ -1,0 +1,9 @@
+[build]
+  publish = "docs/.vitepress/dist"
+  command = "pnpm run build-docs"
+
+[dev]
+  framework = "vite"
+
+[functions]
+  directory = "netlify/functions"
