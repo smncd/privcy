@@ -6,9 +6,7 @@ build:
   stage: build
   image: node:20-bookworm-slim
   before_script:
-    - corepack enable
-    - corepack prepare pnpm@10.0.0 --activate
-
+    - npm install -g pnpm
   script:
     - cd packages/privcy
     - pnpm install
