@@ -7,7 +7,7 @@ build:
   image: node:20-bookworm-slim
   before_script:
     - corepack enable
-    - corepack prepare pnpm@latest --activate
+    - corepack prepare pnpm@10.0.0 --activate
 
   script:
     - cd packages/privcy
