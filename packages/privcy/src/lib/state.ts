@@ -8,14 +8,15 @@
  */
 
 type SubscriberCallback<T> = (data: T) => void;
-type Subscribe<T> = (
+
+export type Subscriber<T> = (
   callback: SubscriberCallback<T>,
   initialRun?: boolean,
 ) => {
   unsubscribe(): void;
 };
 
-export type State<T> = [T, Subscribe<T>];
+export type State<T> = [T, Subscriber<T>];
 
 export default function state<T extends object>(input: T): State<T> {
   let subscribers: SubscriberCallback<T>[] = [];
@@ -38,10 +39,10 @@ export default function state<T extends object>(input: T): State<T> {
       },
     });
 
-  const data = createProxy(input);
+  const state = createProxy(input);
 
-  const subscribe: Subscribe<T> = (callback, initialRun = false) => {
-    if (initialRun) callback(data);
+  const subscribe: Subscriber<T> = (callback, initialRun = false) => {
+    if (initialRun) callback(state);
 
     subscribers.push(callback);
 
@@ -52,5 +53,5 @@ export default function state<T extends object>(input: T): State<T> {
     };
   };
 
-  return [data, subscribe];
+  return [state, subscribe];
 }
