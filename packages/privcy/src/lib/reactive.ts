@@ -16,9 +16,9 @@ export type Subscriber<T> = (
   unsubscribe(): void;
 };
 
-export type State<T> = [T, Subscriber<T>];
+export type Reactive<T> = [T, Subscriber<T>];
 
-export default function state<T extends object>(input: T): State<T> {
+export default function reactive<T extends object>(input: T): Reactive<T> {
   let subscribers: SubscriberCallback<T>[] = [];
 
   const createProxy = (input: T) =>
