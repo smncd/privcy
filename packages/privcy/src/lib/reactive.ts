@@ -8,10 +8,13 @@
  */
 
 type SubscriberCallback<T> = (data: T) => void;
+type SubscriberOptions = {
+  initialRun: boolean;
+};
 
 export type Subscriber<T> = (
   callback: SubscriberCallback<T>,
-  initialRun?: boolean,
+  options?: SubscriberOptions,
 ) => {
   unsubscribe(): void;
 };
@@ -41,8 +44,8 @@ export default function reactive<T extends object>(input: T): Reactive<T> {
 
   const state = createProxy(input);
 
-  const subscribe: Subscriber<T> = (callback, initialRun = false) => {
-    if (initialRun) callback(state);
+  const subscribe: Subscriber<T> = (callback, options) => {
+    if (options?.initialRun) callback(state);
 
     subscribers.push(callback);
 
