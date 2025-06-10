@@ -65,9 +65,6 @@ importers:
       typescript-cookie:
         specifier: ^1.0.6
         version: 1.0.6
-      vanjs-core:
-        specifier: ^1.5.3
-        version: 1.5.3
     devDependencies:
       '@types/node':
         specifier: ^22.13.4
@@ -1774,9 +1771,6 @@ packages:
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
-
-  vanjs-core@1.5.3:
-    resolution: {integrity: sha512-NDt++52tE8rA7rcThaFtIJ7C3pEIuB51giOmE9o5dA9Cw3iv+a0tRIVVYP1PGLItXBbEL0wxDTa2VRjjuKIPlw==}
 
   vite-plugin-dts@4.5.0:
     resolution: {integrity: sha512-M1lrPTdi7gilLYRZoLmGYnl4fbPryVYsehPN9JgaxjJKTs8/f7tuAlvCCvOLB5gRDQTTKnptBcB0ACsaw2wNLw==}
@@ -3616,8 +3610,6 @@ snapshots:
     dependencies:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
-
-  vanjs-core@1.5.3: {}
 
   vite-plugin-dts@4.5.0(@types/node@22.13.4)(rollup@4.34.7)(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.4)(sass@1.85.0)(terser@5.40.0)):
     dependencies:
