@@ -1,6 +1,7 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { visualizer } from 'rollup-plugin-visualizer'
 import packageJson from './package.json';
 
 const preamble = `/**
@@ -50,5 +51,9 @@ export default defineConfig({
 
     },
   },
-  plugins: [dts({ rollupTypes: true })],
+  plugins: [dts({ rollupTypes: true }), visualizer({
+      emitFile: true,
+      filename: 'stats.html',
+      open: true,
+})],
 });
