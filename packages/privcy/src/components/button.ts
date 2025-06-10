@@ -20,8 +20,7 @@ export default function button(
   const classlist = [
     className,
     options.buttonType && `${className}--${options.buttonType}`,
-
-  ].join('')
+  ].join(' ');
 
   return tag(
     'button',
