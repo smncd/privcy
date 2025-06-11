@@ -54,6 +54,5 @@ export default defineConfig({
   plugins: [dts({ rollupTypes: true }), visualizer({
       emitFile: true,
       filename: 'stats.html',
-      open: true,
 })],
 });
