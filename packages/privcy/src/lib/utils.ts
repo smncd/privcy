@@ -7,13 +7,26 @@
  * @since 0.11.0
  */
 
-import { CLASSNAME_PREFIX } from "../constants"
+import { CLASSNAME_PREFIX } from '../constants';
 
 /**
- * Construct class name separated by '__'
+ * Construct class name separated by '__'.
  */
-export function c(...parts: string[]): string
-{
+export function c(...parts: string[]): string {
   parts.unshift(CLASSNAME_PREFIX);
-  return parts.join('__')
+  return parts.join('__');
+}
+
+/**
+ * Parse html string and remove script tags.
+ */
+export function parseHtmlString(html: string): string {
+  html = html.trim();
+  html = html.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '');
+
+  if (!/<[^>]+>/.test(html)) {
+    html = `<p>${html}</p>`;
+  }
+
+  return html;
 }
