@@ -63,20 +63,20 @@ ensure_program_installed 'jq'
 
 tag=$(bump_package $PACKAGE $INCREMENT)
 
-read -p "Do you want to push the main branch and release tag ($tag) to origin? (y/N) " push_main;
+read -p "Do you want to push the main branch and release tag ($tag) to origin? (y/N) " push_main
 push_main=${push_main:-N};
 
 if [[ "$push_main" == [Yy] ]]
 then
-  echo "Pushing main to origin";
+  echo "Pushing main to origin"
 
-  git push;
+  git push
 
-  echo "Pushing tag to origin";
+  echo "Pushing tag to origin"
 
-  git push origin "$tag";
+  git push origin "$tag"
 
-  echo "Done!";
+  echo "Done!"
 fi
 
-echo "All done!";
+echo "All done!"
