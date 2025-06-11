@@ -20,29 +20,7 @@ To get started, install Privcy with your favourite package manager (PNPM, Yarn, 
 pnpm add privcy
 ```
 
-You can then either add the script straight into your HTML in a script tag:
-
-```html
-<script src="https://unpkg.com/privcy@latest/dist/privcy.js"></script>
-<script>
-  new window.Privcy({
-    title: 'Privacy',
-    description: '<p>We have some really nice cookies!</p>',
-    categories: {
-      analytics: {
-        name: 'Analytics',
-        description: 'These are analytics cookies',
-      },
-      social: {
-        name: 'Social',
-        description: 'These are social cookies',
-      },
-    },
-  });
-</script>
-```
-
-You can also import it as a module:
+You can then either import the `Privcy` class:
 
 ```typescript
 // index.ts
@@ -64,6 +42,28 @@ new Privcy({
     },
   },
 });
+```
+
+Alternatively you can add the script straight into your HTML in a script tag:
+
+```html
+<script src="https://unpkg.com/privcy@latest/dist/privcy.js"></script>
+<script>
+  new window.Privcy({
+    title: 'Privacy',
+    description: '<p>We have some really nice cookies!</p>',
+    categories: {
+      analytics: {
+        name: 'Analytics',
+        description: 'These are analytics cookies',
+      },
+      social: {
+        name: 'Social',
+        description: 'These are social cookies',
+      },
+    },
+  });
+</script>
 ```
 
 Then, the scripts you want to control need to be modified with the `data-privcy` tag:

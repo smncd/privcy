@@ -1,37 +1,82 @@
 #!/bin/bash
 
-case $1 in
-  major) increment="major";;
-  minor) increment="minor";;
-  patch) increment="patch";;
+ROOT_DIR=$PWD
+
+help() {
+  echo "Usage: $0 <package-name> <version-bump>"
+  echo
+  echo "Arguments:"
+  echo "  <package-name>    Name of the package (must exist in ./packages and be public)"
+  echo "  <version-bump>    Type of version increment:"
+  echo "                      major   - for breaking changes"
+  echo "                      minor   - for backward-compatible feature additions"
+  echo "                      patch   - for backward-compatible bug fixes"
+  echo
+}
+
+ensure_program_installed() {
+  local program=$1;
+
+  if ! command -v "$program" &> /dev/null
+  then
+    echo "'$program' is required for this program to run, make sure it's installed."
+    exit 1;
+  fi
+}
+
+bump_package() {
+  local dir=$1
+  local increment=$2
+
+  cd $ROOT_DIR/packages/$dir
+
+  version=$(pnpm version $increment)
+  name=$(cat package.json | jq -r '.name')
+
+  git add package.json
+
+  cd $ROOT_DIR
+
+  git commit -m "$name $version"
+  git tag "$name-$version" -m "$name $version"
+
+  echo "$name-$version"
+}
+
+if [ ! $1 ] || [ ! -f "$ROOT_DIR/packages/$1/package.json" ] || [ "$(cat $ROOT_DIR/packages/$1/package.json | jq -r '.private')" = true ]; then
+  echo "Invalid <package-name>"
+  echo
+  help
+  exit 1
+fi
+PACKAGE=$1
+
+case $2 in
+  major) INCREMENT="major";;
+  minor) INCREMENT="minor";;
+  patch) INCREMENT="patch";;
+  *) echo "Invalid <version-bump>" && echo && help && exit 1;;
 esac
 
-cd packages/privcy;
+ensure_program_installed 'git'
+ensure_program_installed 'jq'
 
-VERSION=$(pnpm version $increment);
+tag=$(bump_package $PACKAGE $INCREMENT)
 
-git add package.json;
-
-cd ../../;
-
-git commit -m "$VERSION";
-
-git tag "$VERSION";
-
-read -p "Do you want to push the main branch and release tag to origin? (y/N) " push_main;
+read -p "Do you want to push the main branch and release tag ($tag) to origin? (y/N) " push_main
 push_main=${push_main:-N};
 
 if [[ "$push_main" == [Yy] ]]
 then
-  echo "Pushing main to origin";
+  echo "Pushing main to origin"
 
-  git push;
+  git push
 
-  echo "Pushing tag to origin";
+  echo "Pushing tag to origin"
 
-  git push origin "$VERSION";
+  git push origin "$tag"
 
-  echo "Done!";
+  echo "Done!"
 fi
 
-echo "All done!";
+echo "All done!"

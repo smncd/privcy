@@ -2,31 +2,37 @@ stages:
   - build
   - publish
 
-build:
+build-testing:
   stage: build
   image: node:20-bookworm-slim
   before_script:
     - npm install -g pnpm@10.4.0
   script:
-    - cd packages/privcy
     - pnpm install
     - pnpm run build
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+
+build-release:
+  extends: build-testing
   artifacts:
     paths:
       - '.'
   rules:
     - if: '$CI_COMMIT_TAG'
 
-publish:
+publish-privcy:
   stage: publish
   image: node:20-bookworm-slim
+  needs:
+    - build-release
   script:
     - cp README.md packages/privcy/
     - cp LICENSE packages/privcy/
     - cd packages/privcy
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
     - npm publish
-  needs:
-    - build
   rules:
-    - if: '$CI_COMMIT_TAG'
+    - if: '$CI_COMMIT_TAG =~ /^privcy-v[0-9]+\.[0-9]+\.[0-9]+$/'
+      when: always
+    - when: never
