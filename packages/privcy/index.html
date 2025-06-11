@@ -14,20 +14,8 @@
     </style>
     <script type="module" src="/src/main.ts"></script>
     <script type="module">
-      window.privcy = new window.Privcy({
-        title: 'Privacy',
-        description: '<p>this is a nice description</p>',
-        categories: {
-          analytics: {
-            name: 'Analytics',
-            description: 'These are analytics cookies',
-          },
-          social: {
-            name: 'Social',
-            description: 'These are social cookies',
-          },
-        },
-      });
+      import { PRIVCY_PROPS } from '@privcy/dummy-data';
+      window.privcy = new window.Privcy(PRIVCY_PROPS);
     </script>
   </head>
   <body>
