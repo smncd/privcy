@@ -22,7 +22,7 @@ export function c(...parts: string[]): string {
  */
 export function parseHtmlString(html: string): string {
   html = html.trim();
-  html = html.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '')
+  html = html.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '');
 
   if (!/<[^>]+>/.test(html)) {
     html = `<p>${html}</p>`;
