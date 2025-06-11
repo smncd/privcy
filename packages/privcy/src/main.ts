@@ -7,7 +7,7 @@
  * @since 0.0.1
  */
 
-import van from 'vanjs-core';
+import reactive from './lib/reactive';
 import banner, { type BannerProps } from './components/banner';
 import Categories from './lib/categories';
 import Controller from './lib/controller';
@@ -84,12 +84,20 @@ class Privcy {
     }
 
     /**
+     * Banner state.
+     */
+    const [viewState, viewStateListen] = reactive({
+      isCustomizing: false,
+    });
+
+    /**
      * Load banner.
      */
     this.#bannerProps = {
       controller: this.#controller,
       categories: this.#categories,
-      isCustomizing: van.state(false),
+      viewState,
+      viewStateListen,
       title: props.title,
       description: props.description,
       strings: this.#strings,
@@ -97,7 +105,7 @@ class Privcy {
 
     this.#banner = banner(this.#bannerProps);
 
-    van.add(props.target, this.#banner);
+    props.target.appendChild(this.#banner);
 
     if (this.#controller.isFirstVisit) this.#banner.showModal();
 
@@ -123,7 +131,7 @@ class Privcy {
    * Open settings.
    */
   public openSettings(): void {
-    this.#bannerProps.isCustomizing.val = true;
+    this.#bannerProps.viewState.isCustomizing = true;
     this.#banner.showModal();
   }
 

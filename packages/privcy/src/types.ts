@@ -19,3 +19,7 @@ export type i18nStrings = {
     back: string;
   };
 };
+
+export type ViewState = {
+  isCustomizing: boolean;
+};
