@@ -7,11 +7,6 @@
  * @since 0.6.0
  */
 
-import {
-  getCookie,
-  setCookie,
-  removeCookie,
-} from 'typescript-cookie';
 import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './categories';
 
