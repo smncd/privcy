@@ -7,11 +7,6 @@
  * @since 0.6.0
  */
 
-import {
-  getCookie,
-  setCookie,
-  removeCookie,
-} from 'typescript-cookie';
 import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './categories';
 
@@ -231,26 +226,29 @@ export default class PrivcyController {
    * Get cookie.
    */
   #getCookie(name: string): string | undefined {
-    return getCookie(this.#cookieName(name));
+    return document.cookie
+      .split(';')
+      .find((cookie) =>
+        cookie.trim().startsWith(this.#cookieName(name) + '='),
+      )
+      ?.split('=')
+      .pop();
   }
 
   /**
    * Set cookie with preconfigured settings.
    */
   #setCookie(name: string, value: 'true' | 'false'): string {
-    return setCookie(this.#cookieName(name), value, {
-      expires: 180,
-      sameSite: 'strict',
-      secure: true,
-      path: '/',
-    });
+    document.cookie = `${this.#cookieName(name)}=${value}; expires=${new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toUTCString()}; SameSite=strict; Secure; path=/;`;
+
+    return value;
   }
 
   /**
    * Remove cookie.
    */
   #removeCookie(name: string): void {
-    removeCookie(this.#cookieName(name));
+    document.cookie = `${this.#cookieName(name)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
 
   /**

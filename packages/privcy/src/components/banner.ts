@@ -7,20 +7,20 @@
  * @since 0.9.0
  */
 
-import van, { type State } from 'vanjs-core';
+import tag from '../lib/tag';
 import button from './button';
+import { c } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
-import type { i18nStrings } from '../types';
-
-const { dialog, div, h2, h3, ul, li, p, span, label, input, form } =
-  van.tags;
+import type { i18nStrings, ViewState } from '../types';
+import type { Subscriber } from '../lib/reactive';
 
 export type BannerProps = {
   controller: Controller;
   categories: Categories;
 
-  isCustomizing: State<boolean>;
+  viewState: ViewState;
+  viewStateListen: Subscriber<ViewState>;
 
   title: string;
   description: string;
@@ -31,7 +31,8 @@ export default function banner(props: BannerProps) {
   const {
     controller,
     categories,
-    isCustomizing,
+    viewState,
+    viewStateListen,
     title,
     description,
     strings,
@@ -43,7 +44,7 @@ export default function banner(props: BannerProps) {
 
   const setCustomizing = (event: Event) => {
     event.preventDefault();
-    isCustomizing.val = !isCustomizing.val;
+    viewState.isCustomizing = !viewState.isCustomizing;
   };
 
   const includeCategory = (category: string) => {
@@ -58,83 +59,117 @@ export default function banner(props: BannerProps) {
 
   const categoriesDom = () =>
     categories.toArray().map((category) =>
-      li(
-        { class: 'privcy__category' },
-        h3({ class: 'privcy__category__name' }, category.name),
-        p(
-          { class: 'privcy__category__description' },
+      tag(
+        'li',
+        { class: c('category') },
+        tag('h3', { class: c('category', 'name') }, category.name),
+        tag(
+          'p',
+          { class: c('category', 'description') },
           category.description,
         ),
-        label(
+        tag(
+          'label',
           {
-            class: 'privcy__category__checkbox',
+            class: c('category', 'checkbox'),
           },
-          input({
+          tag('input', {
             type: 'checkbox',
             checked: allowedCategories().includes(category.id),
             onchange: () => includeCategory(category.id),
           }),
-          span(`${strings.categories.enable} ${category.name}`),
+          tag(
+            'span',
+            {},
+            `${strings.categories.enable} ${category.name}`,
+          ),
         ),
       ),
     );
 
-  return dialog(
-    { class: 'privcy', onclose: () => (isCustomizing.val = false) },
-    h2({ class: 'privcy__title' }, title),
-    div({
-      class: 'privcy__description',
-      innerHTML: description,
-    }),
-    () =>
-      isCustomizing.val
-        ? ul({ class: 'privcy__categories' }, categoriesDom())
-        : '',
-    form(
+  const categoriesList = tag('ul', { class: c('categories') });
+  viewStateListen(({ isCustomizing }) => {
+    categoriesList.replaceChildren(
+      ...(isCustomizing ? categoriesDom() : []),
+    );
+  });
+
+  const form = (() => {
+    const customizeButton = button({
+      buttonType: 'customize',
+      onclick: setCustomizing,
+      innerText: strings.buttons.customize,
+    });
+    viewStateListen(({ isCustomizing }) => {
+      customizeButton.innerText = isCustomizing
+        ? strings.buttons.back
+        : strings.buttons.customize;
+    });
+
+    const choices = tag('div', {
+      class: c('buttons', 'choices'),
+    });
+    viewStateListen(
+      ({ isCustomizing }) => {
+        choices.replaceChildren(
+          ...(isCustomizing
+            ? [
+                button(
+                  {
+                    buttonType: 'acceptSelected',
+                    onclick: () =>
+                      controller.updateConsent(requestedCategories),
+                  },
+                  strings.buttons.saveSettings,
+                ),
+              ]
+            : [
+                button(
+                  {
+                    buttonType: 'acceptAll',
+                    onclick: () =>
+                      controller.updateConsent(categories.IDs),
+                  },
+                  strings.buttons.acceptAll,
+                ),
+                button(
+                  {
+                    buttonType: 'rejectAll',
+                    onclick: () => controller.updateConsent([]),
+                  },
+                  strings.buttons.rejectAll,
+                ),
+              ]),
+        );
+      },
+      { initialRun: true },
+    );
+
+    return tag(
+      'form',
       {
-        class: 'privcy__buttons',
+        class: c('buttons'),
         method: 'dialog',
       },
-      button({ type: 'customize', onClick: setCustomizing }, () =>
-        !isCustomizing.val
-          ? strings.buttons.customize
-          : strings.buttons.back,
-      ),
-      () =>
-        isCustomizing.val
-          ? div(
-              {
-                class: 'privcy__buttons__choices',
-              },
-              button(
-                {
-                  type: 'acceptSelected',
-                  onClick: () =>
-                    controller.updateConsent(requestedCategories),
-                },
-                strings.buttons.saveSettings,
-              ),
-            )
-          : div(
-              {
-                class: 'privcy__buttons__choices',
-              },
-              button(
-                {
-                  type: 'acceptAll',
-                  onClick: () =>
-                    controller.updateConsent(categories.IDs),
-                },
-                strings.buttons.acceptAll,
-              ),
-              button(
-                {
-                  type: 'rejectAll',
-                  onClick: () => controller.updateConsent([]),
-                },
-                strings.buttons.rejectAll,
-              ),
-            ),
-    ),
+      customizeButton,
+      choices,
+    );
+  })();
+
+  const dialog = tag(
+    'dialog',
+    {
+      class: c(),
+      onclose: () => (viewState.isCustomizing = false),
+    },
+    tag('h2', { class: c('title') }, title),
+    tag('div', {
+      class: c('description'),
+      innerHTML: description,
+    }),
+    categoriesList,
+    form,
   );
+
+  return dialog;
 }

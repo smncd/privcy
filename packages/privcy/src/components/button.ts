@@ -7,22 +7,27 @@
  * @since 0.9.0
  */
 
-import van from 'vanjs-core';
+import tag, { type TagChildren, type TagOptions } from '../lib/tag';
+import { c } from '../lib/utils';
 
 export default function button(
-  props: { type?: string; onClick: (event: Event) => void },
-  children: Element | string | (() => Element | string),
+  options: TagOptions<'button'> & {
+    buttonType: string;
+  },
+  ...children: TagChildren
 ) {
-  const className = [
-    'privcy__button',
-    props.type && `privcy__button--${props.type}`,
+  const className = c('button');
+  const classlist = [
+    className,
+    options.buttonType && `${className}--${options.buttonType}`,
   ].join(' ');
 
-  return van.tags.button(
+  return tag(
+    'button',
     {
-      class: className,
-      onclick: props.onClick,
+      ...options,
+      class: classlist,
     },
-    children,
+    ...children,
   );
 }
