@@ -9,7 +9,7 @@
 
 import tag from '../lib/tag';
 import button from './button';
-import { c } from '../lib/utils';
+import { c, parseHtmlString } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
 import type { i18nStrings, ViewState } from '../types';
@@ -165,7 +165,7 @@ export default function banner(props: BannerProps) {
     tag('h2', { class: c('title') }, title),
     tag('div', {
       class: c('description'),
-      innerHTML: description,
+      innerHTML: parseHtmlString(description),
     }),
     categoriesList,
     form,
