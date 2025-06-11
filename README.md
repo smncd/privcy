@@ -1,6 +1,6 @@
 ## [![Privcy](./banner.jpg)](https://privcy.smn.codes)
 
-Tiny reactive consent/cookie banner.
+Tiny, zero depencency reactive consent/cookie banner, weighing in at just **2.80 kB** (gzipped).
 
 
 ⚠️ Here be dragons ⚠️
