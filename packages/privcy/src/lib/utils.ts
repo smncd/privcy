@@ -20,6 +20,13 @@ export function c(...parts: string[]): string {
 /**
  * Parse html string and remove script tags.
  */
-export function parseHtmlString(input: string): string {
-  return input.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '');
+export function parseHtmlString(html: string): string {
+  html = html.trim();
+  html = html.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '')
+
+  if (!/<[^>]+>/.test(html)) {
+    html = `<p>${html}</p>`;
+  }
+
+  return html;
 }
