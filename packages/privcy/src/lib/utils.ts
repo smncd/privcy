@@ -4,7 +4,7 @@
  * @author Simon Lagerlöf <contact@smn.codes>
  * @license BSD-3-Clause
  * @copyright 2025 Simon Lagerlöf
- * @since @next
+ * @since 0.11.0
  */
 
 import { CLASSNAME_PREFIX } from "../constants"
