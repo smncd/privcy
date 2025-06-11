@@ -253,7 +253,7 @@ export default class PrivcyController {
    * Remove cookie.
    */
   #removeCookie(name: string): void {
-    removeCookie(this.#cookieName(name));
+    document.cookie = `${this.#cookieName(name)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
 
   /**
