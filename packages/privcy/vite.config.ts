@@ -48,10 +48,6 @@ export default defineConfig({
           entryFileNames: 'privcy.mjs',
         },
       ],
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
     },
   },
   plugins: [dts({ rollupTypes: true }), visualizer({
