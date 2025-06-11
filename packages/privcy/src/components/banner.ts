@@ -9,22 +9,18 @@
 
 import tag from '../lib/tag';
 import button from './button';
+import { c } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
-import type { i18nStrings } from '../types';
+import type { i18nStrings, ViewState } from '../types';
 import type { Subscriber } from '../lib/reactive';
-import { c } from '../lib/utils';
 
 export type BannerProps = {
   controller: Controller;
   categories: Categories;
 
-  viewState: {
-    isCustomizing: boolean;
-  };
-  viewStateListen: Subscriber<{
-    isCustomizing: boolean;
-  }>;
+  viewState: ViewState;
+  viewStateListen: Subscriber<ViewState>;
 
   title: string;
   description: string;
@@ -66,16 +62,16 @@ export default function banner(props: BannerProps) {
       tag(
         'li',
         { class: c('category') },
-        tag('h3', { class: c('category','name') }, category.name),
+        tag('h3', { class: c('category', 'name') }, category.name),
         tag(
           'p',
-          { class: c('category','description') },
+          { class: c('category', 'description') },
           category.description,
         ),
         tag(
           'label',
           {
-            class: c('category','checkbox'),
+            class: c('category', 'checkbox'),
           },
           tag('input', {
             type: 'checkbox',
