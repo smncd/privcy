@@ -244,12 +244,9 @@ export default class PrivcyController {
    * Set cookie with preconfigured settings.
    */
   #setCookie(name: string, value: 'true' | 'false'): string {
-    return setCookie(this.#cookieName(name), value, {
-      expires: 180,
-      sameSite: 'strict',
-      secure: true,
-      path: '/',
-    });
+    document.cookie = `${this.#cookieName(name)}=${value}; expires=${new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toUTCString()}; SameSite=strict; Secure; path=/;`;
+
+    return value;
   }
 
   /**
