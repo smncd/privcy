@@ -231,7 +231,13 @@ export default class PrivcyController {
    * Get cookie.
    */
   #getCookie(name: string): string | undefined {
-    return getCookie(this.#cookieName(name));
+    return document.cookie
+      .split(';')
+      .find((cookie) =>
+        cookie.trim().startsWith(this.#cookieName(name) + '='),
+      )
+      ?.split('=')
+      .pop();
   }
 
   /**
