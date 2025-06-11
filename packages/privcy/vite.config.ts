@@ -20,8 +20,8 @@ export default defineConfig({
           format: 'es',
           entryFileNames: 'privcy.mjs',
         },
-      ]
-    }
+      ],
+    },
   },
   plugins: [dts({ rollupTypes: true })],
 });
