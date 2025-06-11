@@ -28,17 +28,15 @@ import Privcy from 'privcy';
 
 new Privcy({
   title: 'Privacy',
-  description: '<p>We have some really nice cookies!</p>',
+  description: '<p>Your data, your rules. Here\'s what we\'re working with.</p>',
   categories: {
-    categories: {
-      analytics: {
-        name: 'Analytics',
-        description: 'These are analytics cookies',
-      },
-      social: {
-        name: 'Social',
-        description: 'These are social cookies',
-      },
+    analytics: {
+      name: 'Analytics',
+      description: 'Helps us understand what\'s working, what\'s not, and what\'s just plain confusing.',
+    },
+    social: {
+      name: 'Social',
+      description: 'Enables sharing, liking, and pretending you discovered us first.',
     },
   },
 });
@@ -50,19 +48,19 @@ Alternatively you can add the script straight into your HTML in a script tag:
 <script src="https://unpkg.com/privcy@latest/dist/privcy.js"></script>
 <script>
   new window.Privcy({
-    title: 'Privacy',
-    description: '<p>We have some really nice cookies!</p>',
-    categories: {
-      analytics: {
-        name: 'Analytics',
-        description: 'These are analytics cookies',
-      },
-      social: {
-        name: 'Social',
-        description: 'These are social cookies',
-      },
+  title: 'Privacy',
+  description: '<p>Your data, your rules. Here\'s what we\'re working with.</p>',
+  categories: {
+    analytics: {
+      name: 'Analytics',
+      description: 'Helps us understand what\'s working, what\'s not, and what\'s just plain confusing.',
     },
-  });
+    social: {
+      name: 'Social',
+      description: 'Enables sharing, liking, and pretending you discovered us first.',
+    },
+  },
+});
 </script>
 ```
 
@@ -104,9 +102,7 @@ To control a inline script, you can omit the `src` key in `data-privcy`, but you
 Iframe Fallbacks
 ----------------
 
-In cases where a iframe's category is rejected by the user, we sometimes want to display a informational popup alerting the user that the content is not available.
-
-In Privcy v0.7.0 and below, this was handled by a Svelte component that mounted inside the iframe. This approach is being phased out in favour if providing a `fallback` option in the `data-privcy` attribute:
+In cases where a iframe's category is rejected by the user, we sometimes want to display a informational popup alerting the user that the content is not available. This is done by providing a `fallback` option in the `data-privcy` attribute:
 
 ```html
 <iframe
