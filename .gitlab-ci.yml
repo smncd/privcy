@@ -33,6 +33,6 @@ publish-privcy:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
     - npm publish
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^privcy-v[0-9]+\.[0-9]+\.[0-9]+$/'
+    - if: '$CI_COMMIT_TAG =~ /^privcy@[0-9]+\.[0-9]+\.[0-9]+$/'
       when: always
     - when: never
