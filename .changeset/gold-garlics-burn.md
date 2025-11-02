@@ -1,0 +1,5 @@
+---
+'privcy': patch
+---
+
+Bump dependencies
