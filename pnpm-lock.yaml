@@ -92,6 +92,8 @@ importers:
         specifier: ^4.5.4
         version: 4.5.4(@types/node@24.9.2)(rollup@4.52.5)(typescript@5.9.3)(vite@7.1.12(@types/node@24.9.2)(sass@1.93.3)(terser@5.44.0))
 
+  packages/themes: {}
+
 packages:
 
   '@babel/helper-string-parser@7.25.9':

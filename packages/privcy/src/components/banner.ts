@@ -117,8 +117,15 @@ export default function banner(props: BannerProps) {
                 button(
                   {
                     buttonType: 'acceptSelected',
-                    onclick: () =>
-                      controller.updateConsent(requestedCategories),
+                    onclick: () => {
+                      const willReload =
+                        requestedCategories.length <
+                        allowedCategories().length;
+
+                      controller.updateConsent(requestedCategories);
+
+                      if (willReload) location.reload();
+                    },
                   },
                   strings.buttons.saveSettings,
                 ),
@@ -135,7 +142,10 @@ export default function banner(props: BannerProps) {
                 button(
                   {
                     buttonType: 'rejectAll',
-                    onclick: () => controller.updateConsent([]),
+                    onclick: () => {
+                      controller.updateConsent([]);
+                      location.reload();
+                    },
                   },
                   strings.buttons.rejectAll,
                 ),
