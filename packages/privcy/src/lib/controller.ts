@@ -124,42 +124,43 @@ export default class PrivcyController {
 
       const data = JSON.parse(source);
 
+      const newEmbed = embed.cloneNode(true) as typeof embed;
+
       if (
         typeof data.category !== 'string' ||
         !this.allowedCategories.includes(data.category)
       ) {
         if (
-          embed instanceof HTMLIFrameElement &&
+          newEmbed instanceof HTMLIFrameElement &&
           typeof data.fallback === 'string'
         ) {
-          embed.src = data.fallback;
+          newEmbed.src = data.fallback;
 
+          embed.replaceWith(newEmbed);
           return;
         }
 
-        if (embed.src) {
-          embed.src = '';
+        if (newEmbed.src) {
+          newEmbed.src = '';
         }
 
-        if (embed instanceof HTMLScriptElement) {
-          embed.type = 'text/plain';
+        if (newEmbed instanceof HTMLScriptElement) {
+          newEmbed.type = 'text/plain';
         }
 
+        embed.replaceWith(newEmbed);
         return;
       }
 
       if (typeof data.src === 'string') {
-        embed.src = data.src;
+        newEmbed.src = data.src;
       }
 
-      if (embed instanceof HTMLScriptElement) {
-        embed.type = 'application/javascript';
-
-        /**
-         * For some reason this is required for the script to execute?
-         */
-        embed.innerText = embed.innerText;
+      if (newEmbed instanceof HTMLScriptElement) {
+        newEmbed.type = 'application/javascript';
       }
+
+      embed.replaceWith(newEmbed);
     });
   }
 
