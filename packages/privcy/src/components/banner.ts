@@ -143,8 +143,11 @@ export default function banner(props: BannerProps) {
                   {
                     buttonType: 'rejectAll',
                     onclick: () => {
+                      const willReload =
+                        allowedCategories().length > 0;
                       controller.updateConsent([]);
-                      location.reload();
+
+                      if (willReload) location.reload();
                     },
                   },
                   strings.buttons.rejectAll,
