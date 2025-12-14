@@ -1,5 +1,11 @@
 # privcy
 
+## 0.11.3
+
+### Patch Changes
+
+- 34806fb: Only reload when pressing reject button if some categories are already loaded
+
 ## 0.11.2
 
 ### Patch Changes
