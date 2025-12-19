@@ -20,7 +20,7 @@ To get started, install Privcy with your favourite package manager (PNPM, Yarn, 
 pnpm add privcy
 ```
 
-You can then either import the `Privcy` class:
+You can then import the `Privcy` class:
 
 ```typescript
 // index.ts
