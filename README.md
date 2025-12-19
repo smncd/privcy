@@ -210,7 +210,7 @@ Privcy shipps with a minimal default stylesheet, which can be used like so:
 
 ```html
 <script src="https://unpkg.com/privcy@latest/dist/privcy.js"></script>
-<script src="https://unpkg.com/privcy@latest/dist/style.css"></script>
+<script src="https://unpkg.com/privcy@latest/dist/privcy.css"></script>
 <script>
   new window.Privcy({
     // config ...
