@@ -7,6 +7,8 @@
  * @since 0.11.0
  */
 
+import { BROADCAST_CHANNEL } from '../constants';
+
 export default function iframeBroadcastChannel(): BroadcastChannel {
-  return new BroadcastChannel('privcy:iframe-fallback');
+  return new BroadcastChannel(BROADCAST_CHANNEL);
 }
