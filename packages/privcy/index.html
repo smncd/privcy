@@ -8,8 +8,30 @@
     />
     <title>Privacy consent banner</title>
     <style>
+      * {
+        box-sizing: border-box;
+      }
       body {
-        font-family: monospace;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      section {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+      section h2 {
+        margin-top: 0;
+      }
+      .controls {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
       }
     </style>
     <script type="module" src="/src/main.ts"></script>
@@ -19,44 +41,75 @@
     </script>
   </head>
   <body>
-    <h1>Hello World</h1>
-    <button data-privcy-display-banner>Open banner</button>
-    <button onclick="privcy.reload()">Reload</button>
-    <hr />
-    <h2>Normal script</h2>
-    <div id="script-element">Nothing here... :(</div>
-    <script
-      data-privcy='{ "src": "/example.js", "category": "analytics" }'
-    ></script>
-    <script data-privcy='{ "category": "social" }' type="plain/text">
-      document.querySelector('h1').style.color = 'red';
-    </script>
-    <hr />
-    <h2>Iframe</h2>
-    <iframe
-      style="height: 500px; width: 500px"
-      data-privcy='{ "src": "https://example.com", "fallback": "/iframe-fallback.html?category=Social", "category": "social" }'
-    ></iframe>
-    <hr />
-    <h2>SPA</h2>
-    <div id="content">
-      <p>This is the initial content of the div.</p>
-      <button onclick="replaceWithIframe()">
-        Replace with Iframe
-      </button>
-    </div>
-    <script>
-      function replaceWithIframe() {
-        document.getElementById('content').innerHTML = `
-          <iframe
-            style="height: 500px; width: 500px"
-            data-privcy='{ "src": "https://example.com/hello", "category": "social" }'
-          ></iframe>
-        `;
+    <h1>Privcy Dev</h1>
 
-        privcy.reload();
-      }
-    </script>
-    <hr />
+    <section>
+      <h2>Controls</h2>
+      <div class="controls">
+        <button data-privcy-display-banner>Open Banner</button>
+        <button onclick="privcy.openSettings()">Open Settings</button>
+        <button onclick="privcy.reload()">Reload Privcy</button>
+        <button
+          onclick="document.cookie.split(';').forEach(c => document.cookie = c.trim().split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/'); location.reload();"
+        >
+          Reset Cookies & Reload
+        </button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Scripts</h2>
+      <div id="script-element">Waiting for analytics script...</div>
+      <script
+        data-privcy='{ "src": "/example.js", "category": "analytics" }'
+      ></script>
+      <script
+        data-privcy='{ "category": "social" }'
+        type="plain/text"
+      >
+        document.querySelector('h1').style.color = 'crimson';
+      </script>
+    </section>
+
+    <section>
+      <h2>Iframes</h2>
+      <div class="grid">
+        <div>
+          <p><strong>With fallback (Social)</strong></p>
+          <iframe
+            style="height: 250px; width: 100%"
+            data-privcy='{ "src": "https://example.com", "fallback": "/iframe-fallback.html?category=Social", "category": "social" }'
+          ></iframe>
+        </div>
+        <div>
+          <p><strong>Without fallback (Social)</strong></p>
+          <iframe
+            style="height: 250px; width: 100%"
+            data-privcy='{ "src": "https://example.org", "category": "social" }'
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>SPA / Dynamic Content</h2>
+      <p>Test dynamically inserted embeds:</p>
+      <div id="content">
+        <button onclick="replaceWithIframe()">
+          Insert Dynamic Iframe
+        </button>
+      </div>
+      <script>
+        function replaceWithIframe() {
+          document.getElementById('content').innerHTML = `
+            <iframe
+              style="height: 250px; width: 100%"
+              data-privcy='{ "src": "https://example.com/dynamic", "category": "social" }'
+            ></iframe>
+          `;
+          privcy.reload();
+        }
+      </script>
+    </section>
   </body>
 </html>
