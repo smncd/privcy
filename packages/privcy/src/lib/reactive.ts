@@ -19,42 +19,41 @@ export type Subscriber<T> = (
   unsubscribe(): void;
 };
 
-export type Reactive<T> = [T, Subscriber<T>];
+export type Reactive<T> = {
+  value: T;
+  subscribe: Subscriber<T>;
+};
 
-export default function reactive<T extends object>(input: T): Reactive<T> {
-  let subscribers: SubscriberCallback<T>[] = [];
+export default function reactive<T extends object>(
+  input: T,
+): Reactive<T> {
+  const subscribers = new Set<SubscriberCallback<T>>();
+  let pending = false;
 
-  const createProxy = (input: T) =>
-    new Proxy<T>(input, {
-      get: function (target, p) {
-        return target[p as keyof T];
-      },
-      set: function (target, property, value) {
-        try {
-          target[property as keyof T] = value;
+  const value = new Proxy<T>(input, {
+    set(target, property, newValue) {
+      target[property as keyof T] = newValue;
 
-          for (const subscriber of subscribers) subscriber(target);
+      if (!pending) {
+        pending = true;
+        queueMicrotask(() => {
+          pending = false;
+          for (const sub of subscribers) sub(target);
+        });
+      }
 
-          return true;
-        } catch {
-          return false;
-        }
-      },
-    });
-
-  const state = createProxy(input);
+      return true;
+    },
+  });
 
   const subscribe: Subscriber<T> = (callback, options) => {
-    if (options?.initialRun) callback(state);
-
-    subscribers.push(callback);
+    if (options?.initialRun) callback(value);
+    subscribers.add(callback);
 
     return {
-      unsubscribe() {
-        subscribers = subscribers.filter((sub) => sub !== callback);
-      },
+      unsubscribe: () => subscribers.delete(callback),
     };
   };
 
-  return [state, subscribe];
+  return { value, subscribe };
 }

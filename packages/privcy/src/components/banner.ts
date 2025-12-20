@@ -13,14 +13,13 @@ import { c, htmlStringToCollection } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
 import type { i18nStrings, ViewState } from '../types';
-import type { Subscriber } from '../lib/reactive';
+import type { Reactive, Subscriber } from '../lib/reactive';
 
 export type BannerProps = {
   controller: Controller;
   categories: Categories;
 
-  viewState: ViewState;
-  viewStateListen: Subscriber<ViewState>;
+  viewState: Reactive<ViewState>;
 
   title: string;
   description: string;
@@ -32,7 +31,6 @@ export default function banner(props: BannerProps) {
     controller,
     categories,
     viewState,
-    viewStateListen,
     title,
     description,
     strings,
@@ -44,7 +42,7 @@ export default function banner(props: BannerProps) {
 
   const setCustomizing = (event: Event) => {
     event.preventDefault();
-    viewState.isCustomizing = !viewState.isCustomizing;
+    viewState.value.isCustomizing = !viewState.value.isCustomizing;
   };
 
   const includeCategory = (category: string) => {
@@ -88,7 +86,7 @@ export default function banner(props: BannerProps) {
     );
 
   const categoriesList = tag('ul', { class: c('categories') });
-  viewStateListen(({ isCustomizing }) => {
+  viewState.subscribe(({ isCustomizing }) => {
     categoriesList.replaceChildren(
       ...(isCustomizing ? categoriesDom() : []),
     );
@@ -100,7 +98,7 @@ export default function banner(props: BannerProps) {
       onclick: setCustomizing,
       innerText: strings.buttons.customize,
     });
-    viewStateListen(({ isCustomizing }) => {
+    viewState.subscribe(({ isCustomizing }) => {
       customizeButton.innerText = isCustomizing
         ? strings.buttons.back
         : strings.buttons.customize;
@@ -109,7 +107,7 @@ export default function banner(props: BannerProps) {
     const choices = tag('div', {
       class: c('buttons', 'choices'),
     });
-    viewStateListen(
+    viewState.subscribe(
       ({ isCustomizing }) => {
         choices.replaceChildren(
           ...(isCustomizing
@@ -173,7 +171,7 @@ export default function banner(props: BannerProps) {
     'dialog',
     {
       class: c(),
-      onclose: () => (viewState.isCustomizing = false),
+      onclose: () => (viewState.value.isCustomizing = false),
     },
     tag('h2', { class: c('title') }, title),
     tag(
