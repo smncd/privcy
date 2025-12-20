@@ -2,6 +2,7 @@ dist/example.js
 dist/stats.html
 src/
 public/
+test/
 index.html
 iframe-fallback.html
 tsconfig.json
