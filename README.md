@@ -224,10 +224,10 @@ it to your liking.
 
 File sizes
 ----------
-|Format                |Size    |gZip   
-|---                   |---     |---    
-|dist/privcy.mjs (ESM) |15.28 kB│4.05 kB
-|dist/privcy.js (IIFE) |6.29 kB │2.57 kB
+|Format                |Size     |gZip   
+|---                   |---      |---    
+|dist/privcy.mjs (ESM) |15.42 kB |4.15 kB
+|dist/privcy.js (IIFE) |6.40 kB  |2.61 kB
 
 
 Disclaimer
