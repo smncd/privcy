@@ -1,6 +1,6 @@
 ## [![Privcy](./banner.jpg)](https://privcy.smn.codes)
 
-Tiny, zero depencency reactive consent/cookie banner, weighing in under **3 kB** (gzipped).
+Tiny, zero depencency reactive consent/cookie banner, weighing in around **4 kB** (gzipped).
 
 
 ⚠️ Here be dragons ⚠️
@@ -226,8 +226,8 @@ File sizes
 ----------
 |Format                |Size    |gZip   
 |---                   |---     |---    
-|dist/privcy.mjs (ESM) |15.10 kB|3.99 kB
-|dist/privcy.js (IIFE) |6.22 kB |2.53 kB
+|dist/privcy.mjs (ESM) |15.28 kB│4.05 kB
+|dist/privcy.js (IIFE) |6.29 kB │2.57 kB
 
 Ownership
 ---------
