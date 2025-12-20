@@ -168,34 +168,32 @@ export default class PrivcyController {
    * Populate iframes in case it cannot be loaded.
    */
   public loadIframeFallbacks(): void {
-    this.controlledElements.forEach((element) => {
-      if (!(element instanceof HTMLIFrameElement)) {
-        return;
-      }
+    const hasFallbackIframe = Array.from(
+      this.controlledElements,
+    ).some((element) => {
+      if (!(element instanceof HTMLIFrameElement)) return false;
 
-      const meta = JSON.parse(
-        element.getAttribute('data-privcy') ?? '',
-      );
+      const dataPrivcy = element.getAttribute('data-privcy');
+      if (!dataPrivcy) return false;
 
+      const meta = JSON.parse(dataPrivcy);
       const category = meta?.category;
 
-      if (this.allowedCategories.includes(category)) {
-        return;
-      }
-
-      if (meta?.fallback) {
-        this.#broadcast.onmessage = (event) => {
-          if (
-            typeof event.data.allowCategory === 'string' &&
-            this.#categoryIDs.includes(event.data.allowCategory)
-          ) {
-            this.consentToCategory(event.data.allowCategory);
-          }
-        };
-
-        return;
-      }
+      return (
+        meta?.fallback && !this.allowedCategories.includes(category)
+      );
     });
+
+    if (hasFallbackIframe) {
+      this.#broadcast.onmessage = (event) => {
+        if (
+          typeof event.data.allowCategory === 'string' &&
+          this.#categoryIDs.includes(event.data.allowCategory)
+        ) {
+          this.consentToCategory(event.data.allowCategory);
+        }
+      };
+    }
   }
 
   /**
