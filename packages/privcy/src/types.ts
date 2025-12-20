@@ -21,5 +21,5 @@ export type i18nStrings = {
 };
 
 export type ViewState = {
-  isCustomizing: boolean;
+  isSettings: boolean;
 };

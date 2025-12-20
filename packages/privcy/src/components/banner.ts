@@ -40,9 +40,9 @@ export default function banner(props: BannerProps) {
 
   let requestedCategories = allowedCategories();
 
-  const setCustomizing = (event: Event) => {
+  const setSettings = (event: Event) => {
     event.preventDefault();
-    viewState.value.isCustomizing = !viewState.value.isCustomizing;
+    viewState.value.isSettings = !viewState.value.isSettings;
   };
 
   const includeCategory = (category: string) => {
@@ -86,20 +86,20 @@ export default function banner(props: BannerProps) {
     );
 
   const categoriesList = tag('ul', { class: c('categories') });
-  viewState.subscribe(({ isCustomizing }) => {
+  viewState.subscribe(({ isSettings }) => {
     categoriesList.replaceChildren(
-      ...(isCustomizing ? categoriesDom() : []),
+      ...(isSettings ? categoriesDom() : []),
     );
   });
 
   const form = (() => {
     const customizeButton = button({
       buttonType: 'customize',
-      onclick: setCustomizing,
+      onclick: setSettings,
       innerText: strings.buttons.customize,
     });
-    viewState.subscribe(({ isCustomizing }) => {
-      customizeButton.innerText = isCustomizing
+    viewState.subscribe(({ isSettings }) => {
+      customizeButton.innerText = isSettings
         ? strings.buttons.back
         : strings.buttons.customize;
     });
@@ -108,9 +108,9 @@ export default function banner(props: BannerProps) {
       class: c('buttons', 'choices'),
     });
     viewState.subscribe(
-      ({ isCustomizing }) => {
+      ({ isSettings }) => {
         choices.replaceChildren(
-          ...(isCustomizing
+          ...(isSettings
             ? [
                 button(
                   {
@@ -171,7 +171,7 @@ export default function banner(props: BannerProps) {
     'dialog',
     {
       class: c(),
-      onclose: () => (viewState.value.isCustomizing = false),
+      onclose: () => (viewState.value.isSettings = false),
     },
     tag('h2', { class: c('title') }, title),
     tag(
@@ -185,10 +185,10 @@ export default function banner(props: BannerProps) {
     form,
   );
   viewState.subscribe(
-    ({ isCustomizing }) =>
+    ({ isSettings }) =>
       dialog.setAttribute(
         'data-customizing',
-        String(!!isCustomizing),
+        String(!!isSettings),
       ),
     { initialRun: true },
   );

@@ -87,7 +87,7 @@ class Privcy {
      * Banner state.
      */
     const viewState = reactive({
-      isCustomizing: false,
+      isSettings: false,
     });
 
     /**
@@ -130,7 +130,7 @@ class Privcy {
    * Open settings.
    */
   public openSettings(): void {
-    this.#bannerProps.viewState.value.isCustomizing = true;
+    this.#bannerProps.viewState.value.isSettings = true;
     this.#banner.showModal();
   }
 
