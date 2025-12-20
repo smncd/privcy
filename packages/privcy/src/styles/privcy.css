@@ -20,6 +20,16 @@
     'Open Sans',
     'Helvetica Neue',
     sans-serif;
+
+  &::backdrop {
+    background-color: black;
+    opacity: 0.25;
+  }
+}
+
+.privcy[data-customizing='true']
+  :is(.privcy__title, .privcy__description) {
+  opacity: 0.5;
 }
 
 .privcy__title {
@@ -44,13 +54,16 @@
 }
 
 .privcy__category__name {
+  margin-bottom: 8px;
 }
 
 .privcy__category__description {
+  margin: 8px 0;
 }
 
 .privcy__category__checkbox {
   font-size: 16px;
+  cursor: pointer;
 }
 
 .privcy__category__checkbox input[type='checkbox']:checked + span {
