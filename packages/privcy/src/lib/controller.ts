@@ -9,6 +9,7 @@
 
 import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './categories';
+import { EMBED_ATTRIBUTE } from '../constants';
 
 export default class PrivcyController {
   /**
@@ -118,7 +119,7 @@ export default class PrivcyController {
    */
   public loadEmbeds(): void {
     this.#getAllEmbeds().forEach((embed) => {
-      const source = embed.getAttribute('data-privcy');
+      const source = embed.getAttribute(EMBED_ATTRIBUTE);
 
       if (typeof source !== 'string') return;
 
@@ -173,7 +174,7 @@ export default class PrivcyController {
     ).some((element) => {
       if (!(element instanceof HTMLIFrameElement)) return false;
 
-      const dataPrivcy = element.getAttribute('data-privcy');
+      const dataPrivcy = element.getAttribute(EMBED_ATTRIBUTE);
       if (!dataPrivcy) return false;
 
       const meta = JSON.parse(dataPrivcy);
@@ -202,7 +203,7 @@ export default class PrivcyController {
   #getAllEmbeds(): NodeListOf<HTMLScriptElement | HTMLIFrameElement> {
     return document.querySelectorAll<
       HTMLScriptElement | HTMLIFrameElement
-    >('script[data-privcy], iframe[data-privcy]');
+    >(`script[${EMBED_ATTRIBUTE}], iframe[${EMBED_ATTRIBUTE}]`);
   }
 
   /**
