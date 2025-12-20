@@ -11,8 +11,8 @@
       "import": "./dist/privcy.mjs",
       "types": "./dist/privcy.d.ts"
     },
-    "./dist/style.css": {
-      "import": "./dist/style.css"
+    "./dist/privcy.css": {
+      "import": "./dist/privcy.css"
     }
   },
   "scripts": {
