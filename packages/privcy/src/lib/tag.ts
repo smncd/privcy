@@ -39,7 +39,11 @@ export default function tag<K extends keyof HTMLElementTagNameMap>(
         continue;
       }
 
-      element.setAttribute(key, value);
+      if (key.startsWith('on') || key in element) {
+        (element as any)[key] = value;
+      } else {
+        element.setAttribute(key, value);
+      }
     }
   }
 
