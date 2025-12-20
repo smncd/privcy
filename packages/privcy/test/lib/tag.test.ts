@@ -86,14 +86,14 @@ describe('tag()', () => {
     );
   });
 
-  it('sets boolean-like attributes', () => {
+  it('sets boolean-like attributes as properties', () => {
     const result = tag('input', { disabled: true, readonly: true });
 
-    expect(result.getAttribute('disabled')).to.eq('true');
-    expect(result.getAttribute('readonly')).to.eq('true');
-    expect(result.outerHTML).to.eq(
-      '<input disabled="true" readonly="true">',
-    );
+    // Boolean attributes are set as properties, which results in empty string attribute
+    expect(result.disabled).to.true;
+    expect(result.readOnly).to.true;
+    expect(result.hasAttribute('disabled')).to.true;
+    expect(result.hasAttribute('readonly')).to.true;
   });
 
   it('sets HTMLElement child', () => {
