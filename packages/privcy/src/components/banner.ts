@@ -40,9 +40,10 @@ export default function banner(props: BannerProps) {
 
   let requestedCategories = allowedCategories();
 
-  const setCustomizing = (event: Event) => {
+  const setSettings = (event: Event) => {
     event.preventDefault();
-    viewState.value.isCustomizing = !viewState.value.isCustomizing;
+    viewState.value.view =
+      viewState.value.view === 'settings' ? 'start' : 'settings';
   };
 
   const includeCategory = (category: string) => {
@@ -86,31 +87,32 @@ export default function banner(props: BannerProps) {
     );
 
   const categoriesList = tag('ul', { class: c('categories') });
-  viewState.subscribe(({ isCustomizing }) => {
+  viewState.subscribe(({ view }) => {
     categoriesList.replaceChildren(
-      ...(isCustomizing ? categoriesDom() : []),
+      ...(view === 'settings' ? categoriesDom() : []),
     );
   });
 
   const form = (() => {
     const customizeButton = button({
       buttonType: 'customize',
-      onclick: setCustomizing,
+      onclick: setSettings,
       innerText: strings.buttons.customize,
     });
-    viewState.subscribe(({ isCustomizing }) => {
-      customizeButton.innerText = isCustomizing
-        ? strings.buttons.back
-        : strings.buttons.customize;
+    viewState.subscribe(({ view }) => {
+      customizeButton.innerText =
+        view === 'settings'
+          ? strings.buttons.back
+          : strings.buttons.customize;
     });
 
     const choices = tag('div', {
       class: c('buttons', 'choices'),
     });
     viewState.subscribe(
-      ({ isCustomizing }) => {
+      ({ view }) => {
         choices.replaceChildren(
-          ...(isCustomizing
+          ...(view === 'settings'
             ? [
                 button(
                   {
@@ -171,7 +173,7 @@ export default function banner(props: BannerProps) {
     'dialog',
     {
       class: c(),
-      onclose: () => (viewState.value.isCustomizing = false),
+      onclose: () => (viewState.value.view = 'start'),
     },
     tag('h2', { class: c('title') }, title),
     tag(
@@ -185,11 +187,7 @@ export default function banner(props: BannerProps) {
     form,
   );
   viewState.subscribe(
-    ({ isCustomizing }) =>
-      dialog.setAttribute(
-        'data-customizing',
-        String(!!isCustomizing),
-      ),
+    ({ view }) => dialog.setAttribute('data-view', view),
     { initialRun: true },
   );
 

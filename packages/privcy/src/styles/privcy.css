@@ -27,7 +27,7 @@
   }
 }
 
-.privcy[data-customizing='true']
+.privcy[data-view='settings']
   :is(.privcy__title, .privcy__description) {
   opacity: 0.5;
 }

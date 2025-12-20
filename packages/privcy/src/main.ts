@@ -12,7 +12,7 @@ import banner, { type BannerProps } from './components/banner';
 import Categories from './lib/categories';
 import Controller from './lib/controller';
 import iframeBroadcastChannel from './lib/iframe-broadcast-channel';
-import type { i18nStrings } from './types';
+import { type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
 
@@ -86,8 +86,8 @@ class Privcy {
     /**
      * Banner state.
      */
-    const viewState = reactive({
-      isCustomizing: false,
+    const viewState = reactive<ViewState>({
+      view: 'start',
     });
 
     /**
@@ -130,7 +130,7 @@ class Privcy {
    * Open settings.
    */
   public openSettings(): void {
-    this.#bannerProps.viewState.value.isCustomizing = true;
+    this.#bannerProps.viewState.value.view = 'settings';
     this.#banner.showModal();
   }
 
