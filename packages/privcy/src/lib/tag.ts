@@ -31,7 +31,9 @@ export default function tag<K extends keyof HTMLElementTagNameMap>(
     for (const [key, value] of Object.entries(options)) {
       if (key === 'class') {
         element.classList.add(
-          ...(Array.isArray(value) ? value : value.split(' ')),
+          ...(Array.isArray(value) ? value : value.split(' ')).filter(
+            Boolean,
+          ),
         );
 
         continue;
