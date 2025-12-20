@@ -1,5 +1,17 @@
 # privcy
 
+## 0.11.4
+
+### Patch Changes
+
+- 720a7a4: Add new attribute `data-customizing`, to indicate what mode privcy is in"
+- b35f62f: Fix incorrect CSS export path
+- bc7114c: Turn `customizing` into `view`
+- 9d24842: Optimise and test the `reactive()` function.
+- 10ff248: Introduce testing
+- 05baf35: Fix some low hanging bugs and optimisations
+- e3fd61f: Use DOMParser for improved string-to-html parsing.
+
 ## 0.11.3
 
 ### Patch Changes
