@@ -209,10 +209,7 @@ export default class PrivcyController {
    * Set allowed categories.
    */
   #updateConsentCookies(categories: Array<string>): void {
-    // Remove all previously set cookies.
     for (const category of this.#categoryIDs) {
-      this.#removeCookie(category);
-
       if (categories.includes(category)) {
         this.#setCookie(category, 'true');
       } else {
