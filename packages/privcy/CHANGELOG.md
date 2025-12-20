@@ -1,5 +1,11 @@
 # privcy
 
+## 0.11.5
+
+### Patch Changes
+
+- 0ecf82b: Fix broken 0.11.4 build
+
 ## 0.11.4
 
 ### Patch Changes
