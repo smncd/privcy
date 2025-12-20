@@ -47,7 +47,7 @@ export default function banner(props: BannerProps) {
   };
 
   const includeCategory = (category: string) => {
-    if (allowedCategories().includes(category)) {
+    if (requestedCategories.includes(category)) {
       requestedCategories = requestedCategories.filter(
         (cat) => cat !== category,
       );

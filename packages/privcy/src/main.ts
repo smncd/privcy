@@ -12,6 +12,7 @@ import banner, { type BannerProps } from './components/banner';
 import Categories from './lib/categories';
 import Controller from './lib/controller';
 import iframeBroadcastChannel from './lib/iframe-broadcast-channel';
+import { EMBED_ATTRIBUTE } from './constants';
 import { type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
@@ -140,7 +141,7 @@ class Privcy {
   #addBannerOpenEventListener(): void {
     if (this.#bannerProps) {
       document
-        .querySelectorAll('[data-privcy-display-banner]')
+        .querySelectorAll(`[${EMBED_ATTRIBUTE}-display-banner]`)
         .forEach((button) =>
           button.addEventListener('click', () => {
             this.openSettings();

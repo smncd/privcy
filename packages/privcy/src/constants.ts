@@ -9,4 +9,6 @@
 
 export const BROADCAST_CHANNEL = 'privcy:iframe-fallback';
 
+export const EMBED_ATTRIBUTE = 'data-privcy';
+
 export const CLASSNAME_PREFIX = 'privcy';

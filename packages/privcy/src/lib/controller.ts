@@ -9,6 +9,7 @@
 
 import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './categories';
+import { EMBED_ATTRIBUTE } from '../constants';
 
 export default class PrivcyController {
   /**
@@ -118,7 +119,7 @@ export default class PrivcyController {
    */
   public loadEmbeds(): void {
     this.#getAllEmbeds().forEach((embed) => {
-      const source = embed.getAttribute('data-privcy');
+      const source = embed.getAttribute(EMBED_ATTRIBUTE);
 
       if (typeof source !== 'string') return;
 
@@ -168,34 +169,32 @@ export default class PrivcyController {
    * Populate iframes in case it cannot be loaded.
    */
   public loadIframeFallbacks(): void {
-    this.controlledElements.forEach((element) => {
-      if (!(element instanceof HTMLIFrameElement)) {
-        return;
-      }
+    const hasFallbackIframe = Array.from(
+      this.controlledElements,
+    ).some((element) => {
+      if (!(element instanceof HTMLIFrameElement)) return false;
 
-      const meta = JSON.parse(
-        element.getAttribute('data-privcy') ?? '',
-      );
+      const dataPrivcy = element.getAttribute(EMBED_ATTRIBUTE);
+      if (!dataPrivcy) return false;
 
+      const meta = JSON.parse(dataPrivcy);
       const category = meta?.category;
 
-      if (this.allowedCategories.includes(category)) {
-        return;
-      }
-
-      if (meta?.fallback) {
-        this.#broadcast.onmessage = (event) => {
-          if (
-            typeof event.data.allowCategory === 'string' &&
-            this.#categoryIDs.includes(event.data.allowCategory)
-          ) {
-            this.consentToCategory(event.data.allowCategory);
-          }
-        };
-
-        return;
-      }
+      return (
+        meta?.fallback && !this.allowedCategories.includes(category)
+      );
     });
+
+    if (hasFallbackIframe) {
+      this.#broadcast.onmessage = (event) => {
+        if (
+          typeof event.data.allowCategory === 'string' &&
+          this.#categoryIDs.includes(event.data.allowCategory)
+        ) {
+          this.consentToCategory(event.data.allowCategory);
+        }
+      };
+    }
   }
 
   /**
@@ -204,17 +203,14 @@ export default class PrivcyController {
   #getAllEmbeds(): NodeListOf<HTMLScriptElement | HTMLIFrameElement> {
     return document.querySelectorAll<
       HTMLScriptElement | HTMLIFrameElement
-    >('script[data-privcy], iframe[data-privcy]');
+    >(`script[${EMBED_ATTRIBUTE}], iframe[${EMBED_ATTRIBUTE}]`);
   }
 
   /**
    * Set allowed categories.
    */
   #updateConsentCookies(categories: Array<string>): void {
-    // Remove all previously set cookies.
     for (const category of this.#categoryIDs) {
-      this.#removeCookie(category);
-
       if (categories.includes(category)) {
         this.#setCookie(category, 'true');
       } else {
