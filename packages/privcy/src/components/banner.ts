@@ -184,6 +184,14 @@ export default function banner(props: BannerProps) {
     categoriesList,
     form,
   );
+  viewState.subscribe(
+    ({ isCustomizing }) =>
+      dialog.setAttribute(
+        'data-customizing',
+        String(!!isCustomizing),
+      ),
+    { initialRun: true },
+  );
 
   return dialog;
 }
