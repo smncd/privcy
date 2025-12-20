@@ -42,7 +42,8 @@ export default function banner(props: BannerProps) {
 
   const setSettings = (event: Event) => {
     event.preventDefault();
-    viewState.value.isSettings = !viewState.value.isSettings;
+    viewState.value.view =
+      viewState.value.view === 'settings' ? 'start' : 'settings';
   };
 
   const includeCategory = (category: string) => {
@@ -86,9 +87,9 @@ export default function banner(props: BannerProps) {
     );
 
   const categoriesList = tag('ul', { class: c('categories') });
-  viewState.subscribe(({ isSettings }) => {
+  viewState.subscribe(({ view }) => {
     categoriesList.replaceChildren(
-      ...(isSettings ? categoriesDom() : []),
+      ...(view === 'settings' ? categoriesDom() : []),
     );
   });
 
@@ -98,19 +99,20 @@ export default function banner(props: BannerProps) {
       onclick: setSettings,
       innerText: strings.buttons.customize,
     });
-    viewState.subscribe(({ isSettings }) => {
-      customizeButton.innerText = isSettings
-        ? strings.buttons.back
-        : strings.buttons.customize;
+    viewState.subscribe(({ view }) => {
+      customizeButton.innerText =
+        view === 'settings'
+          ? strings.buttons.back
+          : strings.buttons.customize;
     });
 
     const choices = tag('div', {
       class: c('buttons', 'choices'),
     });
     viewState.subscribe(
-      ({ isSettings }) => {
+      ({ view }) => {
         choices.replaceChildren(
-          ...(isSettings
+          ...(view === 'settings'
             ? [
                 button(
                   {
@@ -171,7 +173,7 @@ export default function banner(props: BannerProps) {
     'dialog',
     {
       class: c(),
-      onclose: () => (viewState.value.isSettings = false),
+      onclose: () => (viewState.value.view = 'start'),
     },
     tag('h2', { class: c('title') }, title),
     tag(
@@ -185,11 +187,7 @@ export default function banner(props: BannerProps) {
     form,
   );
   viewState.subscribe(
-    ({ isSettings }) =>
-      dialog.setAttribute(
-        'data-customizing',
-        String(!!isSettings),
-      ),
+    ({ view }) => dialog.setAttribute('data-view', view),
     { initialRun: true },
   );
 
