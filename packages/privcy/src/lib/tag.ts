@@ -13,7 +13,12 @@ export type TagOptions<K extends keyof HTMLElementTagNameMap> =
     [key: string]: any;
   };
 
-export type TagChildren = (HTMLElement | string | null)[];
+export type TagChildren = (
+  | HTMLCollection
+  | HTMLElement
+  | string
+  | null
+)[];
 
 export default function tag<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -40,6 +45,8 @@ export default function tag<K extends keyof HTMLElementTagNameMap>(
     for (const child of children) {
       if (child instanceof HTMLElement) {
         element.appendChild(child);
+      } else if (child instanceof HTMLCollection) {
+        element.append(...child);
       } else if (typeof child === 'string') {
         element.innerText += child;
       }
