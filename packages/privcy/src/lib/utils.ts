@@ -18,15 +18,17 @@ export function c(...parts: string[]): string {
 }
 
 /**
- * Parse html string and remove script tags.
+ * Convert a HTML string to a HTMLCollection.
  */
-export function parseHtmlString(html: string): string {
-  html = html.trim();
-  html = html.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '');
+export function htmlStringToCollection(str: string): HTMLCollection {
+  str = str.trim();
+  str = str.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '');
 
-  if (!/<[^>]+>/.test(html)) {
-    html = `<p>${html}</p>`;
+  if (!/<[^>]+>/.test(str)) {
+    str = `<p>${str}</p>`;
   }
 
-  return html;
+  const { body } = new DOMParser().parseFromString(str, 'text/html');
+
+  return body.children;
 }
