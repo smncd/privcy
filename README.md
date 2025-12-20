@@ -229,6 +229,18 @@ File sizes
 |dist/privcy.mjs (ESM) |15.28 kB│4.05 kB
 |dist/privcy.js (IIFE) |6.29 kB │2.57 kB
 
+
+Disclaimer
+----------
+
+User privacy and ensuring your analytics and data collection is law-abiding is and will always be
+**your responsibility**, the web service owner. Privcy is a tool that's meant to be as light-weight 
+and simple as possible, while giving the user a 'opt-in' propmt. However, as you've surely noticed 
+by now Privcy itself can't, and has no interest in, control the content of your page for you. 
+It only handles the scripts and iframes it has been tasked to handle, nothing more. 
+It's up to you to implement the right strategies to protect your users' privacy.
+
+
 Ownership
 ---------
 
