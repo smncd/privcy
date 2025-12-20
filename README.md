@@ -244,6 +244,6 @@ It's up to you to implement the right strategies to protect your users' privacy.
 Ownership
 ---------
 
-Copyright (©) 2024 Simon Lagerlöf
+Copyright (© 2024 - present) Simon Lagerlöf
 
 Licensed under the [BSD 3 Clause license](./LICENSE).
