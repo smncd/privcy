@@ -1,0 +1,5 @@
+---
+'privcy': patch
+---
+
+Introduce testing
