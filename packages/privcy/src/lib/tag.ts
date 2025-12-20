@@ -37,7 +37,7 @@ export default function tag<K extends keyof HTMLElementTagNameMap>(
         continue;
       }
 
-      element[key as keyof typeof element] = value;
+      element.setAttribute(key, value);
     }
   }
 
