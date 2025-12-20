@@ -30,9 +30,9 @@ export default function tag<K extends keyof HTMLElementTagNameMap>(
   if (options) {
     for (const [key, value] of Object.entries(options)) {
       if (key === 'class') {
-        for (const cls of value.split(' ')) {
-          element.classList.add(cls);
-        }
+        element.classList.add(
+          ...(Array.isArray(value) ? value : value.split(' ')),
+        );
 
         continue;
       }
