@@ -24,7 +24,7 @@ export function htmlStringToCollection(str: string): HTMLCollection {
   str = str.trim();
   str = str.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '');
 
-  if (!/<[^>]+>/.test(str)) {
+  if (str !== '' && !/<[^>]+>/.test(str)) {
     str = `<p>${str}</p>`;
   }
 
