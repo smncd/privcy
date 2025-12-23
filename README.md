@@ -217,7 +217,7 @@ Privcy shipps with a minimal default stylesheet, which can be used like so:
   });
 ```
 
-However, you'll probably be better of writing your own styles! Use [this template](https://gitlab.com/smncd/privcy/-/blob/main/packages/privcy/src/styles/template.css) to get started. 
+However, to get a banner that matches your site design, you're better off writing your own CSS! Use [this template](https://gitlab.com/smncd/privcy/-/blob/main/packages/privcy/src/styles/template.css) to get started. 
 Since Privcy is essentially only a standard [HTML dialog element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog), you should be able to customize 
 it to your liking.
 
