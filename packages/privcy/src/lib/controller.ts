@@ -211,11 +211,10 @@ export default class PrivcyController {
    */
   #updateConsentCookies(categories: Array<string>): void {
     for (const category of this.#categoryIDs) {
-      if (categories.includes(category)) {
-        this.#setCookie(category, 'true');
-      } else {
-        this.#setCookie(category, 'false');
-      }
+      this.#setCookie(
+        category,
+        categories.includes(category) ? 'true' : 'false',
+      );
     }
   }
 
