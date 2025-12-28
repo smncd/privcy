@@ -13,7 +13,7 @@ import Categories from './lib/categories';
 import Controller from './lib/controller';
 import iframeBroadcastChannel from './lib/iframe-broadcast-channel';
 import { EMBED_ATTRIBUTE } from './constants';
-import { type ViewState, type i18nStrings } from './types';
+import { type DeepPartial, type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
 
@@ -34,7 +34,7 @@ type PrivcyProps = {
       description: string;
     }
   >;
-  strings?: Partial<i18nStrings>;
+  strings?: DeepPartial<i18nStrings>;
   cookiePrefix?: string;
 };
 
@@ -47,7 +47,7 @@ class Privcy {
   #bannerProps: BannerProps;
   #banner: HTMLDialogElement;
 
-  #userStrings?: Partial<i18nStrings>;
+  #userStrings?: DeepPartial<i18nStrings>;
 
   get #strings(): i18nStrings {
     return {
