@@ -123,7 +123,13 @@ export default class PrivcyController {
 
       if (typeof source !== 'string') return;
 
-      const data = JSON.parse(source);
+      let data: any;
+      try {
+        data = JSON.parse(source);
+      } catch (error) {
+        console.error(error);
+        return;
+      }
 
       const newEmbed = embed.cloneNode(true) as typeof embed;
 
@@ -177,7 +183,14 @@ export default class PrivcyController {
       const dataPrivcy = element.getAttribute(EMBED_ATTRIBUTE);
       if (!dataPrivcy) return false;
 
-      const meta = JSON.parse(dataPrivcy);
+      let meta: any;
+      try {
+        meta = JSON.parse(dataPrivcy);
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+
       const category = meta?.category;
 
       return (
