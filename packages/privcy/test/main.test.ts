@@ -1,10 +1,4 @@
-import {
-  describe,
-  expect,
-  it,
-  beforeEach,
-  afterEach,
-} from 'vitest';
+import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import Privcy from '../src/main';
 import { EMBED_ATTRIBUTE } from '../src/constants';
 
