@@ -40,7 +40,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('test_', categories);
+      const controller = new Controller('test', categories);
 
       expect(controller).toBeInstanceOf(Controller);
     });
@@ -53,9 +53,9 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('myprefix_', categories);
+      const controller = new Controller('myprefix', categories);
 
-      expect(controller.cookiePrefix).toBe('myprefix_');
+      expect(controller.cookiePrefix).toBe('myprefix');
     });
   });
 
@@ -68,7 +68,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('first_', categories);
+      const controller = new Controller('first', categories);
 
       expect(controller.isFirstVisit).toBe(true);
     });
@@ -81,7 +81,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('notfirst_', categories);
+      const controller = new Controller('notfirst', categories);
       controller.consentToCategory('analytics');
 
       expect(controller.isFirstVisit).toBe(false);
@@ -97,7 +97,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('allowed1_', categories);
+      const controller = new Controller('allowed1', categories);
 
       expect(controller.allowedCategories).toEqual([]);
     });
@@ -111,7 +111,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('allowed2_', categories);
+      const controller = new Controller('allowed2', categories);
       controller.consentToCategory('analytics');
 
       expect(controller.allowedCategories).toEqual(['analytics']);
@@ -126,7 +126,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('allowed3_', categories);
+      const controller = new Controller('allowed3', categories);
       controller.updateConsent(['analytics', 'social']);
 
       expect(controller.allowedCategories).toEqual([
@@ -145,7 +145,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('rejected1_', categories);
+      const controller = new Controller('rejected1', categories);
 
       expect(controller.rejectedCategories).toEqual([]);
     });
@@ -159,7 +159,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('rejected2_', categories);
+      const controller = new Controller('rejected2', categories);
       controller.consentToCategory('analytics');
 
       expect(controller.rejectedCategories).toEqual(['social']);
@@ -174,7 +174,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('rejected3_', categories);
+      const controller = new Controller('rejected3', categories);
       controller.updateConsent([]);
 
       expect(controller.rejectedCategories).toEqual([
@@ -193,7 +193,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('status1_', categories);
+      const controller = new Controller('status1', categories);
 
       expect(controller.consentStatus).toBeUndefined();
     });
@@ -207,7 +207,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('status2_', categories);
+      const controller = new Controller('status2', categories);
       controller.updateConsent(['analytics', 'social']);
 
       expect(controller.consentStatus).toBe('allowed');
@@ -222,7 +222,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('status3_', categories);
+      const controller = new Controller('status3', categories);
       controller.updateConsent([]);
 
       expect(controller.consentStatus).toBe('rejected');
@@ -237,7 +237,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('status4_', categories);
+      const controller = new Controller('status4', categories);
       controller.consentToCategory('analytics');
 
       expect(controller.consentStatus).toBe('customized');
@@ -254,14 +254,14 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('update1_', categories);
+      const controller = new Controller('update1', categories);
       controller.updateConsent(['analytics']);
 
       expect(document.cookie).toContain(
-        'update1___consent___analytics=true',
+        'update1__consent___analytics=true',
       );
       expect(document.cookie).toContain(
-        'update1___consent___social=false',
+        'update1__consent___social=false',
       );
     });
 
@@ -273,7 +273,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('update2_', categories);
+      const controller = new Controller('update2', categories);
       controller.updateConsent(['analytics']);
       expect(controller.allowedCategories).toEqual(['analytics']);
 
@@ -293,7 +293,7 @@ describe('Controller()', () => {
         social: { name: 'Social', description: 'Social cookies' },
       });
 
-      const controller = new Controller('consent1_', categories);
+      const controller = new Controller('consent1', categories);
       controller.consentToCategory('analytics');
 
       expect(controller.allowedCategories).toContain('analytics');
@@ -312,7 +312,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('consent2_', categories);
+      const controller = new Controller('consent2', categories);
       controller.consentToCategory('analytics');
       controller.consentToCategory('social');
 
@@ -332,7 +332,7 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('elements_', categories);
+      const controller = new Controller('elements', categories);
 
       expect(controller.controlledElements).toBeInstanceOf(NodeList);
     });
@@ -347,11 +347,11 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('prefix_', categories);
+      const controller = new Controller('prefix', categories);
       controller.consentToCategory('analytics');
 
       expect(document.cookie).toContain(
-        'prefix___consent___analytics=true',
+        'prefix__consent___analytics=true',
       );
     });
 
@@ -363,11 +363,11 @@ describe('Controller()', () => {
         },
       });
 
-      const controller = new Controller('secure_', categories);
+      const controller = new Controller('secure', categories);
       controller.consentToCategory('analytics');
 
       expect(document.cookie).toContain(
-        'secure___consent___analytics=true',
+        'secure__consent___analytics=true',
       );
     });
   });
