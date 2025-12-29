@@ -323,6 +323,170 @@ describe('Controller()', () => {
     });
   });
 
+  describe('loadEmbeds()', () => {
+    it('should load script with allowed category', () => {
+      const categories = createCategories({
+        analytics: {
+          name: 'Analytics',
+          description: 'Analytics cookies',
+        },
+      });
+
+      const script = document.createElement('script');
+      script.type = 'text/plain';
+      script.setAttribute('data-privcy', JSON.stringify({
+        category: 'analytics',
+        src: 'https://example.com/anloadEmbedsalytics.js',
+      }));
+      document.body.appendChild(script);
+
+      const controller = new Controller('loadembeds1', categories);
+      controller.consentToCategory('analytics');
+
+      const updatedScript = document.querySelector(
+        'script[data-privcy]',
+      ) as HTMLScriptElement;
+
+      expect(updatedScript.src).toBe('https://example.com/analytics.js');
+      expect(updatedScript.type).toBe('application/javascript');
+
+      updatedScript.remove();
+    });
+
+    it('should not load script with rejected category', () => {
+      const categories = createCategories({
+        analytics: {
+          name: 'Analytics',
+          description: 'Analytics cookies',
+        },
+      });
+
+      const script = document.createElement('script');
+      script.type = 'text/plain';
+      script.setAttribute('data-privcy', JSON.stringify({
+        category: 'analytics',
+        src: 'https://example.com/analytics.js',
+      }));
+      document.body.appendChild(script);
+
+      const controller = new Controller('loadembeds2', categories);
+      controller.updateConsent([]); // Reject all
+
+      const updatedScript = document.querySelector(
+        'script[data-privcy]',
+      ) as HTMLScriptElement;
+
+      expect(updatedScript.src).toBe('');
+      expect(updatedScript.type).toBe('text/plain');
+
+      updatedScript.remove();
+    });
+
+    it('should load iframe with allowed category', () => {
+      const categories = createCategories({
+        social: { name: 'Social', description: 'Social cookies' },
+      });
+
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('data-privcy', JSON.stringify({
+        category: 'social',
+        src: 'https://example.com/social.html',
+      }));
+      document.body.appendChild(iframe);
+
+      const controller = new Controller('loadembeds3', categories);
+      controller.consentToCategory('social');
+
+      const updatedIframe = document.querySelector(
+        'iframe[data-privcy]',
+      ) as HTMLIFrameElement;
+
+      expect(updatedIframe.src).toContain('https://example.com/social.html');
+
+      updatedIframe.remove();
+    });
+
+    it('should load iframe fallback for rejected category', () => {
+      const categories = createCategories({
+        social: { name: 'Social', description: 'Social cookies' },
+      });
+
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('data-privcy', JSON.stringify({
+        category: 'social',
+        src: 'https://example.com/social.html',
+        fallback: 'https://example.com/fallback.html',
+      }));
+      document.body.appendChild(iframe);
+
+      const controller = new Controller('loadembeds4', categories);
+      controller.updateConsent([]); // Reject all
+
+      const updatedIframe = document.querySelector(
+        'iframe[data-privcy]',
+      ) as HTMLIFrameElement;
+
+      expect(updatedIframe.src).toContain('https://example.com/fallback.html');
+
+      updatedIframe.remove();
+    });
+
+    it('should not load embed without category', () => {
+      const categories = createCategories({
+        analytics: {
+          name: 'Analytics',
+          description: 'Analytics cookies',
+        },
+      });
+
+      const script = document.createElement('script');
+      script.type = 'text/plain';
+      script.setAttribute('data-privcy', JSON.stringify({
+        src: 'https://example.com/nocategory.js',
+      }));
+      document.body.appendChild(script);
+
+      const controller = new Controller('loadembeds5', categories);
+      controller.updateConsent([]); // Reject all
+
+      const updatedScript = document.querySelector(
+        'script[data-privcy]',
+      ) as HTMLScriptElement;
+
+      expect(updatedScript.src).toBe('');
+      expect(updatedScript.type).toBe('text/plain');
+
+      updatedScript.remove();
+    });
+
+  it('should handle invalid json in embed data attribute gracefully', () => {
+      const categories = createCategories({
+        analytics: {
+          name: 'Analytics',
+          description: 'Analytics cookies',
+        },
+      });
+
+      const script = document.createElement('script');
+      script.type = 'text/plain';
+      script.setAttribute('data-privcy', 'invalid-json');
+      document.body.appendChild(script);
+
+      const controller = new Controller('loadembeds6', categories);
+      controller.updateConsent(['analytics']);
+
+      const updatedScript = document.querySelector(
+        'script[data-privcy]',
+      ) as HTMLScriptElement;
+
+      // Since JSON is invalid, the embed should remain unchanged
+      expect(updatedScript.src).toBe('');
+      expect(updatedScript.type).toBe('text/plain');
+
+      updatedScript.remove();
+    });
+  });
+
   describe('controlledElements', () => {
     it('should return NodeList of controlled elements', () => {
       const categories = createCategories({
