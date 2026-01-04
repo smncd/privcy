@@ -160,9 +160,10 @@ SPAs (⚠️)
 Currently, SPA support is experimental. You can use the `Privcy.reload()` method to handle new scripts/iframes after navigation has taken place, for example:
 
 ### React
-```typescript
-import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+```tsx
+import { StrictMode, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, useLocation } from 'react-router';
 import Privcy from 'privcy';
 
 const privcy = new Privcy({
@@ -170,16 +171,24 @@ const privcy = new Privcy({
 });
 
 function App() {
-  let location = useLocation();
+  const location = useLocation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     privcy.reload();
-  }, [location]);
+  }, [location.pathname]);
 
   return (
     // ...
   );
 }
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
+);
 ```
 
 ### Barba.js
