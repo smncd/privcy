@@ -1,11 +1,4 @@
-import {
-  describe,
-  expect,
-  it,
-  beforeEach,
-  afterEach,
-  vi,
-} from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import banner from '../../src/components/banner';
 import Controller from '../../src/lib/controller';
 import Categories from '../../src/lib/categories';
@@ -92,9 +85,7 @@ describe('banner()', () => {
       });
       const dialogElement = banner(props);
 
-      expect(dialogElement.textContent).toContain(
-        'Custom description text',
-      );
+      expect(dialogElement.textContent).toContain('Custom description text');
     });
   });
 
@@ -117,9 +108,7 @@ describe('banner()', () => {
       const props = createBannerProps();
       const dialogElement = banner(props);
 
-      expect(dialogElement.textContent).toContain(
-        'Customize settings',
-      );
+      expect(dialogElement.textContent).toContain('Customize settings');
     });
 
     it('should accept all cookies when accept button clicked', () => {
@@ -185,12 +174,8 @@ describe('banner()', () => {
 
       await Promise.resolve(); // Wait for microtask
 
-      expect(dialogElement.textContent).toContain(
-        'Analytics cookies',
-      );
-      expect(dialogElement.textContent).toContain(
-        'Social media cookies',
-      );
+      expect(dialogElement.textContent).toContain('Analytics cookies');
+      expect(dialogElement.textContent).toContain('Social media cookies');
     });
 
     it('should show save settings button', () => {
@@ -223,9 +208,7 @@ describe('banner()', () => {
 
       const backButton = Array.from(
         dialogElement.querySelectorAll('button'),
-      ).find((btn) =>
-        btn.textContent?.includes('Back'),
-      ) as HTMLButtonElement;
+      ).find((btn) => btn.textContent?.includes('Back')) as HTMLButtonElement;
 
       backButton.click();
 
@@ -240,9 +223,7 @@ describe('banner()', () => {
 
       await Promise.resolve(); // Wait for microtask
 
-      const toggles = dialogElement.querySelectorAll(
-        'input[type="checkbox"]',
-      );
+      const toggles = dialogElement.querySelectorAll('input[type="checkbox"]');
       expect(toggles.length).toBe(2);
     });
 
@@ -289,9 +270,7 @@ describe('banner()', () => {
       const props = createBannerProps({ strings: customStrings });
       const dialogElement = banner(props);
 
-      expect(dialogElement.textContent).toContain(
-        'Accept Everything',
-      );
+      expect(dialogElement.textContent).toContain('Accept Everything');
     });
 
     it('should use custom enable text', async () => {

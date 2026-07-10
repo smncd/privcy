@@ -9,15 +9,17 @@
 
 export const PRIVCY_PROPS = {
   title: 'Privacy',
-  description: '<p>Your data, your rules. Here\'s what we\'re working with.</p>',
+  description: "<p>Your data, your rules. Here's what we're working with.</p>",
   categories: {
     analytics: {
       name: 'Analytics',
-      description: 'Helps us understand what\'s working, what\'s not, and what\'s just plain confusing.',
+      description:
+        "Helps us understand what's working, what's not, and what's just plain confusing.",
     },
     social: {
       name: 'Social',
-      description: 'Enables sharing, liking, and pretending you discovered us first.',
+      description:
+        'Enables sharing, liking, and pretending you discovered us first.',
     },
   },
-}
+};

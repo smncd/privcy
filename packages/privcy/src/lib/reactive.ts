@@ -24,9 +24,7 @@ export type Reactive<T> = {
   subscribe: Subscriber<T>;
 };
 
-export default function reactive<T extends object>(
-  input: T,
-): Reactive<T> {
+export default function reactive<T extends object>(input: T): Reactive<T> {
   const subscribers = new Set<SubscriberCallback<T>>();
   let pending = false;
 

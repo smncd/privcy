@@ -53,8 +53,8 @@ export default class PrivcyController {
      * categories.
      */
     if (
-      [...this.rejectedCategories, ...this.allowedCategories]
-        .length !== this.#categoryIDs.length
+      [...this.rejectedCategories, ...this.allowedCategories].length !==
+      this.#categoryIDs.length
     ) {
       return;
     }
@@ -175,28 +175,26 @@ export default class PrivcyController {
    * Populate iframes in case it cannot be loaded.
    */
   public loadIframeFallbacks(): void {
-    const hasFallbackIframe = Array.from(
-      this.controlledElements,
-    ).some((element) => {
-      if (!(element instanceof HTMLIFrameElement)) return false;
+    const hasFallbackIframe = Array.from(this.controlledElements).some(
+      (element) => {
+        if (!(element instanceof HTMLIFrameElement)) return false;
 
-      const dataPrivcy = element.getAttribute(EMBED_ATTRIBUTE);
-      if (!dataPrivcy) return false;
+        const dataPrivcy = element.getAttribute(EMBED_ATTRIBUTE);
+        if (!dataPrivcy) return false;
 
-      let meta: any;
-      try {
-        meta = JSON.parse(dataPrivcy);
-      } catch (error) {
-        console.error(error);
-        return;
-      }
+        let meta: any;
+        try {
+          meta = JSON.parse(dataPrivcy);
+        } catch (error) {
+          console.error(error);
+          return;
+        }
 
-      const category = meta?.category;
+        const category = meta?.category;
 
-      return (
-        meta?.fallback && !this.allowedCategories.includes(category)
-      );
-    });
+        return meta?.fallback && !this.allowedCategories.includes(category);
+      },
+    );
 
     if (hasFallbackIframe) {
       this.#broadcast.onmessage = (event) => {
@@ -214,9 +212,9 @@ export default class PrivcyController {
    * Get all scripts and iframs in DOM.
    */
   #getAllEmbeds(): NodeListOf<HTMLScriptElement | HTMLIFrameElement> {
-    return document.querySelectorAll<
-      HTMLScriptElement | HTMLIFrameElement
-    >(`script[${EMBED_ATTRIBUTE}], iframe[${EMBED_ATTRIBUTE}]`);
+    return document.querySelectorAll<HTMLScriptElement | HTMLIFrameElement>(
+      `script[${EMBED_ATTRIBUTE}], iframe[${EMBED_ATTRIBUTE}]`,
+    );
   }
 
   /**
@@ -237,9 +235,7 @@ export default class PrivcyController {
   #getCookie(name: string): string | undefined {
     return document.cookie
       .split(';')
-      .find((cookie) =>
-        cookie.trim().startsWith(this.#cookieName(name) + '='),
-      )
+      .find((cookie) => cookie.trim().startsWith(this.#cookieName(name) + '='))
       ?.split('=')
       .pop();
   }

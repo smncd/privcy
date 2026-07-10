@@ -27,14 +27,8 @@ export type BannerProps = {
 };
 
 export default function banner(props: BannerProps) {
-  const {
-    controller,
-    categories,
-    viewState,
-    title,
-    description,
-    strings,
-  } = props;
+  const { controller, categories, viewState, title, description, strings } =
+    props;
 
   const allowedCategories = () => controller.allowedCategories;
 
@@ -62,11 +56,7 @@ export default function banner(props: BannerProps) {
         'li',
         { class: c('category') },
         tag('h3', { class: c('category', 'name') }, category.name),
-        tag(
-          'p',
-          { class: c('category', 'description') },
-          category.description,
-        ),
+        tag('p', { class: c('category', 'description') }, category.description),
         tag(
           'label',
           {
@@ -77,11 +67,7 @@ export default function banner(props: BannerProps) {
             checked: allowedCategories().includes(category.id),
             onchange: () => includeCategory(category.id),
           }),
-          tag(
-            'span',
-            {},
-            `${strings.categories.enable} ${category.name}`,
-          ),
+          tag('span', {}, `${strings.categories.enable} ${category.name}`),
         ),
       ),
     );
@@ -101,9 +87,7 @@ export default function banner(props: BannerProps) {
     });
     viewState.subscribe(({ view }) => {
       customizeButton.innerText =
-        view === 'settings'
-          ? strings.buttons.back
-          : strings.buttons.customize;
+        view === 'settings' ? strings.buttons.back : strings.buttons.customize;
     });
 
     const choices = tag('div', {
@@ -119,8 +103,7 @@ export default function banner(props: BannerProps) {
                     buttonType: 'acceptSelected',
                     onclick: () => {
                       const willReload =
-                        requestedCategories.length <
-                        allowedCategories().length;
+                        requestedCategories.length < allowedCategories().length;
 
                       controller.updateConsent(requestedCategories);
 
@@ -134,8 +117,7 @@ export default function banner(props: BannerProps) {
                 button(
                   {
                     buttonType: 'acceptAll',
-                    onclick: () =>
-                      controller.updateConsent(categories.IDs),
+                    onclick: () => controller.updateConsent(categories.IDs),
                   },
                   strings.buttons.acceptAll,
                 ),
@@ -143,8 +125,7 @@ export default function banner(props: BannerProps) {
                   {
                     buttonType: 'rejectAll',
                     onclick: () => {
-                      const willReload =
-                        allowedCategories().length > 0;
+                      const willReload = allowedCategories().length > 0;
                       controller.updateConsent([]);
 
                       if (willReload) location.reload();
@@ -186,10 +167,9 @@ export default function banner(props: BannerProps) {
     categoriesList,
     form,
   );
-  viewState.subscribe(
-    ({ view }) => dialog.setAttribute('data-view', view),
-    { initialRun: true },
-  );
+  viewState.subscribe(({ view }) => dialog.setAttribute('data-view', view), {
+    initialRun: true,
+  });
 
   return dialog;
 }

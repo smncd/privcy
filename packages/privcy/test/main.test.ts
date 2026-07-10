@@ -90,10 +90,8 @@ describe('Privcy', () => {
       });
 
       // Trigger consent to verify prefix is used
-      const acceptButton = Array.from(
-        document.querySelectorAll('button'),
-      ).find((btn) =>
-        btn.textContent?.includes('Accept all'),
+      const acceptButton = Array.from(document.querySelectorAll('button')).find(
+        (btn) => btn.textContent?.includes('Accept all'),
       ) as HTMLButtonElement;
 
       acceptButton.click();
@@ -106,10 +104,8 @@ describe('Privcy', () => {
     it('should use default cookie prefix when not provided', () => {
       new Privcy(defaultProps);
 
-      const acceptButton = Array.from(
-        document.querySelectorAll('button'),
-      ).find((btn) =>
-        btn.textContent?.includes('Accept all'),
+      const acceptButton = Array.from(document.querySelectorAll('button')).find(
+        (btn) => btn.textContent?.includes('Accept all'),
       ) as HTMLButtonElement;
 
       acceptButton.click();
@@ -186,9 +182,7 @@ describe('Privcy', () => {
 
       const privcy = new Privcy(defaultProps);
 
-      const dialog = document.querySelector(
-        'dialog',
-      ) as HTMLDialogElement;
+      const dialog = document.querySelector('dialog') as HTMLDialogElement;
       expect(dialog.open).toBe(false);
 
       privcy.openSettings();
@@ -207,9 +201,7 @@ describe('Privcy', () => {
 
       const dialog = document.querySelector('dialog');
 
-      expect(
-        dialog?.querySelector('li.privcy__category'),
-      ).not.toBeNull();
+      expect(dialog?.querySelector('li.privcy__category')).not.toBeNull();
     });
   });
 
@@ -234,9 +226,7 @@ describe('Privcy', () => {
       const updatedScript = document.querySelector(
         `script[${EMBED_ATTRIBUTE}]`,
       ) as HTMLScriptElement;
-      expect(updatedScript.src).toContain(
-        'https://example.com/script.js',
-      );
+      expect(updatedScript.src).toContain('https://example.com/script.js');
     });
 
     it('should re-add banner open event listeners', () => {
@@ -252,9 +242,7 @@ describe('Privcy', () => {
 
       privcy.reload();
 
-      const dialog = document.querySelector(
-        'dialog',
-      ) as HTMLDialogElement;
+      const dialog = document.querySelector('dialog') as HTMLDialogElement;
       dialog.close();
 
       button.click();
@@ -274,9 +262,7 @@ describe('Privcy', () => {
 
       new Privcy(defaultProps);
 
-      const dialog = document.querySelector(
-        'dialog',
-      ) as HTMLDialogElement;
+      const dialog = document.querySelector('dialog') as HTMLDialogElement;
       expect(dialog.open).toBe(false);
 
       button.click();

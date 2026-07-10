@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       html,
       body {
@@ -50,9 +47,7 @@
         in the privacy settings.
       </p>
       <div class="buttons">
-        <button id="allow">
-          Allow <span id="category">[category]</span>
-        </button>
+        <button id="allow">Allow <span id="category">[category]</span></button>
         <button id="settings">Open settings</button>
       </div>
     </main>
@@ -66,19 +61,16 @@
             parent.postMessage({ displayBanner: true });
           });
 
-        document
-          .querySelector('button#allow')
-          .addEventListener('click', () => {
-            parent.postMessage({ allowCategory: 'social' });
-          });
+        document.querySelector('button#allow').addEventListener('click', () => {
+          parent.postMessage({ allowCategory: 'social' });
+        });
 
         const urlParams = new URLSearchParams(window.location.search);
 
         document
           .querySelectorAll('#category')
           .forEach(
-            (element) =>
-              (element.innerText = urlParams.get('category')),
+            (element) => (element.innerText = urlParams.get('category')),
           );
       }
     </script>
