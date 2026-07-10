@@ -7,13 +7,12 @@
  * @since 0.9.0
  */
 
-import tag from '../lib/tag';
+import { tag, type Reactive } from '@privcy/dom';
 import button from './button';
 import { c, htmlStringToCollection } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
 import type { i18nStrings, ViewState } from '../types';
-import type { Reactive, Subscriber } from '../lib/reactive';
 
 export type BannerProps = {
   controller: Controller;

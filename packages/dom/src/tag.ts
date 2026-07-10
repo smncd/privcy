@@ -4,7 +4,7 @@
  * @author Simon Lagerlöf <contact@smn.codes>
  * @license BSD-3-Clause
  * @copyright 2025 Simon Lagerlöf
- * @since 0.11.0
+ * @since @next
  */
 
 export type TagOptions<K extends keyof HTMLElementTagNameMap> =
@@ -20,7 +20,21 @@ export type TagChildren = (
   | null
 )[];
 
-export default function tag<K extends keyof HTMLElementTagNameMap>(
+/**
+ * `tag()` helps construct native-js `HTMLElement`'s. It simplifies creating
+ * deep HTML structures, without the `createElement`/`appendChild` soup, and
+ * without relying on a full framework.
+ *
+ * @param tag The HTML tag string (`div`/`h1`/etc) of the element.
+ * @param options Any props or attributes the element should have. For example:
+ *                ```ts
+ *                  const button = tag('button', {
+ *                    onclick: () => alert('button clicked!'),
+ *                  });
+ *                ```
+ * @param children Child elements.
+ */
+export function tag<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   options?: TagOptions<K>,
   ...children: TagChildren

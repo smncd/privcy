@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import tag from '../../src/lib/tag';
+import { tag } from '../src/tag';
 
 describe('tag()', () => {
   it('succeeds with standard tag', () => {

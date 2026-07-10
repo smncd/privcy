@@ -1,0 +1,14 @@
+{
+  "name": "@privcy/dom",
+  "author": "Simon Lagerlöf <contact@smn.codes>",
+  "version": "0.0.0",
+  "description": "Zero dependency DOM tooling for reactive HTML",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  }
+}

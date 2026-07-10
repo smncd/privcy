@@ -3,8 +3,8 @@
  *
  * @author Simon Lagerlöf <contact@smn.codes>
  * @license BSD-3-Clause
- * @copyright 2025 Simon Lagerlöf
- * @since 0.11.0
+ * @copyright 2026 Simon Lagerlöf
+ * @since @next
  */
 
 type SubscriberCallback<T> = (data: T) => void;
@@ -24,7 +24,7 @@ export type Reactive<T> = {
   subscribe: Subscriber<T>;
 };
 
-export default function reactive<T extends object>(
+export function reactive<T extends object>(
   input: T,
 ): Reactive<T> {
   const subscribers = new Set<SubscriberCallback<T>>();
