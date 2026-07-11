@@ -72,7 +72,11 @@ importers:
         specifier: ^7.1.12
         version: 7.1.12(@types/node@24.9.2)(sass@1.93.3)(terser@5.44.0)
 
-  packages/dom: {}
+  packages/dom:
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/dummy-data: {}
 
