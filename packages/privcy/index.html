@@ -2,10 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Privacy consent banner</title>
     <style>
       * {
@@ -63,10 +60,7 @@
       <script
         data-privcy='{ "src": "/example.js", "category": "analytics" }'
       ></script>
-      <script
-        data-privcy='{ "category": "social" }'
-        type="plain/text"
-      >
+      <script data-privcy='{ "category": "social" }' type="plain/text">
         document.querySelector('h1').style.color = 'crimson';
       </script>
     </section>
@@ -95,9 +89,7 @@
       <h2>SPA / Dynamic Content</h2>
       <p>Test dynamically inserted embeds:</p>
       <div id="content">
-        <button onclick="replaceWithIframe()">
-          Insert Dynamic Iframe
-        </button>
+        <button onclick="replaceWithIframe()">Insert Dynamic Iframe</button>
       </div>
       <script>
         function replaceWithIframe() {

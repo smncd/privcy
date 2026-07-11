@@ -42,9 +42,7 @@ describe('htmlStringToCollection()', () => {
     expect(result.item(0)?.innerHTML).to.eq('hello world');
 
     expect(result.item(1)?.tagName).to.eq('STRONG');
-    expect(result.item(1)?.innerHTML).to.eq(
-      "i'm excited to meet you",
-    );
+    expect(result.item(1)?.innerHTML).to.eq("i'm excited to meet you");
   });
 
   it('should handle non-html strings', () => {
@@ -56,9 +54,7 @@ describe('htmlStringToCollection()', () => {
   });
 
   it('should remove script tags', () => {
-    const result = htmlStringToCollection(
-      '<script>alert("evil");</script>',
-    );
+    const result = htmlStringToCollection('<script>alert("evil");</script>');
 
     expect(result.length).to.eq(0);
     expect(result.item(0)?.tagName).to.eq(undefined);

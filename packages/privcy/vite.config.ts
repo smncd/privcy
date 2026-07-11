@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import { visualizer } from 'rollup-plugin-visualizer'
+import { visualizer } from 'rollup-plugin-visualizer';
 import packageJson from './package.json';
 
 const preamble = `/**
@@ -22,7 +22,7 @@ export default defineConfig({
       fileName: 'privcy',
     },
     minify: 'terser',
-    terserOptions:{
+    terserOptions: {
       format: {
         comments: false,
         preamble,
@@ -50,8 +50,11 @@ export default defineConfig({
       ],
     },
   },
-  plugins: [dts({ rollupTypes: true }), visualizer({
+  plugins: [
+    dts({ rollupTypes: true }),
+    visualizer({
       emitFile: true,
       filename: 'stats.html',
-})],
+    }),
+  ],
 });

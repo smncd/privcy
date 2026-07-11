@@ -138,10 +138,7 @@ describe('Categories()', () => {
   });
 
   it('should handle large number of categories', () => {
-    const largeData: Record<
-      string,
-      { name: string; description: string }
-    > = {};
+    const largeData: Record<string, { name: string; description: string }> = {};
 
     for (let i = 0; i < 100; i++) {
       largeData[`cat${i}`] = {

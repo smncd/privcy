@@ -1,11 +1,4 @@
-import {
-  describe,
-  expect,
-  it,
-  beforeEach,
-  afterEach,
-  vi,
-} from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import Controller from '../../src/lib/controller';
 import Categories from '../../src/lib/categories';
 
@@ -135,10 +128,7 @@ describe('Controller()', () => {
       const controller = new Controller('allowed3', categories);
       controller.updateConsent(['analytics', 'social']);
 
-      expect(controller.allowedCategories).toEqual([
-        'analytics',
-        'social',
-      ]);
+      expect(controller.allowedCategories).toEqual(['analytics', 'social']);
     });
   });
 
@@ -183,10 +173,7 @@ describe('Controller()', () => {
       const controller = new Controller('rejected3', categories);
       controller.updateConsent([]);
 
-      expect(controller.rejectedCategories).toEqual([
-        'analytics',
-        'social',
-      ]);
+      expect(controller.rejectedCategories).toEqual(['analytics', 'social']);
     });
   });
 
@@ -263,12 +250,8 @@ describe('Controller()', () => {
       const controller = new Controller('update1', categories);
       controller.updateConsent(['analytics']);
 
-      expect(document.cookie).toContain(
-        'update1__consent___analytics=true',
-      );
-      expect(document.cookie).toContain(
-        'update1__consent___social=false',
-      );
+      expect(document.cookie).toContain('update1__consent___analytics=true');
+      expect(document.cookie).toContain('update1__consent___social=false');
     });
 
     it('should update existing consent', () => {
@@ -322,10 +305,7 @@ describe('Controller()', () => {
       controller.consentToCategory('analytics');
       controller.consentToCategory('social');
 
-      expect(controller.allowedCategories).toEqual([
-        'analytics',
-        'social',
-      ]);
+      expect(controller.allowedCategories).toEqual(['analytics', 'social']);
     });
   });
 
@@ -356,9 +336,7 @@ describe('Controller()', () => {
         'script[data-privcy]',
       ) as HTMLScriptElement;
 
-      expect(updatedScript.src).toBe(
-        'https://example.com/analytics.js',
-      );
+      expect(updatedScript.src).toBe('https://example.com/analytics.js');
       expect(updatedScript.type).toBe('application/javascript');
     });
 
@@ -414,9 +392,7 @@ describe('Controller()', () => {
         'iframe[data-privcy]',
       ) as HTMLIFrameElement;
 
-      expect(updatedIframe.src).toContain(
-        'https://example.com/social.html',
-      );
+      expect(updatedIframe.src).toContain('https://example.com/social.html');
     });
 
     it('should load iframe fallback for rejected category', () => {
@@ -442,9 +418,7 @@ describe('Controller()', () => {
         'iframe[data-privcy]',
       ) as HTMLIFrameElement;
 
-      expect(updatedIframe.src).toContain(
-        'https://example.com/fallback.html',
-      );
+      expect(updatedIframe.src).toContain('https://example.com/fallback.html');
     });
 
     it('should not load embed without category', () => {
@@ -529,9 +503,7 @@ describe('Controller()', () => {
       const controller = new Controller('prefix', categories);
       controller.consentToCategory('analytics');
 
-      expect(document.cookie).toContain(
-        'prefix__consent___analytics=true',
-      );
+      expect(document.cookie).toContain('prefix__consent___analytics=true');
     });
 
     it('should set secure cookie attributes', () => {
@@ -545,9 +517,7 @@ describe('Controller()', () => {
       const controller = new Controller('secure', categories);
       controller.consentToCategory('analytics');
 
-      expect(document.cookie).toContain(
-        'secure__consent___analytics=true',
-      );
+      expect(document.cookie).toContain('secure__consent___analytics=true');
     });
   });
 });

@@ -16,9 +16,7 @@ describe('tag()', () => {
 
     expect(result instanceof HTMLElement).to.true;
     expect(result.tagName).to.eq('CUSTOM-ELEMENT');
-    expect(result.outerHTML).to.eq(
-      '<custom-element></custom-element>',
-    );
+    expect(result.outerHTML).to.eq('<custom-element></custom-element>');
   });
 
   it('succeeds with self closing tag', () => {
@@ -47,9 +45,7 @@ describe('tag()', () => {
     });
 
     expect(result.classList.toString()).to.eq('page-hero -tall');
-    expect(result.outerHTML).to.eq(
-      '<div class="page-hero -tall"></div>',
-    );
+    expect(result.outerHTML).to.eq('<div class="page-hero -tall"></div>');
   });
 
   it('sets multiple classes from space-separated string', () => {
@@ -134,9 +130,7 @@ describe('tag()', () => {
     const result = tag('ul', {}, container.children);
 
     expect(result.children.length).to.eq(2);
-    expect(result.outerHTML).to.eq(
-      '<ul><span></span><span></span></ul>',
-    );
+    expect(result.outerHTML).to.eq('<ul><span></span><span></span></ul>');
   });
 
   it('sets innerText child', () => {
@@ -177,16 +171,8 @@ describe('tag()', () => {
   });
 
   it('handles mixed children types', () => {
-    const result = tag(
-      'div',
-      {},
-      'Text',
-      tag('span', {}, 'inner'),
-      null,
-    );
+    const result = tag('div', {}, 'Text', tag('span', {}, 'inner'), null);
 
-    expect(result.outerHTML).to.eq(
-      '<div>Text<span>inner</span></div>',
-    );
+    expect(result.outerHTML).to.eq('<div>Text<span>inner</span></div>');
   });
 });

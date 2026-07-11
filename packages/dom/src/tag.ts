@@ -7,18 +7,14 @@
  * @since @next
  */
 
-export type TagOptions<K extends keyof HTMLElementTagNameMap> =
-  Partial<HTMLElementTagNameMap[K]> & {
-    class?: string | string[];
-    [key: string]: any;
-  };
+export type TagOptions<K extends keyof HTMLElementTagNameMap> = Partial<
+  HTMLElementTagNameMap[K]
+> & {
+  class?: string | string[];
+  [key: string]: any;
+};
 
-export type TagChildren = (
-  | HTMLCollection
-  | HTMLElement
-  | string
-  | null
-)[];
+export type TagChildren = (HTMLCollection | HTMLElement | string | null)[];
 
 /**
  * `tag()` helps construct native-js `HTMLElement`'s. It simplifies creating
@@ -45,9 +41,7 @@ export function tag<K extends keyof HTMLElementTagNameMap>(
     for (const [key, value] of Object.entries(options)) {
       if (key === 'class') {
         element.classList.add(
-          ...(Array.isArray(value) ? value : value.split(' ')).filter(
-            Boolean,
-          ),
+          ...(Array.isArray(value) ? value : value.split(' ')).filter(Boolean),
         );
 
         continue;
