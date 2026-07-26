@@ -29,6 +29,30 @@ describe('reactive()', () => {
       expect(state.value.b).toBe(20);
       expect(state.value.c).toBe(30);
     });
+
+    it('should handle primitives', async () => {
+      const state = reactive("Hello world!");
+
+      state.value = "Hello Computer!";
+
+      expect(state.value).toBe("Hello Computer!");
+    });
+
+    it('should handle arrays', async () => {
+      const state = reactive(["Hello world!"]);
+
+      state.value = [...state.value, "Hello Computer!"];
+
+      expect(state.value.pop()).toBe("Hello Computer!");
+    });
+
+    it('should handle nested objects', async () => {
+      const state = reactive({ data: { hello: "world" } } );
+
+      state.value.data.hello = 'computer';
+
+      expect(state.value.data.hello).toBe("computer");
+    });
   });
 
   describe('subscribe()', () => {
@@ -105,6 +129,57 @@ describe('reactive()', () => {
       state.subscribe(callback, { initialRun: false });
 
       expect(callback).not.toHaveBeenCalled();
+    });
+
+    it('should not be overridable', () => {
+      const state = reactive({
+        subscribe: false,
+      });
+
+      //@ts-expect-error
+      expect(() => state.subscribe = () => {}).toThrow(TypeError);
+
+      // Setting a value.subscribe prop should not throw anything.
+      expect(() => state.value.subscribe = true).not.toThrow(TypeError);
+    });
+
+    it('should handle primitives', async () => {
+      const state = reactive("Hello world!");
+
+      const callback = vi.fn();
+      state.subscribe(callback);
+
+      state.value = "Hello Computer!";
+
+      await Promise.resolve();
+
+      expect(callback).toHaveBeenCalled();
+    });
+
+    it('should handle arrays', async () => {
+      const state = reactive(["Hello world!"]);
+
+      const callback = vi.fn();
+      state.subscribe(callback);
+
+      state.value = [...state.value, "Hello Computer!"];
+
+      await Promise.resolve();
+
+      expect(callback).toHaveBeenCalled();
+    });
+
+    it('should handle nested objects', async () => {
+      const state = reactive({ data: { hello: "world" } } );
+
+      const callback = vi.fn();
+      state.subscribe(callback);
+
+      state.value.data.hello = 'computer';
+
+      await Promise.resolve();
+
+      expect(callback).toHaveBeenCalled();
     });
   });
 

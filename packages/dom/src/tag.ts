@@ -7,6 +7,9 @@
  * @since @next
  */
 
+/**
+ * Options for {@link tag}'s
+ */
 export type TagOptions<K extends keyof HTMLElementTagNameMap> = Partial<
   HTMLElementTagNameMap[K]
 > & {
@@ -14,6 +17,9 @@ export type TagOptions<K extends keyof HTMLElementTagNameMap> = Partial<
   [key: string]: any;
 };
 
+/**
+ * All types of accepted children in {@link tag}'s
+ */
 export type TagChildren = (HTMLCollection | HTMLElement | string | null)[];
 
 /**
