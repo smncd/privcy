@@ -1,5 +1,16 @@
 # privcy
 
+## 0.11.6
+
+### Patch Changes
+
+- eccd44a: Optimise `#updateConsentCookies()` method
+- 79f7a11: Use new `@privcy/dom` package
+- bae3405: Add further test cases
+- 74cc704: Gracefully handle invalid `data-privcy` attributes
+- Updated dependencies [871d5cd]
+  - @privcy/dom@0.1.0
+
 ## 0.11.5
 
 ### Patch Changes
