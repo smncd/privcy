@@ -59,7 +59,12 @@ export class ConsentRecordStore {
     choices: Map<string, boolean>,
     method: ConsentRecordMethod,
   ): void {
-    this.#record = new ConsentRecord(new Date(), 'todo-later', choices, method);
+    this.#record = new ConsentRecord(
+      new Date(),
+      this.#categories.toHash(),
+      choices,
+      method,
+    );
 
     this.store();
     this.#notify();
@@ -76,7 +81,6 @@ export class ConsentRecordStore {
     const raw = getCookie(COOKIE_NAME);
     if (!raw) {
       this.#record = null;
-      this.#notify();
       return;
     }
 
@@ -88,7 +92,6 @@ export class ConsentRecordStore {
           '[Privcy] Malformed consent record: missing required fields',
         );
         this.#record = null;
-        this.#notify();
         return;
       }
 
@@ -102,7 +105,12 @@ export class ConsentRecordStore {
           method,
         );
         this.#record = null;
-        this.#notify();
+        return;
+      }
+
+      if (hash !== this.#categories.toHash()) {
+        console.debug('[Privcy] consent record is outdated');
+        this.#record = null;
         return;
       }
 
@@ -112,12 +120,9 @@ export class ConsentRecordStore {
         new Map(Object.entries(choices) as Array<[string, boolean]>),
         method,
       );
-
-      this.#notify();
     } catch (error) {
       console.error('[Privcy] Failed to parse consent record cookie', error);
       this.#record = null;
-      this.#notify();
     }
   }
 
