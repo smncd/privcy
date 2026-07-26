@@ -154,6 +154,39 @@ This allows the iframe fallback to trigger opening the Privcy settings panel.
 
 For a complete example, see [iframe-fallback.html](https://gitlab.com/smncd/privcy/-/blob/main/packages/privcy/iframe-fallback.html).
 
+Consent Record storing
+----------------------
+
+There are scenarios where user consent decisions need to be recorded and stored.
+Privcy supports this with the `onConsentRecordChange()` method, that takes a 
+callback function that is run when the consent record is set or updated.
+
+The user consent record consists of:
+- timestamp
+- which categories are allowed/rejected
+- hash to track category updates
+- the method used (allow all, reject, customize)
+
+However, **Privcy does not provide a user or session identifier**, but stores
+only the data displayed above. Instead, this part is left to the integrator.
+You can either hook in to your own user/session logic, or create and store a
+randomly generated UUID.
+
+```ts
+const privcy = new Privcy(config);
+
+privcy.onConsentRecordChange(async (record) => {
+  const res = await fetch('/api/consent-record', {
+    method: 'POST',
+    body: JSON.stringify({
+      record,
+    }),
+  });
+
+  // ...
+});
+```
+
 SPAs (⚠️)
 ---------
 
