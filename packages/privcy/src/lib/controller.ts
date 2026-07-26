@@ -10,7 +10,7 @@
 import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './categories';
 import { EMBED_ATTRIBUTE } from '../constants';
-import { getCookie, setCookie } from './cookies';
+import type { ConsentRecordStore } from './services/consent';
 
 export default class PrivcyController {
   /**
@@ -18,62 +18,15 @@ export default class PrivcyController {
    */
   #categoryIDs: Array<string>;
 
+  #recordStore: ConsentRecordStore;
+
   #broadcast: BroadcastChannel;
-
-  /**
-   * Get all categories user has consented to.
-   */
-  public get allowedCategories(): Array<string> {
-    return this.#categoryIDs.filter(
-      (category) => getCookie(this.#cookieName(category)) === 'true',
-    );
-  }
-
-  /**
-   * Get all categories user has not consented to.
-   */
-  public get rejectedCategories(): Array<string> {
-    return this.#categoryIDs.filter(
-      (category) => getCookie(this.#cookieName(category)) === 'false',
-    );
-  }
-
-  /**
-   * Get overall consent status.
-   */
-  public get consentStatus():
-    | 'rejected'
-    | 'allowed'
-    | 'customized'
-    | undefined {
-    const hasRejected = this.rejectedCategories.length > 0;
-    const hasAllowed = this.allowedCategories.length > 0;
-
-    /**
-     * Make sure that user has made choice for all available
-     * categories.
-     */
-    if (
-      [...this.rejectedCategories, ...this.allowedCategories].length !==
-      this.#categoryIDs.length
-    ) {
-      return;
-    }
-
-    if (hasRejected && !hasAllowed) {
-      return 'rejected';
-    } else if (hasAllowed && !hasRejected) {
-      return 'allowed';
-    } else if (hasAllowed && hasRejected) {
-      return 'customized';
-    }
-  }
 
   /**
    * User has not interacted with banner.
    */
   public get isFirstVisit(): boolean {
-    return this.consentStatus === undefined;
+    return this.#recordStore.consentStatus === undefined;
   }
 
   /**
@@ -88,8 +41,10 @@ export default class PrivcyController {
   constructor(
     public cookiePrefix: string,
     categories: Categories,
+    recordStore: ConsentRecordStore,
   ) {
     this.#categoryIDs = categories.IDs;
+    this.#recordStore = recordStore;
 
     this.#broadcast = iframeBroadcastChannel();
 
@@ -104,7 +59,18 @@ export default class PrivcyController {
    * Update consent.
    */
   public updateConsent(categories: Array<string>): void {
-    this.#updateConsentCookies(categories);
+    const choices = new Map<string, boolean>(
+      this.#categoryIDs.map((id) => [id, categories.includes(id)]),
+    );
+
+    const method =
+      categories.length === 0
+        ? 'rejected'
+        : categories.length === this.#categoryIDs.length
+          ? 'allowed'
+          : 'customized';
+
+    this.#recordStore.setRecord(choices, method);
     this.loadEmbeds();
   }
 
@@ -112,7 +78,7 @@ export default class PrivcyController {
    * Consent to individual category.
    */
   public consentToCategory(category: string): void {
-    this.updateConsent([...this.allowedCategories, category]);
+    this.updateConsent([...this.#recordStore.allowedCategories, category]);
   }
 
   /**
@@ -136,7 +102,7 @@ export default class PrivcyController {
 
       if (
         typeof data.category !== 'string' ||
-        !this.allowedCategories.includes(data.category)
+        !this.#recordStore.allowedCategories.includes(data.category)
       ) {
         if (
           newEmbed instanceof HTMLIFrameElement &&
@@ -193,7 +159,10 @@ export default class PrivcyController {
 
         const category = meta?.category;
 
-        return meta?.fallback && !this.allowedCategories.includes(category);
+        return (
+          meta?.fallback &&
+          !this.#recordStore.allowedCategories.includes(category)
+        );
       },
     );
 
@@ -216,24 +185,5 @@ export default class PrivcyController {
     return document.querySelectorAll<HTMLScriptElement | HTMLIFrameElement>(
       `script[${EMBED_ATTRIBUTE}], iframe[${EMBED_ATTRIBUTE}]`,
     );
-  }
-
-  /**
-   * Set allowed categories.
-   */
-  #updateConsentCookies(categories: Array<string>): void {
-    for (const category of this.#categoryIDs) {
-      setCookie(
-        this.#cookieName(category),
-        categories.includes(category) ? 'true' : 'false',
-      );
-    }
-  }
-
-  /**
-   * Cookie name.
-   */
-  #cookieName(name: string): string {
-    return `${this.cookiePrefix}__consent___${name}`;
   }
 }

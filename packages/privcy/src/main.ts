@@ -16,6 +16,7 @@ import { type DeepPartial, type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
 import { reactive } from '@privcy/dom';
+import { ConsentRecordStore } from './lib/services/consent';
 
 declare global {
   interface Window {
@@ -42,6 +43,7 @@ class Privcy {
   #broadcast: BroadcastChannel;
 
   #categories: Categories;
+  #recordStore: ConsentRecordStore;
   #controller: Controller;
 
   #bannerProps: BannerProps;
@@ -71,9 +73,11 @@ class Privcy {
 
     this.#broadcast = iframeBroadcastChannel();
     this.#categories = new Categories(props.categories);
+    this.#recordStore = new ConsentRecordStore(this.#categories);
     this.#controller = new Controller(
       props.cookiePrefix ?? 'privcy',
       this.#categories,
+      this.#recordStore,
     );
 
     /**
@@ -96,6 +100,7 @@ class Privcy {
      */
     this.#bannerProps = {
       controller: this.#controller,
+      recordStore: this.#recordStore,
       categories: this.#categories,
       viewState,
       title: props.title,
