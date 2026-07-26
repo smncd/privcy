@@ -5,6 +5,7 @@
   "description": "Zero dependency DOM tooling for reactive HTML",
   "license": "BSD-3-Clause",
   "type": "module",
+  "private": true,
   "exports": {
     ".": {
       "import": "./src/index.ts",
