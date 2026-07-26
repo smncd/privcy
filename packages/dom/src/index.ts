@@ -9,3 +9,7 @@ export {
   type TagOptions,
   tag,
 } from './tag';
+
+export {
+  htmlStringToCollection,
+} from './utils';

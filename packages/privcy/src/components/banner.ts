@@ -7,9 +7,9 @@
  * @since 0.9.0
  */
 
-import { tag, type Reactive } from '@privcy/dom';
+import { htmlStringToCollection, tag, type Reactive } from '@privcy/dom';
 import button from './button';
-import { c, htmlStringToCollection } from '../lib/utils';
+import { c } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
 import type { i18nStrings, ViewState } from '../types';
