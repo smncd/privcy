@@ -5,9 +5,23 @@ export type ConsentRecordMethod = 'rejected' | 'allowed' | 'customized';
 
 const COOKIE_NAME = 'privcy__consent_record';
 
+/**
+ * Consent record store. Manages the user consent record, a single cookie
+ * with attributes describing what the user has consented to and when
+ * they did it.
+ */
 export class ConsentRecordStore {
+  /**
+   * The available categories (including display data).
+   */
   #categories: Categories;
+  /**
+   * The consent record instance.
+   */
   #record: ConsentRecord | null = null;
+  /**
+   * Subscribers to update events.
+   */
   #subscribers: Array<(record: ConsentRecord | null) => void> = [];
 
   constructor(categories: Categories) {
@@ -15,26 +29,44 @@ export class ConsentRecordStore {
     this.load();
   }
 
+  /**
+   * The readonly consent record.
+   */
   public get record(): ConsentRecord | null {
     return this.#record;
   }
 
+  /**
+   * Check if a category is "allowed".
+   */
   public isCategoryAllowed(category: string): boolean {
     return this.#record?.choices.get(category) === true;
   }
 
+  /**
+   * Check if a category is "rejected".
+   */
   public isCategoryRejected(category: string): boolean {
     return this.#record?.choices.get(category) === false;
   }
 
+  /**
+   * List of allowed category IDs.
+   */
   public get allowedCategories(): Array<string> {
     return this.#categories.IDs.filter((id) => this.isCategoryAllowed(id));
   }
 
+  /**
+   * List of rejected category IDs.
+   */
   public get rejectedCategories(): Array<string> {
     return this.#categories.IDs.filter((id) => this.isCategoryRejected(id));
   }
 
+  /**
+   * The consent status `rejected`, `allowed`, `customized`.
+   */
   public get consentStatus(): ConsentRecordMethod | undefined {
     const hasRejected = this.rejectedCategories.length > 0;
     const hasAllowed = this.allowedCategories.length > 0;
@@ -51,10 +83,16 @@ export class ConsentRecordStore {
     if (hasAllowed && hasRejected) return 'customized';
   }
 
+  /**
+   * If the user is visiting for the first time (no stored consent record).
+   */
   public get isFirstVisit(): boolean {
     return this.consentStatus === undefined;
   }
 
+  /**
+   * Set and store the consent record.
+   */
   public setRecord(
     choices: Map<string, boolean>,
     method: ConsentRecordMethod,
@@ -70,6 +108,10 @@ export class ConsentRecordStore {
     this.#notify();
   }
 
+  /**
+   * Runs whenever the consent record is updated.
+   * Useful in cases where you need to store the user's consent record.
+   */
   public onUpdate(cb: (record: ConsentRecord | null) => void): () => void {
     this.#subscribers.push(cb);
     return () => {
@@ -77,6 +119,9 @@ export class ConsentRecordStore {
     };
   }
 
+  /**
+   * Try to load consent record from storake (cookie).
+   */
   public load(): void {
     const raw = getCookie(COOKIE_NAME);
     if (!raw) {
@@ -126,6 +171,9 @@ export class ConsentRecordStore {
     }
   }
 
+  /**
+   * Store the consent record as a cookie.
+   */
   public store(): void {
     if (!this.#record) return;
 
@@ -144,11 +192,22 @@ export class ConsentRecordStore {
     }
   }
 
+  /**
+   * Notify all subscribers. Should be fired when the consent record
+   * is set or updated.
+   */
   #notify(): void {
     this.#subscribers.forEach((cb) => cb(this.#record));
   }
 }
 
+/**
+ * Consent record.
+ * A anonymous record of:
+ * - What the user consented to.
+ * - When they did it.
+ * - What method (allow all, reject, etc).
+ */
 export class ConsentRecord {
   constructor(
     public readonly timestamp: Date,
