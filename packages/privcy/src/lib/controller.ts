@@ -10,6 +10,7 @@
 import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './categories';
 import { EMBED_ATTRIBUTE } from '../constants';
+import { getCookie, setCookie } from './cookies';
 
 export default class PrivcyController {
   /**
@@ -24,7 +25,7 @@ export default class PrivcyController {
    */
   public get allowedCategories(): Array<string> {
     return this.#categoryIDs.filter(
-      (category) => this.#getCookie(category) === 'true',
+      (category) => getCookie(this.#cookieName(category)) === 'true',
     );
   }
 
@@ -33,7 +34,7 @@ export default class PrivcyController {
    */
   public get rejectedCategories(): Array<string> {
     return this.#categoryIDs.filter(
-      (category) => this.#getCookie(category) === 'false',
+      (category) => getCookie(this.#cookieName(category)) === 'false',
     );
   }
 
@@ -222,38 +223,11 @@ export default class PrivcyController {
    */
   #updateConsentCookies(categories: Array<string>): void {
     for (const category of this.#categoryIDs) {
-      this.#setCookie(
-        category,
+      setCookie(
+        this.#cookieName(category),
         categories.includes(category) ? 'true' : 'false',
       );
     }
-  }
-
-  /**
-   * Get cookie.
-   */
-  #getCookie(name: string): string | undefined {
-    return document.cookie
-      .split(';')
-      .find((cookie) => cookie.trim().startsWith(this.#cookieName(name) + '='))
-      ?.split('=')
-      .pop();
-  }
-
-  /**
-   * Set cookie with preconfigured settings.
-   */
-  #setCookie(name: string, value: 'true' | 'false'): string {
-    document.cookie = `${this.#cookieName(name)}=${value}; expires=${new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toUTCString()}; SameSite=strict; Secure; path=/;`;
-
-    return value;
-  }
-
-  /**
-   * Remove cookie.
-   */
-  #removeCookie(name: string): void {
-    document.cookie = `${this.#cookieName(name)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
 
   /**
