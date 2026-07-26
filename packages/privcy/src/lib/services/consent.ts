@@ -112,7 +112,9 @@ export class ConsentRecordStore {
    * Runs whenever the consent record is updated.
    * Useful in cases where you need to store the user's consent record.
    */
-  public onUpdate(cb: (record: ConsentRecord | null) => void): () => void {
+  public onUpdate(
+    cb: (record: ConsentRecord | null) => void | Promise<void>,
+  ): () => void {
     this.#subscribers.push(cb);
     return () => {
       this.#subscribers = this.#subscribers.filter((x) => x !== cb);

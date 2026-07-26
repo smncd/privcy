@@ -16,7 +16,7 @@ import { type DeepPartial, type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
 import { reactive } from '@privcy/dom';
-import { ConsentRecordStore } from './lib/services/consent';
+import { ConsentRecord, ConsentRecordStore } from './lib/services/consent';
 
 declare global {
   interface Window {
@@ -138,6 +138,36 @@ class Privcy {
   public openSettings(): void {
     this.#bannerProps.viewState.value.view = 'settings';
     this.#banner.showModal();
+  }
+
+  /**
+   * Run custom actions when the users consent record is updated.
+   * Useful in cases where the record needs to be stored for compliance
+   * purposes.
+   *
+   * The user consent record consists of:
+   * - timestamp
+   * - which categories are allowed/rejected
+   * - hash to track category updates
+   * - the method used (allow all, reject, customize)
+   *
+   * @example
+   * ```ts
+   * const privcy = new Privcy(config);
+   *
+   * privcy.onConsentRecordChange(async (record) => {
+   *  const res = await fetch('/api/consent-record', {
+   *    method: 'POST',
+   *    body: JSON.stringify(record),
+   *  });
+   *  // ...
+   * });
+   * ```
+   */
+  public onConsentRecordChange(
+    cb: (record: ConsentRecord | null) => void | Promise<void>,
+  ): void {
+    this.#recordStore.onUpdate(cb);
   }
 
   /**
