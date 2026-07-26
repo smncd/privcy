@@ -29,6 +29,9 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "@privcy/dom": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^24.9.2",
     "@privcy/dummy-data": "workspace:*",

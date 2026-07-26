@@ -7,7 +7,6 @@
  * @since 0.0.1
  */
 
-import reactive from './lib/reactive';
 import banner, { type BannerProps } from './components/banner';
 import Categories from './lib/categories';
 import Controller from './lib/controller';
@@ -16,6 +15,7 @@ import { EMBED_ATTRIBUTE } from './constants';
 import { type DeepPartial, type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
+import { reactive } from '@privcy/dom';
 
 declare global {
   interface Window {

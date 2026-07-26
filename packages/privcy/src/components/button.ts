@@ -7,7 +7,7 @@
  * @since 0.9.0
  */
 
-import tag, { type TagChildren, type TagOptions } from '../lib/tag';
+import { tag, type TagChildren, type TagOptions } from '@privcy/dom';
 import { c } from '../lib/utils';
 
 export default function button(

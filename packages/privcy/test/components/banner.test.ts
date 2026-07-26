@@ -1,8 +1,8 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
+import { reactive } from '@privcy/dom';
 import banner from '../../src/components/banner';
 import Controller from '../../src/lib/controller';
 import Categories from '../../src/lib/categories';
-import reactive from '../../src/lib/reactive';
 import type { ViewState, i18nStrings } from '../../src/types';
 
 describe('banner()', () => {
