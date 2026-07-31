@@ -3,14 +3,13 @@ import { getCookie, setCookie } from '../cookies';
 
 export type ConsentRecordMethod = 'rejected' | 'allowed' | 'customized';
 
-const COOKIE_NAME = 'privcy__consent_record';
-
 /**
  * Consent record store. Manages the user consent record, a single cookie
  * with attributes describing what the user has consented to and when
  * they did it.
  */
 export class ConsentRecordStore {
+  #cookiePrefix: string;
   /**
    * The available categories (including display data).
    */
@@ -24,8 +23,9 @@ export class ConsentRecordStore {
    */
   #subscribers: Array<(record: ConsentRecord | null) => void> = [];
 
-  constructor(categories: Categories) {
+  constructor(categories: Categories, cookiePrefix?: string) {
     this.#categories = categories;
+    this.#cookiePrefix = cookiePrefix ?? 'privcy';
     this.load();
   }
 
@@ -125,7 +125,7 @@ export class ConsentRecordStore {
    * Try to load consent record from storake (cookie).
    */
   public load(): void {
-    const raw = getCookie(COOKIE_NAME);
+    const raw = getCookie(this.#cookieName);
     if (!raw) {
       this.#record = null;
       return;
@@ -181,7 +181,7 @@ export class ConsentRecordStore {
 
     try {
       setCookie(
-        COOKIE_NAME,
+        this.#cookieName,
         JSON.stringify({
           timestamp: this.#record.timestamp.toISOString(),
           hash: this.#record.hash,
@@ -200,6 +200,13 @@ export class ConsentRecordStore {
    */
   #notify(): void {
     this.#subscribers.forEach((cb) => cb(this.#record));
+  }
+
+  /**
+   * Prefixed cookie name.
+   */
+  get #cookieName(): string {
+    return `${this.#cookiePrefix}__consent_record`;
   }
 }
 

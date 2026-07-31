@@ -73,7 +73,10 @@ class Privcy {
 
     this.#broadcast = iframeBroadcastChannel();
     this.#categories = new Categories(props.categories);
-    this.#recordStore = new ConsentRecordStore(this.#categories);
+    this.#recordStore = new ConsentRecordStore(
+      this.#categories,
+      props.cookiePrefix
+    );
     this.#controller = new Controller(
       props.cookiePrefix ?? 'privcy',
       this.#categories,
