@@ -180,7 +180,7 @@ export class ConsentRecordStore {
     if (!this.#record) return;
 
     try {
-      setCookie(this.#cookieName, this.#record.toJSON());
+      setCookie(this.#cookieName, this.#record.toString());
     } catch (error) {
       console.warn('[Privcy] Failed to store consent record cookie', error);
     }
@@ -217,12 +217,16 @@ export class ConsentRecord {
     public readonly method: ConsentRecordMethod,
   ) {}
 
-  public toJSON(): string {
-    return JSON.stringify({
+  public toJSON() {
+    return {
       timestamp: this.timestamp.toISOString(),
       hash: this.hash,
       choices: this.choices,
       method: this.method,
-    });
+    };
+  }
+
+  public toString() {
+    return JSON.stringify(this.toJSON());
   }
 }
