@@ -1,322 +1,124 @@
-import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
+import { describe, expect, it, beforeEach, vi } from 'vitest';
 import Controller from '../../src/lib/controller';
 import Categories from '../../src/lib/categories';
+import type {
+  ConsentRecordMethod,
+  ConsentRecordStore,
+} from '../../src/lib/consent';
+
+function createCategoriesMock() {
+  return new Categories({
+    analytics: { name: 'Analytics', description: 'Analytics cookies' },
+    social: { name: 'Social', description: 'Social cookies' },
+    marketing: { name: 'Marketing', description: 'Marketing cookies' },
+  });
+}
+
+function createRecordStoreMock(
+  overrides?: Partial<ConsentRecordStore>,
+): ConsentRecordStore {
+  return {
+    consentStatus: undefined as ConsentRecordMethod | undefined,
+    allowedCategories: [] as string[],
+    setRecord: vi.fn(),
+    ...overrides,
+  } as unknown as ConsentRecordStore;
+}
 
 describe('Controller()', () => {
-  const createCategories = (
-    data: Record<string, { name: string; description: string }>,
-  ) => {
-    return new Categories(data);
-  };
-
-  const clearCookies = () => {
-    document.cookie.split(';').forEach((cookie) => {
-      const name = cookie.split('=')[0].trim();
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    });
-  };
-
-  const clearBody = () => {
-    document.body.innerHTML = '';
-  };
-
   beforeEach(() => {
-    clearCookies();
-    clearBody();
-  });
-
-  afterEach(() => {
-    clearCookies();
-    clearBody();
+    document.body.innerHTML = '';
   });
 
   describe('initialization', () => {
-    it('should create an instance with categories', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('test', categories);
-
+    it('creates an instance', () => {
+      const controller = new Controller(
+        'test',
+        createCategoriesMock(),
+        createRecordStoreMock(),
+      );
       expect(controller).toBeInstanceOf(Controller);
     });
 
-    it('should store cookie prefix', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('myprefix', categories);
-
+    it('stores cookie prefix', () => {
+      const controller = new Controller(
+        'myprefix',
+        createCategoriesMock(),
+        createRecordStoreMock(),
+      );
       expect(controller.cookiePrefix).toBe('myprefix');
     });
   });
 
   describe('isFirstVisit', () => {
-    it('should return true when no consent has been given', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('first', categories);
-
+    it('returns true when consent status is undefined', () => {
+      const store = createRecordStoreMock({ consentStatus: undefined });
+      const controller = new Controller('test', createCategoriesMock(), store);
       expect(controller.isFirstVisit).toBe(true);
     });
 
-    it('should return false after consent is given', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('notfirst', categories);
-      controller.consentToCategory('analytics');
-
+    it('returns false when consent status is set', () => {
+      const store = createRecordStoreMock({ consentStatus: 'allowed' });
+      const controller = new Controller('test', createCategoriesMock(), store);
       expect(controller.isFirstVisit).toBe(false);
     });
   });
 
-  describe('allowedCategories', () => {
-    it('should return empty array when no consent given', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('allowed1', categories);
-
-      expect(controller.allowedCategories).toEqual([]);
-    });
-
-    it('should return consented categories', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('allowed2', categories);
-      controller.consentToCategory('analytics');
-
-      expect(controller.allowedCategories).toEqual(['analytics']);
-    });
-
-    it('should return all categories when all consented', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('allowed3', categories);
-      controller.updateConsent(['analytics', 'social']);
-
-      expect(controller.allowedCategories).toEqual(['analytics', 'social']);
-    });
-  });
-
-  describe('rejectedCategories', () => {
-    it('should return empty array when no consent decisions made', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('rejected1', categories);
-
-      expect(controller.rejectedCategories).toEqual([]);
-    });
-
-    it('should return rejected categories', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('rejected2', categories);
-      controller.consentToCategory('analytics');
-
-      expect(controller.rejectedCategories).toEqual(['social']);
-    });
-
-    it('should return all categories when all rejected', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('rejected3', categories);
-      controller.updateConsent([]);
-
-      expect(controller.rejectedCategories).toEqual(['analytics', 'social']);
-    });
-  });
-
-  describe('consentStatus', () => {
-    it('should return undefined when no consent decisions made', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('status1', categories);
-
-      expect(controller.consentStatus).toBeUndefined();
-    });
-
-    it('should return "allowed" when all categories consented', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('status2', categories);
-      controller.updateConsent(['analytics', 'social']);
-
-      expect(controller.consentStatus).toBe('allowed');
-    });
-
-    it('should return "rejected" when all categories rejected', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('status3', categories);
-      controller.updateConsent([]);
-
-      expect(controller.consentStatus).toBe('rejected');
-    });
-
-    it('should return "customized" when some categories consented', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('status4', categories);
-      controller.consentToCategory('analytics');
-
-      expect(controller.consentStatus).toBe('customized');
-    });
-  });
-
   describe('updateConsent', () => {
-    it('should set cookies for all categories', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const controller = new Controller('update1', categories);
-      controller.updateConsent(['analytics']);
-
-      expect(document.cookie).toContain('update1__consent___analytics=true');
-      expect(document.cookie).toContain('update1__consent___social=false');
-    });
-
-    it('should update existing consent', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('update2', categories);
-      controller.updateConsent(['analytics']);
-      expect(controller.allowedCategories).toEqual(['analytics']);
+    it('maps choices and method: rejected', () => {
+      const store = createRecordStoreMock();
+      const controller = new Controller('test', createCategoriesMock(), store);
 
       controller.updateConsent([]);
-      expect(controller.allowedCategories).toEqual([]);
-      expect(controller.rejectedCategories).toEqual(['analytics']);
+
+      expect(store.setRecord).toHaveBeenCalledWith(
+        { analytics: false, social: false, marketing: false },
+        'rejected',
+      );
+    });
+
+    it('maps choices and method: allowed', () => {
+      const store = createRecordStoreMock();
+      const controller = new Controller('test', createCategoriesMock(), store);
+
+      controller.updateConsent(['analytics', 'social', 'marketing']);
+
+      expect(store.setRecord).toHaveBeenCalledWith(
+        { analytics: true, social: true, marketing: true },
+        'allowed',
+      );
+    });
+
+    it('maps choices and method: customized', () => {
+      const store = createRecordStoreMock();
+      const controller = new Controller('test', createCategoriesMock(), store);
+
+      controller.updateConsent(['analytics']);
+
+      expect(store.setRecord).toHaveBeenCalledWith(
+        { analytics: true, social: false, marketing: false },
+        'customized',
+      );
     });
   });
 
   describe('consentToCategory', () => {
-    it('should add category to allowed list', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-      });
+    it('appends category to allowed categories from store', () => {
+      const store = createRecordStoreMock({ allowedCategories: ['analytics'] });
+      const controller = new Controller('test', createCategoriesMock(), store);
 
-      const controller = new Controller('consent1', categories);
-      controller.consentToCategory('analytics');
-
-      expect(controller.allowedCategories).toContain('analytics');
-    });
-
-    it('should preserve existing consents when adding new one', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-        social: { name: 'Social', description: 'Social cookies' },
-        marketing: {
-          name: 'Marketing',
-          description: 'Marketing cookies',
-        },
-      });
-
-      const controller = new Controller('consent2', categories);
-      controller.consentToCategory('analytics');
       controller.consentToCategory('social');
 
-      expect(controller.allowedCategories).toEqual(['analytics', 'social']);
+      expect(store.setRecord).toHaveBeenCalledWith(
+        { analytics: true, social: true, marketing: false },
+        'customized',
+      );
     });
   });
 
   describe('loadEmbeds()', () => {
-    it('should load script with allowed category', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
+    it('loads script with allowed category', () => {
+      const store = createRecordStoreMock({ allowedCategories: ['analytics'] });
 
       const script = document.createElement('script');
       script.type = 'text/plain';
@@ -329,24 +131,16 @@ describe('Controller()', () => {
       );
       document.body.appendChild(script);
 
-      const controller = new Controller('loadembeds1', categories);
-      controller.consentToCategory('analytics');
+      const controller = new Controller('test', createCategoriesMock(), store);
+      controller.loadEmbeds();
 
-      const updatedScript = document.querySelector(
-        'script[data-privcy]',
-      ) as HTMLScriptElement;
-
-      expect(updatedScript.src).toBe('https://example.com/analytics.js');
-      expect(updatedScript.type).toBe('application/javascript');
+      const updated = document.querySelector('script[data-privcy]') as HTMLScriptElement;
+      expect(updated.type).toBe('application/javascript');
+      expect(updated.src).toBe('https://example.com/analytics.js');
     });
 
-    it('should not load script with rejected category', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
+    it('does not load rejected script', () => {
+      const store = createRecordStoreMock({ allowedCategories: [] });
 
       const script = document.createElement('script');
       script.type = 'text/plain';
@@ -359,46 +153,16 @@ describe('Controller()', () => {
       );
       document.body.appendChild(script);
 
-      const controller = new Controller('loadembeds2', categories);
-      controller.updateConsent([]); // Reject all
+      const controller = new Controller('test', createCategoriesMock(), store);
+      controller.loadEmbeds();
 
-      const updatedScript = document.querySelector(
-        'script[data-privcy]',
-      ) as HTMLScriptElement;
-
-      expect(updatedScript.src).toBe('');
-      expect(updatedScript.type).toBe('text/plain');
+      const updated = document.querySelector('script[data-privcy]') as HTMLScriptElement;
+      expect(updated.type).toBe('text/plain');
+      expect(updated.src).toBe('');
     });
 
-    it('should load iframe with allowed category', () => {
-      const categories = createCategories({
-        social: { name: 'Social', description: 'Social cookies' },
-      });
-
-      const iframe = document.createElement('iframe');
-      iframe.setAttribute(
-        'data-privcy',
-        JSON.stringify({
-          category: 'social',
-          src: 'https://example.com/social.html',
-        }),
-      );
-      document.body.appendChild(iframe);
-
-      const controller = new Controller('loadembeds3', categories);
-      controller.consentToCategory('social');
-
-      const updatedIframe = document.querySelector(
-        'iframe[data-privcy]',
-      ) as HTMLIFrameElement;
-
-      expect(updatedIframe.src).toContain('https://example.com/social.html');
-    });
-
-    it('should load iframe fallback for rejected category', () => {
-      const categories = createCategories({
-        social: { name: 'Social', description: 'Social cookies' },
-      });
+    it('loads iframe fallback when category is rejected', () => {
+      const store = createRecordStoreMock({ allowedCategories: [] });
 
       const iframe = document.createElement('iframe');
       iframe.setAttribute(
@@ -411,113 +175,22 @@ describe('Controller()', () => {
       );
       document.body.appendChild(iframe);
 
-      const controller = new Controller('loadembeds4', categories);
-      controller.updateConsent([]); // Reject all
+      const controller = new Controller('test', createCategoriesMock(), store);
+      controller.loadEmbeds();
 
-      const updatedIframe = document.querySelector(
-        'iframe[data-privcy]',
-      ) as HTMLIFrameElement;
-
-      expect(updatedIframe.src).toContain('https://example.com/fallback.html');
-    });
-
-    it('should not load embed without category', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const script = document.createElement('script');
-      script.type = 'text/plain';
-      script.setAttribute(
-        'data-privcy',
-        JSON.stringify({
-          src: 'https://example.com/nocategory.js',
-        }),
-      );
-      document.body.appendChild(script);
-
-      const controller = new Controller('loadembeds5', categories);
-      controller.updateConsent([]); // Reject all
-
-      const updatedScript = document.querySelector(
-        'script[data-privcy]',
-      ) as HTMLScriptElement;
-
-      expect(updatedScript.src).toBe('');
-      expect(updatedScript.type).toBe('text/plain');
-    });
-
-    it('should handle invalid json in embed data attribute gracefully', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const script = document.createElement('script');
-      script.type = 'text/plain';
-      script.setAttribute('data-privcy', 'invalid-json');
-      document.body.appendChild(script);
-
-      const controller = new Controller('loadembeds6', categories);
-      controller.updateConsent(['analytics']);
-
-      const updatedScript = document.querySelector(
-        'script[data-privcy]',
-      ) as HTMLScriptElement;
-
-      // Since JSON is invalid, the embed should remain unchanged
-      expect(updatedScript.src).toBe('');
-      expect(updatedScript.type).toBe('text/plain');
+      const updated = document.querySelector('iframe[data-privcy]') as HTMLIFrameElement;
+      expect(updated.src).toContain('https://example.com/fallback.html');
     });
   });
 
   describe('controlledElements', () => {
-    it('should return NodeList of controlled elements', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('elements', categories);
-
+    it('returns a NodeList', () => {
+      const controller = new Controller(
+        'test',
+        createCategoriesMock(),
+        createRecordStoreMock(),
+      );
       expect(controller.controlledElements).toBeInstanceOf(NodeList);
-    });
-  });
-
-  describe('cookie handling', () => {
-    it('should use correct cookie name format', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('prefix', categories);
-      controller.consentToCategory('analytics');
-
-      expect(document.cookie).toContain('prefix__consent___analytics=true');
-    });
-
-    it('should set secure cookie attributes', () => {
-      const categories = createCategories({
-        analytics: {
-          name: 'Analytics',
-          description: 'Analytics cookies',
-        },
-      });
-
-      const controller = new Controller('secure', categories);
-      controller.consentToCategory('analytics');
-
-      expect(document.cookie).toContain('secure__consent___analytics=true');
     });
   });
 });

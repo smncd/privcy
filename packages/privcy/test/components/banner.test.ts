@@ -4,15 +4,12 @@ import banner from '../../src/components/banner';
 import Controller from '../../src/lib/controller';
 import Categories from '../../src/lib/categories';
 import type { ViewState, i18nStrings } from '../../src/types';
+import type {
+  ConsentRecordMethod,
+  ConsentRecordStore,
+} from '../../src/lib/consent';
 
 describe('banner()', () => {
-  const clearCookies = () => {
-    document.cookie.split(';').forEach((cookie) => {
-      const name = cookie.split('=')[0].trim();
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    });
-  };
-
   const clearDOM = () => {
     document.body.innerHTML = '';
   };
@@ -30,6 +27,17 @@ describe('banner()', () => {
     },
   };
 
+  const createRecordStoreMock = (
+    overrides: Partial<ConsentRecordStore> = {},
+  ): ConsentRecordStore =>
+    ({
+      consentStatus: undefined as ConsentRecordMethod | undefined,
+      allowedCategories: [] as string[],
+      setRecord: vi.fn(),
+      onUpdate: vi.fn(() => () => {}),
+      ...overrides,
+    }) as unknown as ConsentRecordStore;
+
   const createBannerProps = (overrides = {}) => {
     const categories = new Categories({
       analytics: {
@@ -39,12 +47,15 @@ describe('banner()', () => {
       social: { name: 'Social', description: 'Social media cookies' },
     });
 
-    const controller = new Controller('test', categories);
-    vi.spyOn(controller, 'updateConsent'); // Mock the updateConsent method
+    const recordStore = createRecordStoreMock();
+    const controller = new Controller('test', categories, recordStore);
+    vi.spyOn(controller, 'updateConsent');
+
     const viewState = reactive<ViewState>({ view: 'start' });
 
     return {
       controller,
+      recordStore,
       categories,
       viewState,
       title: 'Cookie Consent',
@@ -55,13 +66,12 @@ describe('banner()', () => {
   };
 
   beforeEach(() => {
-    clearCookies();
     clearDOM();
   });
 
   afterEach(() => {
-    clearCookies();
     clearDOM();
+    vi.restoreAllMocks();
   });
 
   describe('initialization', () => {
@@ -159,8 +169,7 @@ describe('banner()', () => {
       const dialogElement = banner(props);
 
       props.viewState.value.view = 'settings';
-
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       expect(dialogElement.textContent).toContain('Analytics');
       expect(dialogElement.textContent).toContain('Social');
@@ -171,8 +180,7 @@ describe('banner()', () => {
       const dialogElement = banner(props);
 
       props.viewState.value.view = 'settings';
-
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       expect(dialogElement.textContent).toContain('Analytics cookies');
       expect(dialogElement.textContent).toContain('Social media cookies');
@@ -191,8 +199,7 @@ describe('banner()', () => {
       const dialogElement = banner(props);
 
       props.viewState.value.view = 'settings';
-
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       expect(dialogElement.textContent).toContain('Back');
     });
@@ -203,15 +210,13 @@ describe('banner()', () => {
       document.body.appendChild(dialogElement);
 
       props.viewState.value.view = 'settings';
-
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       const backButton = Array.from(
         dialogElement.querySelectorAll('button'),
       ).find((btn) => btn.textContent?.includes('Back')) as HTMLButtonElement;
 
       backButton.click();
-
       expect(props.viewState.value.view).toBe('start');
     });
 
@@ -220,11 +225,30 @@ describe('banner()', () => {
       const dialogElement = banner(props);
 
       props.viewState.value.view = 'settings';
-
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       const toggles = dialogElement.querySelectorAll('input[type="checkbox"]');
       expect(toggles.length).toBe(2);
+    });
+
+    it('should pre-check allowed categories from recordStore', async () => {
+      const props = createBannerProps({
+        recordStore: createRecordStoreMock({
+          allowedCategories: ['analytics'],
+        }),
+      });
+      const dialogElement = banner(props);
+
+      props.viewState.value.view = 'settings';
+      await Promise.resolve();
+
+      const checkboxes = dialogElement.querySelectorAll(
+        'input[type="checkbox"]',
+      ) as NodeListOf<HTMLInputElement>;
+
+      // based on category definition order
+      expect(checkboxes[0].checked).toBe(true);
+      expect(checkboxes[1].checked).toBe(false);
     });
 
     it('should save selected categories when save button clicked', async () => {
@@ -232,10 +256,8 @@ describe('banner()', () => {
       const dialogElement = banner(props);
       document.body.appendChild(dialogElement);
 
-      // Switch to settings view after banner is created
       props.viewState.value.view = 'settings';
-
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       const checkboxes = dialogElement.querySelectorAll(
         'input[type="checkbox"]',
@@ -284,7 +306,7 @@ describe('banner()', () => {
       props.viewState.value.view = 'settings';
       const dialogElement = banner(props);
 
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       expect(dialogElement.textContent).toContain('Activate');
     });
