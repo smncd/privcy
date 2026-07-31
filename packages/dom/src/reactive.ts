@@ -4,7 +4,6 @@
  * @author Simon Lagerlöf <contact@smn.codes>
  * @license BSD-3-Clause
  * @copyright 2026 Simon Lagerlöf
- * @since @next
  */
 
 type SubscriberCallback<T> = (data: T) => void;

@@ -4,7 +4,6 @@
  * @author Simon Lagerlöf <contact@smn.codes>
  * @license BSD-3-Clause
  * @copyright 2024 Simon Lagerlöf
- * @since 0.9.0
  */
 
 import { tag, type TagChildren, type TagOptions } from '@privcy/dom';
