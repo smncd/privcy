@@ -13,7 +13,7 @@ import { c } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
 import type { i18nStrings, ViewState } from '../types';
-import type { ConsentRecordStore } from '../lib/services/consent';
+import type { ConsentRecordStore } from '../lib/consent';
 
 export type BannerProps = {
   controller: Controller;

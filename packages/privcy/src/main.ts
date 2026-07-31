@@ -16,7 +16,7 @@ import { type DeepPartial, type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
 import { reactive } from '@privcy/dom';
-import { ConsentRecord, ConsentRecordStore } from './lib/services/consent';
+import { ConsentRecord, ConsentRecordStore } from './lib/consent';
 
 declare global {
   interface Window {

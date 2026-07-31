@@ -10,7 +10,7 @@
 import iframeBroadcastChannel from './iframe-broadcast-channel';
 import type Categories from './categories';
 import { EMBED_ATTRIBUTE } from '../constants';
-import type { ConsentRecordStore } from './services/consent';
+import type { ConsentRecordStore } from './consent';
 
 export default class PrivcyController {
   /**
