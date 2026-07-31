@@ -75,7 +75,7 @@ class Privcy {
     this.#categories = new Categories(props.categories);
     this.#recordStore = new ConsentRecordStore(
       this.#categories,
-      props.cookiePrefix
+      props.cookiePrefix,
     );
     this.#controller = new Controller(
       props.cookiePrefix ?? 'privcy',
