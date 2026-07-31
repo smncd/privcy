@@ -134,7 +134,9 @@ describe('Controller()', () => {
       const controller = new Controller('test', createCategoriesMock(), store);
       controller.loadEmbeds();
 
-      const updated = document.querySelector('script[data-privcy]') as HTMLScriptElement;
+      const updated = document.querySelector(
+        'script[data-privcy]',
+      ) as HTMLScriptElement;
       expect(updated.type).toBe('application/javascript');
       expect(updated.src).toBe('https://example.com/analytics.js');
     });
@@ -156,7 +158,9 @@ describe('Controller()', () => {
       const controller = new Controller('test', createCategoriesMock(), store);
       controller.loadEmbeds();
 
-      const updated = document.querySelector('script[data-privcy]') as HTMLScriptElement;
+      const updated = document.querySelector(
+        'script[data-privcy]',
+      ) as HTMLScriptElement;
       expect(updated.type).toBe('text/plain');
       expect(updated.src).toBe('');
     });
@@ -178,7 +182,9 @@ describe('Controller()', () => {
       const controller = new Controller('test', createCategoriesMock(), store);
       controller.loadEmbeds();
 
-      const updated = document.querySelector('iframe[data-privcy]') as HTMLIFrameElement;
+      const updated = document.querySelector(
+        'iframe[data-privcy]',
+      ) as HTMLIFrameElement;
       expect(updated.src).toContain('https://example.com/fallback.html');
     });
   });
