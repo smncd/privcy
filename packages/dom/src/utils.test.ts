@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { htmlStringToCollection } from '../src/utils';
+import { htmlStringToCollection } from './utils';
 
 describe('htmlStringToCollection', () => {
   it('returns element children for valid HTML', () => {

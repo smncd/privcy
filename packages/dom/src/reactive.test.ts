@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { reactive } from '../src/reactive';
+import { reactive } from './reactive';
 
 describe('reactive()', () => {
   describe('value proxy', () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { tag } from '../src/tag';
+import { tag } from './tag';
 
 describe('tag()', () => {
   it('succeeds with standard tag', () => {
