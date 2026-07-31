@@ -115,7 +115,7 @@ class Privcy {
 
     props.target.appendChild(this.#banner);
 
-    if (this.#controller.isFirstVisit) this.#banner.showModal();
+    if (this.#recordStore.isFirstVisit) this.#banner.showModal();
 
     this.#addBannerOpenEventListener();
 

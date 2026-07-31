@@ -50,20 +50,6 @@ describe('Controller()', () => {
     });
   });
 
-  describe('isFirstVisit', () => {
-    it('returns true when consent status is undefined', () => {
-      const store = createRecordStoreMock({ consentStatus: undefined });
-      const controller = new Controller('test', createCategoriesMock(), store);
-      expect(controller.isFirstVisit).toBe(true);
-    });
-
-    it('returns false when consent status is set', () => {
-      const store = createRecordStoreMock({ consentStatus: 'allowed' });
-      const controller = new Controller('test', createCategoriesMock(), store);
-      expect(controller.isFirstVisit).toBe(false);
-    });
-  });
-
   describe('updateConsent', () => {
     it('maps choices and method: rejected', () => {
       const store = createRecordStoreMock();

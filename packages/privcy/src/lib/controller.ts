@@ -23,13 +23,6 @@ export default class PrivcyController {
   #broadcast: BroadcastChannel;
 
   /**
-   * User has not interacted with banner.
-   */
-  public get isFirstVisit(): boolean {
-    return this.#recordStore.consentStatus === undefined;
-  }
-
-  /**
    * Get all DOM elements controlled by Privcy.
    */
   public get controlledElements(): NodeListOf<
@@ -48,7 +41,7 @@ export default class PrivcyController {
 
     this.#broadcast = iframeBroadcastChannel();
 
-    if (!this.isFirstVisit) {
+    if (!this.#recordStore.isFirstVisit) {
       this.loadEmbeds();
     }
 
