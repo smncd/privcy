@@ -135,7 +135,7 @@ export class ConsentRecordStore {
       const { timestamp, hash, choices, method } = JSON.parse(raw);
 
       if (!timestamp || !hash || !choices || !method) {
-        console.error(
+        console.warn(
           '[Privcy] Malformed consent record: missing required fields',
         );
         this.#record = null;
@@ -147,7 +147,7 @@ export class ConsentRecordStore {
         method !== 'allowed' &&
         method !== 'customized'
       ) {
-        console.error(
+        console.warn(
           '[Privcy] Malformed consent record: invalid method',
           method,
         );
@@ -168,7 +168,7 @@ export class ConsentRecordStore {
         method,
       );
     } catch (error) {
-      console.error('[Privcy] Failed to parse consent record cookie', error);
+      console.warn('[Privcy] Failed to parse consent record cookie', error);
       this.#record = null;
     }
   }
@@ -190,7 +190,7 @@ export class ConsentRecordStore {
         }),
       );
     } catch (error) {
-      console.error('[Privcy] Failed to store consent record cookie', error);
+      console.warn('[Privcy] Failed to store consent record cookie', error);
     }
   }
 
