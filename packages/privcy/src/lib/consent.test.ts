@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import Categories from '../../src/lib/categories';
-import { ConsentRecordStore } from '../../src/lib/consent';
+import Categories from './categories';
+import { ConsentRecordStore } from './consent';
 
 vi.mock('../../src/lib/cookies', () => ({
   getCookie: vi.fn(),
   setCookie: vi.fn(),
 }));
 
-import { getCookie, setCookie } from '../../src/lib/cookies';
+import { getCookie, setCookie } from './cookies';
 
 const getCookieMock = vi.mocked(getCookie);
 const setCookieMock = vi.mocked(setCookie);
