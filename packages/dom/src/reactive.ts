@@ -58,30 +58,31 @@ export function reactive<T extends any>(input: T): Reactive<T> {
   const subscribers = new Set<SubscriberCallback<T>>();
   let pending = false;
 
-  const proxy = (target: Reactive<any>, root = target) => new Proxy(target, {
-    get(target, prop) {
-      const value = Reflect.get(target, prop)
-      return typeof value === 'object' && value !== null
-        ? proxy(value, root)
-        : value;
-    },
-    set(target, property, newValue, receiver) {
-      if (target === root && property === 'subscribe') {
-        throw new TypeError('Cannot override subscribe()');
-      }
-      Reflect.set(target, property, newValue, receiver)
+  const proxy = (target: Reactive<any>, root = target) =>
+    new Proxy(target, {
+      get(target, prop) {
+        const value = Reflect.get(target, prop);
+        return typeof value === 'object' && value !== null
+          ? proxy(value, root)
+          : value;
+      },
+      set(target, property, newValue, receiver) {
+        if (target === root && property === 'subscribe') {
+          throw new TypeError('Cannot override subscribe()');
+        }
+        Reflect.set(target, property, newValue, receiver);
 
-      if (!pending) {
-        pending = true;
-        queueMicrotask(() => {
-          pending = false;
-          for (const sub of subscribers) sub(root.value);
-        });
-      }
+        if (!pending) {
+          pending = true;
+          queueMicrotask(() => {
+            pending = false;
+            for (const sub of subscribers) sub(root.value);
+          });
+        }
 
-      return true;
-    },
-  });
+        return true;
+      },
+    });
 
   return proxy({
     value: input,
@@ -93,5 +94,5 @@ export function reactive<T extends any>(input: T): Reactive<T> {
         unsubscribe: () => subscribers.delete(callback),
       };
     },
-  })
+  });
 }

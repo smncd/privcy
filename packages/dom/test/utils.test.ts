@@ -22,13 +22,15 @@ describe('htmlStringToCollection', () => {
 
   it('removes normal script tags', () => {
     const result = htmlStringToCollection(
-      '<div>safe</div><script>alert("xss")</script><span>ok</span>'
+      '<div>safe</div><script>alert("xss")</script><span>ok</span>',
     );
 
     expect(result.length).toBe(2);
     expect(result[0].tagName).toBe('DIV');
     expect(result[1].tagName).toBe('SPAN');
-    expect(Array.from(result).some((el) => el.tagName === 'SCRIPT')).toBe(false);
+    expect(Array.from(result).some((el) => el.tagName === 'SCRIPT')).toBe(
+      false,
+    );
   });
 
   it('removes sneaky script tags with attributes/newlines/mixed case', () => {
@@ -50,13 +52,17 @@ describe('htmlStringToCollection', () => {
     expect(result[0].tagName).toBe('DIV');
     expect(result[1].tagName).toBe('SPAN');
     expect(Array.from(result).map((el) => el.tagName)).not.toContain('SCRIPT');
-    expect(Array.from(result).some((el) => el.outerHTML.toLowerCase().includes('<script'))).toBe(
-      false
-    );
+    expect(
+      Array.from(result).some((el) =>
+        el.outerHTML.toLowerCase().includes('<script'),
+      ),
+    ).toBe(false);
   });
 
   it('keeps non-script lookalike tags', () => {
-    const result = htmlStringToCollection('<description>script-ish text</description><p>ok</p>');
+    const result = htmlStringToCollection(
+      '<description>script-ish text</description><p>ok</p>',
+    );
 
     expect(result.length).toBe(2);
     expect(result[0].tagName).toBe('DESCRIPTION');

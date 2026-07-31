@@ -31,27 +31,27 @@ describe('reactive()', () => {
     });
 
     it('should handle primitives', async () => {
-      const state = reactive("Hello world!");
+      const state = reactive('Hello world!');
 
-      state.value = "Hello Computer!";
+      state.value = 'Hello Computer!';
 
-      expect(state.value).toBe("Hello Computer!");
+      expect(state.value).toBe('Hello Computer!');
     });
 
     it('should handle arrays', async () => {
-      const state = reactive(["Hello world!"]);
+      const state = reactive(['Hello world!']);
 
-      state.value = [...state.value, "Hello Computer!"];
+      state.value = [...state.value, 'Hello Computer!'];
 
-      expect(state.value.pop()).toBe("Hello Computer!");
+      expect(state.value.pop()).toBe('Hello Computer!');
     });
 
     it('should handle nested objects', async () => {
-      const state = reactive({ data: { hello: "world" } } );
+      const state = reactive({ data: { hello: 'world' } });
 
       state.value.data.hello = 'computer';
 
-      expect(state.value.data.hello).toBe("computer");
+      expect(state.value.data.hello).toBe('computer');
     });
   });
 
@@ -137,19 +137,19 @@ describe('reactive()', () => {
       });
 
       //@ts-expect-error
-      expect(() => state.subscribe = () => {}).toThrow(TypeError);
+      expect(() => (state.subscribe = () => {})).toThrow(TypeError);
 
       // Setting a value.subscribe prop should not throw anything.
-      expect(() => state.value.subscribe = true).not.toThrow(TypeError);
+      expect(() => (state.value.subscribe = true)).not.toThrow(TypeError);
     });
 
     it('should handle primitives', async () => {
-      const state = reactive("Hello world!");
+      const state = reactive('Hello world!');
 
       const callback = vi.fn();
       state.subscribe(callback);
 
-      state.value = "Hello Computer!";
+      state.value = 'Hello Computer!';
 
       await Promise.resolve();
 
@@ -157,12 +157,12 @@ describe('reactive()', () => {
     });
 
     it('should handle arrays', async () => {
-      const state = reactive(["Hello world!"]);
+      const state = reactive(['Hello world!']);
 
       const callback = vi.fn();
       state.subscribe(callback);
 
-      state.value = [...state.value, "Hello Computer!"];
+      state.value = [...state.value, 'Hello Computer!'];
 
       await Promise.resolve();
 
@@ -170,7 +170,7 @@ describe('reactive()', () => {
     });
 
     it('should handle nested objects', async () => {
-      const state = reactive({ data: { hello: "world" } } );
+      const state = reactive({ data: { hello: 'world' } });
 
       const callback = vi.fn();
       state.subscribe(callback);
