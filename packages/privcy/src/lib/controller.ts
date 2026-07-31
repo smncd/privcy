@@ -59,9 +59,8 @@ export default class PrivcyController {
    * Update consent.
    */
   public updateConsent(categories: Array<string>): void {
-    const choices = new Map<string, boolean>(
-      this.#categoryIDs.map((id) => [id, categories.includes(id)]),
-    );
+    const choices: Record<string, boolean> = {};
+    for (const id of this.#categoryIDs) choices[id] = categories.includes(id);
 
     const method =
       categories.length === 0

@@ -40,14 +40,14 @@ export class ConsentRecordStore {
    * Check if a category is "allowed".
    */
   public isCategoryAllowed(category: string): boolean {
-    return this.#record?.choices.get(category) === true;
+    return this.#record?.choices[category] === true;
   }
 
   /**
    * Check if a category is "rejected".
    */
   public isCategoryRejected(category: string): boolean {
-    return this.#record?.choices.get(category) === false;
+    return this.#record?.choices[category] === false;
   }
 
   /**
@@ -94,7 +94,7 @@ export class ConsentRecordStore {
    * Set and store the consent record.
    */
   public setRecord(
-    choices: Map<string, boolean>,
+    choices: Record<string, boolean>,
     method: ConsentRecordMethod,
   ): void {
     this.#record = new ConsentRecord(
@@ -164,7 +164,7 @@ export class ConsentRecordStore {
       this.#record = new ConsentRecord(
         new Date(timestamp),
         hash,
-        new Map(Object.entries(choices) as Array<[string, boolean]>),
+        choices,
         method,
       );
     } catch (error) {
@@ -180,15 +180,7 @@ export class ConsentRecordStore {
     if (!this.#record) return;
 
     try {
-      setCookie(
-        this.#cookieName,
-        JSON.stringify({
-          timestamp: this.#record.timestamp.toISOString(),
-          hash: this.#record.hash,
-          choices: Object.fromEntries(this.#record.choices),
-          method: this.#record.method,
-        }),
-      );
+      setCookie(this.#cookieName, this.#record.toJSON());
     } catch (error) {
       console.warn('[Privcy] Failed to store consent record cookie', error);
     }
@@ -221,7 +213,16 @@ export class ConsentRecord {
   constructor(
     public readonly timestamp: Date,
     public readonly hash: string,
-    public readonly choices: Map<string, boolean>,
+    public readonly choices: Record<string, boolean>,
     public readonly method: ConsentRecordMethod,
   ) {}
+
+  public toJSON(): string {
+    return JSON.stringify({
+      timestamp: this.timestamp.toISOString(),
+      hash: this.hash,
+      choices: this.choices,
+      method: this.method,
+    });
+  }
 }
