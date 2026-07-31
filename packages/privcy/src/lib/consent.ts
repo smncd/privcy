@@ -21,7 +21,7 @@ export class ConsentRecordStore {
   /**
    * Subscribers to update events.
    */
-  #subscribers: Array<(record: ConsentRecord | null) => void> = [];
+  #subscribers: Set<(record: ConsentRecord | null) => void> = new Set();
 
   constructor(categories: Categories, cookiePrefix?: string) {
     this.#categories = categories;
@@ -115,9 +115,9 @@ export class ConsentRecordStore {
   public onUpdate(
     cb: (record: ConsentRecord | null) => void | Promise<void>,
   ): () => void {
-    this.#subscribers.push(cb);
+    this.#subscribers.add(cb);
     return () => {
-      this.#subscribers = this.#subscribers.filter((x) => x !== cb);
+      this.#subscribers.delete(cb);
     };
   }
 

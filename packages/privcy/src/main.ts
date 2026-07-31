@@ -166,11 +166,13 @@ class Privcy {
    *  // ...
    * });
    * ```
+   *
+   * @returns A callback function to unsubscribe the callback.
    */
   public onConsentRecordChange(
     cb: (record: ConsentRecord | null) => void | Promise<void>,
-  ): void {
-    this.#recordStore.onUpdate(cb);
+  ): () => void {
+    return this.#recordStore.onUpdate(cb);
   }
 
   /**
