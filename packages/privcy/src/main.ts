@@ -16,6 +16,7 @@ import { type DeepPartial, type ViewState, type i18nStrings } from './types';
 
 import './styles/privcy.css';
 import { reactive } from '@privcy/dom';
+import { ConsentRecord, ConsentRecordStore } from './lib/consent';
 
 declare global {
   interface Window {
@@ -42,6 +43,7 @@ class Privcy {
   #broadcast: BroadcastChannel;
 
   #categories: Categories;
+  #recordStore: ConsentRecordStore;
   #controller: Controller;
 
   #bannerProps: BannerProps;
@@ -71,9 +73,14 @@ class Privcy {
 
     this.#broadcast = iframeBroadcastChannel();
     this.#categories = new Categories(props.categories);
+    this.#recordStore = new ConsentRecordStore(
+      this.#categories,
+      props.cookiePrefix,
+    );
     this.#controller = new Controller(
       props.cookiePrefix ?? 'privcy',
       this.#categories,
+      this.#recordStore,
     );
 
     /**
@@ -96,6 +103,7 @@ class Privcy {
      */
     this.#bannerProps = {
       controller: this.#controller,
+      recordStore: this.#recordStore,
       categories: this.#categories,
       viewState,
       title: props.title,
@@ -133,6 +141,38 @@ class Privcy {
   public openSettings(): void {
     this.#bannerProps.viewState.value.view = 'settings';
     this.#banner.showModal();
+  }
+
+  /**
+   * Run custom actions when the users consent record is updated.
+   * Useful in cases where the record needs to be stored for compliance
+   * purposes.
+   *
+   * The user consent record consists of:
+   * - timestamp
+   * - which categories are allowed/rejected
+   * - hash to track category updates
+   * - the method used (allow all, reject, customize)
+   *
+   * @example
+   * ```ts
+   * const privcy = new Privcy(config);
+   *
+   * privcy.onConsentRecordChange(async (record) => {
+   *  const res = await fetch('/api/consent-record', {
+   *    method: 'POST',
+   *    body: JSON.stringify(record),
+   *  });
+   *  // ...
+   * });
+   * ```
+   *
+   * @returns A callback function to unsubscribe the callback.
+   */
+  public onConsentRecordChange(
+    cb: (record: ConsentRecord | null) => void | Promise<void>,
+  ): () => void {
+    return this.#recordStore.onUpdate(cb);
   }
 
   /**

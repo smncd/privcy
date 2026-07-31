@@ -7,6 +7,8 @@
  * @since 0.6.0
  */
 
+import { simpleInsecureHash } from './utils';
+
 type Data = Record<
   string,
   {
@@ -42,5 +44,16 @@ export default class Categories {
       id,
       ...category,
     }));
+  }
+
+  public toHash(): string {
+    const canonical = this.toArray()
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .map(
+        ({ id, name, description }) => `${id}\u001f${name}\u001f${description}`,
+      )
+      .join('\u001e');
+
+    return simpleInsecureHash(canonical);
   }
 }

@@ -13,9 +13,11 @@ import { c } from '../lib/utils';
 import type Categories from '../lib/categories';
 import type Controller from '../lib/controller';
 import type { i18nStrings, ViewState } from '../types';
+import type { ConsentRecordStore } from '../lib/consent';
 
 export type BannerProps = {
   controller: Controller;
+  recordStore: ConsentRecordStore;
   categories: Categories;
 
   viewState: Reactive<ViewState>;
@@ -26,10 +28,17 @@ export type BannerProps = {
 };
 
 export default function banner(props: BannerProps) {
-  const { controller, categories, viewState, title, description, strings } =
-    props;
+  const {
+    controller,
+    recordStore,
+    categories,
+    viewState,
+    title,
+    description,
+    strings,
+  } = props;
 
-  const allowedCategories = () => controller.allowedCategories;
+  const allowedCategories = () => recordStore.allowedCategories;
 
   let requestedCategories = allowedCategories();
 

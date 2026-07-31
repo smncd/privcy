@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import Privcy from '../src/main';
 import { EMBED_ATTRIBUTE } from '../src/constants';
+import Categories from '../src/lib/categories';
 
 describe('Privcy', () => {
   const clearCookies = () => {
@@ -28,6 +29,29 @@ describe('Privcy', () => {
       },
       social: { name: 'Social', description: 'Social media cookies' },
     },
+  };
+
+  const setConsentRecordCookie = ({
+    prefix = 'privcy',
+    choices,
+    method = 'customized',
+    timestamp = new Date().toISOString(),
+  }: {
+    prefix?: string;
+    choices: Record<string, boolean>;
+    method?: 'allowed' | 'rejected' | 'customized';
+    timestamp?: string;
+  }) => {
+    const hash = new Categories(defaultProps.categories).toHash();
+
+    document.cookie = `${prefix}__consent_record=${encodeURIComponent(
+      JSON.stringify({
+        timestamp,
+        hash,
+        choices,
+        method,
+      }),
+    )}; path=/;`;
   };
 
   beforeEach(() => {
@@ -74,8 +98,10 @@ describe('Privcy', () => {
     });
 
     it('should not show modal if consent already given', () => {
-      document.cookie = 'privcy__consent___analytics=true';
-      document.cookie = 'privcy__consent___social=false';
+      setConsentRecordCookie({
+        choices: { analytics: true, social: false },
+        method: 'customized',
+      });
 
       new Privcy(defaultProps);
 
@@ -89,16 +115,15 @@ describe('Privcy', () => {
         cookiePrefix: 'myapp',
       });
 
-      // Trigger consent to verify prefix is used
       const acceptButton = Array.from(document.querySelectorAll('button')).find(
         (btn) => btn.textContent?.includes('Accept all'),
       ) as HTMLButtonElement;
 
       acceptButton.click();
 
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
-      expect(document.cookie).toContain('myapp__consent___');
+      expect(document.cookie).toContain('myapp__consent_record=');
     });
 
     it('should use default cookie prefix when not provided', () => {
@@ -110,7 +135,7 @@ describe('Privcy', () => {
 
       acceptButton.click();
 
-      expect(document.cookie).toContain('privcy__consent___');
+      expect(document.cookie).toContain('privcy__consent_record=');
     });
   });
 
@@ -144,7 +169,6 @@ describe('Privcy', () => {
         },
       });
 
-      // Navigate to settings view to see category strings
       const customizeButton = Array.from(
         document.querySelectorAll('button'),
       ).find((btn) =>
@@ -153,7 +177,7 @@ describe('Privcy', () => {
 
       customizeButton.click();
 
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       const banner = document.querySelector('dialog');
       expect(banner?.textContent).toContain('Activate');
@@ -171,14 +195,16 @@ describe('Privcy', () => {
 
       const banner = document.querySelector('dialog');
       expect(banner?.textContent).toContain('Custom Accept');
-      expect(banner?.textContent).toContain('Reject all'); // Default
+      expect(banner?.textContent).toContain('Reject all');
     });
   });
 
   describe('openSettings()', () => {
     it('should open the banner dialog', () => {
-      document.cookie = 'privcy__consent___analytics=true';
-      document.cookie = 'privcy__consent___social=true';
+      setConsentRecordCookie({
+        choices: { analytics: true, social: true },
+        method: 'allowed',
+      });
 
       const privcy = new Privcy(defaultProps);
 
@@ -191,16 +217,17 @@ describe('Privcy', () => {
     });
 
     it('should show settings view', async () => {
-      document.cookie = 'privcy__consent___analytics=true';
-      document.cookie = 'privcy__consent___social=true';
+      setConsentRecordCookie({
+        choices: { analytics: true, social: true },
+        method: 'allowed',
+      });
 
       const privcy = new Privcy(defaultProps);
       privcy.openSettings();
 
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       const dialog = document.querySelector('dialog');
-
       expect(dialog?.querySelector('li.privcy__category')).not.toBeNull();
     });
   });
@@ -217,8 +244,10 @@ describe('Privcy', () => {
       );
       document.body.appendChild(script);
 
-      document.cookie = 'privcy__consent___analytics=true';
-      document.cookie = 'privcy__consent___social=true';
+      setConsentRecordCookie({
+        choices: { analytics: true, social: true },
+        method: 'allowed',
+      });
 
       const privcy = new Privcy(defaultProps);
       privcy.reload();
@@ -230,12 +259,13 @@ describe('Privcy', () => {
     });
 
     it('should re-add banner open event listeners', () => {
-      document.cookie = 'privcy__consent___analytics=true';
-      document.cookie = 'privcy__consent___social=true';
+      setConsentRecordCookie({
+        choices: { analytics: true, social: true },
+        method: 'allowed',
+      });
 
       const privcy = new Privcy(defaultProps);
 
-      // Add a button dynamically
       const button = document.createElement('button');
       button.setAttribute(`${EMBED_ATTRIBUTE}-display-banner`, '');
       document.body.appendChild(button);
@@ -253,8 +283,10 @@ describe('Privcy', () => {
 
   describe('banner open button', () => {
     it('should open settings when display-banner button is clicked', () => {
-      document.cookie = 'privcy__consent___analytics=true';
-      document.cookie = 'privcy__consent___social=true';
+      setConsentRecordCookie({
+        choices: { analytics: true, social: true },
+        method: 'allowed',
+      });
 
       const button = document.createElement('button');
       button.setAttribute(`${EMBED_ATTRIBUTE}-display-banner`, '');
@@ -297,7 +329,6 @@ describe('Privcy', () => {
     it('should display category names', async () => {
       new Privcy(defaultProps);
 
-      // Navigate to settings
       const customizeButton = Array.from(
         document.querySelectorAll('button'),
       ).find((btn) =>
@@ -306,7 +337,7 @@ describe('Privcy', () => {
 
       customizeButton.click();
 
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       const banner = document.querySelector('dialog');
       expect(banner?.textContent).toContain('Analytics');
@@ -314,9 +345,8 @@ describe('Privcy', () => {
     });
 
     it('should display category descriptions', async () => {
-      const privcy = new Privcy(defaultProps);
+      new Privcy(defaultProps);
 
-      // Navigate to settings
       const customizeButton = Array.from(
         document.querySelectorAll('button'),
       ).find((btn) =>
@@ -325,7 +355,7 @@ describe('Privcy', () => {
 
       customizeButton.click();
 
-      await Promise.resolve(); // Wait for microtask
+      await Promise.resolve();
 
       const banner = document.querySelector('dialog');
       expect(banner?.textContent).toContain('Analytics cookies');
