@@ -12,7 +12,7 @@ import type Categories from './categories';
 import { EMBED_ATTRIBUTE } from '../constants';
 import type { ConsentRecordStore } from './consent';
 
-export default class PrivcyController {
+export default class Controller {
   /**
    * All category IDs.
    */
