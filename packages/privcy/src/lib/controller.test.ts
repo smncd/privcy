@@ -1,10 +1,10 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest';
-import Controller from '../../src/lib/controller';
-import Categories from '../../src/lib/categories';
+import Controller from './controller';
+import Categories from './categories';
 import type {
   ConsentRecordMethod,
   ConsentRecordStore,
-} from '../../src/lib/consent';
+} from './consent';
 
 function createCategoriesMock() {
   return new Categories({
