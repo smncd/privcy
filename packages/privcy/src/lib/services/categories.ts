@@ -6,7 +6,7 @@
  * @copyright 2024 Simon Lagerlöf
  */
 
-import { simpleInsecureHash } from './utils';
+import { simpleInsecureHash } from '../utils/helpers';
 
 type Data = Record<
   string,

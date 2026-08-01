@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import Categories from '../../src/lib/categories';
+import Categories from './categories';
 
 describe('Categories()', () => {
   it('should create an instance and convert data to array', () => {

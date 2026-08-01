@@ -1,5 +1,5 @@
 import type Categories from './categories';
-import { getCookie, setCookie } from './cookies';
+import { getCookie, setCookie } from '../utils/cookies';
 
 export type ConsentRecordMethod = 'rejected' | 'allowed' | 'customized';
 

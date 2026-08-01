@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
-import Privcy from './main';
+import Privcy from '../main';
 import { EMBED_ATTRIBUTE } from './constants';
-import Categories from './lib/categories';
+import Categories from './services/categories';
 
 describe('Privcy', () => {
   const clearCookies = () => {

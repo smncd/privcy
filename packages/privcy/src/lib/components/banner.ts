@@ -8,11 +8,11 @@
 
 import { htmlStringToCollection, tag, type Reactive } from '@privcy/dom';
 import button from './button';
-import { c } from '../lib/utils';
-import type Categories from '../lib/categories';
-import type Controller from '../lib/controller';
+import { c } from '../utils/helpers';
+import type Categories from '../services/categories';
+import type Controller from '../services/controller';
 import type { i18nStrings, ViewState } from '../types';
-import type { ConsentRecordStore } from '../lib/consent';
+import type { ConsentRecordStore } from '../services/consent';
 
 export type BannerProps = {
   controller: Controller;

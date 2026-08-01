@@ -1,13 +1,13 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { reactive } from '@privcy/dom';
-import banner from '../../src/components/banner';
-import Controller from '../../src/lib/controller';
-import Categories from '../../src/lib/categories';
-import type { ViewState, i18nStrings } from '../../src/types';
+import banner from './banner';
+import Controller from '../services/controller';
+import Categories from '../services/categories';
+import type { ViewState, i18nStrings } from '../types';
 import type {
   ConsentRecordMethod,
   ConsentRecordStore,
-} from '../../src/lib/consent';
+} from '../services/consent';
 
 describe('banner()', () => {
   const clearDOM = () => {
