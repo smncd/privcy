@@ -45,13 +45,15 @@ export default class Categories {
     }));
   }
 
+  /**
+   * Calculate a simple hash of the categories.
+   * Includes all data.
+   */
   public toHash(): string {
     const canonical = this.toArray()
       .sort((a, b) => a.id.localeCompare(b.id))
-      .map(
-        ({ id, name, description }) => `${id}\u001f${name}\u001f${description}`,
-      )
-      .join('\u001e');
+      .map(({ id, name, description }) => `${id}${name}${description}`)
+      .join('');
 
     return simpleInsecureHash(canonical);
   }
