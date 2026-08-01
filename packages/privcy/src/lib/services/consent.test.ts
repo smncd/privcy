@@ -7,7 +7,7 @@ vi.mock('../../src/lib/cookies', () => ({
   setCookie: vi.fn(),
 }));
 
-import { getCookie, setCookie } from './cookies';
+import { getCookie, setCookie } from '../utils/cookies';
 
 const getCookieMock = vi.mocked(getCookie);
 const setCookieMock = vi.mocked(setCookie);

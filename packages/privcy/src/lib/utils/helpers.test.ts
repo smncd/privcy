@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { c } from '../../src/lib/utils';
+import { c } from './helpers';
 
 describe('c()', () => {
   it('should space words by __', () => {
